@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist du Retour — Rallye Historique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #1a1208;
+    --cream: #f5efe2;
+    --aged: #e8dcc8;
+    --sepia: #8b6914;
+    --rust: #9c3b1a;
+    --gold: #c9a227;
+    --green-bg: #d4edda;
+    --green-border: #4a7c59;
+    --green-text: #1e4d2b;
+    --red-bg: #f7d6d6;
+    --red-border: #9c2b2b;
+    --red-text: #6b1a1a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #2a1f0e;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(139,105,20,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(156,59,26,0.1) 0%, transparent 50%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    font-family: 'Crimson Pro', Georgia, serif;
+  }
+
+  .wrapper {
+    max-width: 820px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* === HERO === */
+  .hero {
+    background: var(--cream);
+    border: 3px solid var(--sepia);
+    padding: 3.5rem 4rem 2.5rem;
+    position: relative;
+    text-align: center;
+    animation: fadeDown 0.8s ease both;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid var(--gold);
+    pointer-events: none;
+  }
+  .hero-corner {
+    position: absolute;
+    width: 28px; height: 28px;
+    border-color: var(--sepia);
+    border-style: solid;
+  }
+  .hero-corner.tl { top: -3px; left: -3px; border-width: 3px 0 0 3px; }
+  .hero-corner.tr { top: -3px; right: -3px; border-width: 3px 3px 0 0; }
+  .hero-corner.bl { bottom: -3px; left: -3px; border-width: 0 0 3px 3px; }
+  .hero-corner.br { bottom: -3px; right: -3px; border-width: 0 3px 3px 0; }
+
+  .badge {
+    display: inline-block;
+    background: var(--rust);
+    color: var(--cream);
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 0.35em 1.4em;
+    margin-bottom: 1.4rem;
+  }
+  .badge::before, .badge::after {
+    content: '◆';
+    margin: 0 0.5em;
+    font-size: 0.6em;
+    vertical-align: middle;
+    opacity: 0.7;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.05;
+    margin-bottom: 0.6rem;
+  }
+  .hero-sub {
+    font-style: italic;
+    color: var(--sepia);
+    font-size: 1.2rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 1.2rem;
+  }
+  .divider-ornament {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  .divider-ornament::before, .divider-ornament::after {
+    content: '';
+    flex: 1;
+    max-width: 140px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .divider-ornament span { color: var(--gold); font-size: 1.2rem; }
+
+  /* === ENIGME CARD === */
+  .enigme-card {
+    background: var(--cream);
+    border: 1.5px solid var(--sepia);
+    border-top: none;
+    padding: 2.5rem 3.5rem;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .enigme-header {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 1.6rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--aged);
+  }
+  .enigme-num-badge {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--rust);
+    color: var(--cream);
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(156,59,26,0.4);
+  }
+  .enigme-header-text .enigme-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--sepia);
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+  .enigme-header-text .enigme-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--rust);
+  }
+
+  .enigme-intro {
+    font-size: 1.18rem;
+    line-height: 1.8;
+    color: var(--ink);
+    font-style: italic;
+    margin-bottom: 2rem;
+    padding: 1.2rem 1.6rem;
+    background: linear-gradient(135deg, rgba(201,162,39,0.07), rgba(139,105,20,0.1));
+    border-left: 4px solid var(--gold);
+    position: relative;
+  }
+  .enigme-intro::before {
+    content: '❝';
+    position: absolute;
+    top: -0.6rem; left: 1rem;
+    font-size: 2rem;
+    color: var(--gold);
+    opacity: 0.4;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  /* === ENSEIGNEMENTS GRID === */
+  .enseignements-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--sepia);
+    margin-bottom: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .enseignements-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--aged);
+  }
+
+  .enseignements-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+
+  .enseignement-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .slot-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--sepia);
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+
+  select.slot-select {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 1rem;
+    padding: 0.55rem 0.9rem;
+    border: 1.5px solid var(--aged);
+    background: #faf6ee;
+    color: var(--ink);
+    border-radius: 4px;
+    cursor: pointer;
+    appearance: auto;
+    transition: border-color 0.2s, background 0.2s;
+    width: 100%;
+  }
+  select.slot-select:hover { border-color: var(--sepia); }
+  select.slot-select:focus { outline: none; border-color: var(--gold); }
+
+  select.slot-select.correct {
+    background: var(--green-bg);
+    border-color: var(--green-border);
+    color: var(--green-text);
+    font-weight: 600;
+  }
+  select.slot-select.wrong {
+    background: var(--red-bg);
+    border-color: var(--red-border);
+    color: var(--red-text);
+  }
+
+  .slot-feedback {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding: 0.7rem 0.9rem;
+    border-radius: 0 0 4px 4px;
+    margin-top: 2px;
+    animation: slideIn 0.25s ease;
+  }
+  .slot-feedback.feedback-wrong {
+    background: var(--red-bg);
+    border: 1.5px solid var(--red-border);
+    border-top: none;
+    color: var(--red-text);
+    font-style: italic;
+    font-weight: 600;
+  }
+  .slot-feedback.feedback-correct {
+    background: var(--green-bg);
+    border: 1.5px solid var(--green-border);
+    border-top: none;
+    color: var(--green-text);
+  }
+  .slot-feedback.feedback-correct strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+    color: var(--green-border);
+  }
+
+  /* === SCORE === */
+  .score-bar {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--aged);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  .score-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--sepia);
+    font-style: italic;
+  }
+  .score-display {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--rust);
+  }
+
+  /* === FOOTER === */
+  .footer-note {
+    background: var(--aged);
+    border: 1.5px solid var(--sepia);
+    border-top: 3px solid var(--rust);
+    padding: 2rem 3.5rem;
+    text-align: center;
+    animation: fadeUp 0.9s ease both 0.3s;
+  }
+  .footer-note p {
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .footer-note p strong {
+    color: var(--rust);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .hero, .enigme-card, .footer-note { padding-left: 1.4rem; padding-right: 1.4rem; }
+    .hero { padding-top: 2.5rem; padding-bottom: 2rem; }
+    .enseignements-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-corner tl"></div>
+    <div class="hero-corner tr"></div>
+    <div class="hero-corner bl"></div>
+    <div class="hero-corner br"></div>
+    <div class="badge">Journée Découverte de Lille</div>
+    <h1>Checklist du Retour</h1>
+    <p class="hero-sub">Avez-vous bien observé chaque énigme&nbsp;?</p>
+    <div class="divider-ornament"><span>✦</span></div>
+  </div>
+
+  <!-- ENIGME 1 -->
+  <div class="enigme-card" id="enigme-1">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">1</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°1 — Bienvenue dans ma ville</div>
+      </div>
+    </div>
+
+    <div class="enigme-intro">
+      Dans cette énigme, nous avons abordé <strong>4 enseignements</strong> dispensés au lycée.
+      Saurez-vous les retrouver&nbsp;?
+    </div>
+
+    <div class="enseignements-title">Les 4 enseignements</div>
+
+    <div class="enseignements-grid" id="grid-enigme-1"></div>
+
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-1">0 / 4</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-note">
+    <p>Si cette journée vous a plu, je pourrais préparer <strong>le même type de journée à Calais</strong> pour une prochaine année. ✦ Mais nous ne sommes pas encore là.</p>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// DONNÉES — à compléter pour chaque énigme
+// ============================================================
+const ENIGMES = [
+  {
+    id: 1,
+    // Les 4 bonnes réponses (valeurs exactes parmi les options)
+    reponses: ["Histoire", "Géographie", "Art plastique", "EMC"],
+    // Explication affichée quand la bonne matière est choisie
+    explications: {
+      "Histoire":       "Le mariage civil du 6 avril 1921 à la mairie de Calais et le mariage religieux le lendemain en l'église Notre-Dame de Calais nous plongent directement dans l'histoire locale du début du XXe siècle.",
+      "Géographie":     "Calais, ville du Pas-de-Calais sur la côte de la Mer du Nord, et le Pont Napoléon constituent des repères géographiques essentiels de cette énigme.",
+      "Art plastique":  "Devant l'Hôtel de Ville de Calais se dresse le célèbre groupe sculpté « Les Bourgeois de Calais » réalisé par Auguste Rodin en 1895, chef-d'œuvre de la sculpture moderne.",
+      "EMC":            "En France, le mariage civil à la mairie est obligatoire et doit précéder tout mariage religieux — principe fondamental de la République laïque et de l'état civil."
+    }
+  }
+  // Ajoutez ici les énigmes 2 à 38 en suivant le même modèle
+];
+
+// ============================================================
+// OPTIONS DISPONIBLES DANS LES LISTES
+// ============================================================
+const MATIERES = [
+  "",
+  "Histoire",
+  "Géographie",
+  "Art plastique",
+  "EMC",
+  "Philosophie",
+  "Lettres classiques",
+  "Langues vivantes",
+  "SVT",
+  "Mathématiques",
+  "Physique-Chimie"
+];
+
+// ============================================================
+// CONSTRUCTION DYNAMIQUE
+// ============================================================
+function buildEnigme(enigme) {
+  const grid = document.getElementById(`grid-enigme-${enigme.id}`);
+  if (!grid) return;
+
+  // 4 listes déroulantes
+  for (let i = 0; i < 4; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'enseignement-slot';
+    slot.id = `slot-${enigme.id}-${i}`;
+
+    const label = document.createElement('div');
+    label.className = 'slot-label';
+    label.textContent = `Enseignement ${i + 1}`;
+
+    const select = document.createElement('select');
+    select.className = 'slot-select';
+    select.id = `select-${enigme.id}-${i}`;
+
+    MATIERES.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m;
+      opt.textContent = m === "" ? "— Choisissez une matière —" : m;
+      select.appendChild(opt);
+    });
+
+    select.addEventListener('change', () => handleChange(enigme, i, select, slot));
+
+    const feedback = document.createElement('div');
+    feedback.className = 'slot-feedback';
+    feedback.id = `feedback-${enigme.id}-${i}`;
+    feedback.style.display = 'none';
+
+    slot.appendChild(label);
+    slot.appendChild(select);
+    slot.appendChild(feedback);
+    grid.appendChild(slot);
+  }
+}
+
+function handleChange(enigme, slotIndex, select, slot) {
+  const val = select.value;
+  const feedback = document.getElementById(`feedback-${enigme.id}-${slotIndex}`);
+
+  // Reset
+  select.classList.remove('correct', 'wrong');
+  feedback.style.display = 'none';
+  feedback.className = 'slot-feedback';
+  feedback.innerHTML = '';
+
+  if (!val) return;
+
+  if (enigme.reponses.includes(val)) {
+    // Vérifier que cette matière n'a pas déjà été trouvée dans un autre slot
+    const alreadyFound = isAlreadyUsed(enigme, slotIndex, val);
+    if (alreadyFound) {
+      select.classList.add('wrong');
+      feedback.className = 'slot-feedback feedback-wrong';
+      feedback.textContent = 'Cette matière a déjà été trouvée dans un autre emplacement !';
+      feedback.style.display = 'block';
+    } else {
+      select.classList.add('correct');
+      feedback.className = 'slot-feedback feedback-correct';
+      feedback.innerHTML = `<strong>✦ Bravo !</strong>${enigme.explications[val]}`;
+      feedback.style.display = 'block';
+    }
+  } else {
+    select.classList.add('wrong');
+    feedback.className = 'slot-feedback feedback-wrong';
+    feedback.textContent = 'Non… Essayez encore !!!';
+    feedback.style.display = 'block';
+  }
+
+  updateScore(enigme);
+}
+
+function isAlreadyUsed(enigme, currentSlot, val) {
+  for (let i = 0; i < 4; i++) {
+    if (i === currentSlot) continue;
+    const otherSelect = document.getElementById(`select-${enigme.id}-${i}`);
+    if (otherSelect && otherSelect.classList.contains('correct') && otherSelect.value === val) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function updateScore(enigme) {
+  let count = 0;
+  const found = new Set();
+  for (let i = 0; i < 4; i++) {
+    const sel = document.getElementById(`select-${enigme.id}-${i}`);
+    if (sel && sel.classList.contains('correct') && !found.has(sel.value)) {
+      found.add(sel.value);
+      count++;
+    }
+  }
+  const scoreEl = document.getElementById(`score-enigme-${enigme.id}`);
+  if (scoreEl) scoreEl.textContent = `${count} / 4`;
+  if (count === 4) scoreEl.style.color = '#4a7c59';
+}
+
+// ============================================================
+// INIT
+// ============================================================
+ENIGMES.forEach(e => buildEnigme(e));
+</script>
+</body>
+</html>
