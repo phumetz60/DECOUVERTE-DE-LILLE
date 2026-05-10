@@ -2037,7 +2037,7 @@ function exporterVersBulletin(definitif) {
   const { prenom, nom } = getParticipantNom();
 
   if (!prenom && !nom) {
-    const ok = confirm('Vous n'avez pas saisi votre prénom et votre nom.\nVoulez-vous quand même ouvrir le bulletin sans identité ?');
+    const ok = confirm("Vous n'avez pas saisi votre prénom et votre nom.\nVoulez-vous quand même ouvrir le bulletin sans identité ?")
     if (!ok) return;
   }
 
