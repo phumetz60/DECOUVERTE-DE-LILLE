@@ -334,6 +334,26 @@
   }
   .import-status-bar.erreur { color: #9c2b2b; }
 
+  /* BANDEAU PROVISOIRE/DÉFINITIF */
+  .statut-banner {
+    text-align: center;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 0;
+    margin-bottom: 4px;
+    border: 1.5px dashed #c9a227;
+    color: #9c3b1a;
+    background: #fff8e8;
+  }
+  .statut-banner.definitif {
+    border-style: solid;
+    border-color: #4a7c59;
+    color: #1e4d2b;
+    background: #d4edda;
+  }
+
   @media print {
     body { background: white; padding: 0; }
     .page { box-shadow: none; border: none; width: 100%; }
@@ -362,7 +382,7 @@
     </div>
     <div class="title-block">
       <h1>Bulletin du Rallye Lillois</h1>
-      <span contenteditable="true" class="editable-name" data-placeholder="PRÉNOM NOM du participant"></span>
+      <span contenteditable="true" class="editable-name" id="participant-name-display" data-placeholder="PRÉNOM NOM du participant"></span>
       <span class="annee">Année scolaire : <strong>2025/2026</strong></span>
     </div>
   </div>
@@ -374,6 +394,7 @@
     <span>Animateur adjoint : <strong>J.-F. VANHOVE</strong></span>
   </div>
 
+  <div class="statut-banner" id="statut-banner">Bulletin Provisoire — En cours de complétion</div>
   <div class="no-duplicata">Aucun duplicata ne sera délivré — Ce bulletin est un document officieux à conserver précieusement</div>
   <div class="import-status-bar" id="import-status"></div>
 
@@ -737,6 +758,28 @@ function importerScores() {
   }
 
   scoresImportes = data.erreursParMatiere || {};
+
+  // Remplir le nom du participant
+  const nameEl = document.getElementById('participant-name-display');
+  if (nameEl) {
+    const prenom = (data.prenom || '').trim();
+    const nom = (data.nom || '').trim();
+    if (prenom || nom) {
+      nameEl.textContent = [prenom, nom.toUpperCase()].filter(Boolean).join(' ');
+    }
+  }
+
+  // Afficher le statut Provisoire / Définitif
+  const bannerEl = document.getElementById('statut-banner');
+  if (bannerEl) {
+    if (data.definitif) {
+      bannerEl.textContent = '✦ Bulletin Définitif — Évaluation Terminée ✦';
+      bannerEl.classList.add('definitif');
+    } else {
+      bannerEl.textContent = '⚠ Bulletin Provisoire — En cours de complétion';
+      bannerEl.classList.remove('definitif');
+    }
+  }
   let nbRemplis = 0;
 
   MATIERES.forEach(mat => {

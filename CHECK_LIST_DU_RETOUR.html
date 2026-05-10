@@ -1,0 +1,2083 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist du Retour — Rallye Historique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #1a1208;
+    --cream: #f5efe2;
+    --aged: #e8dcc8;
+    --sepia: #8b6914;
+    --rust: #9c3b1a;
+    --gold: #c9a227;
+    --green-bg: #d4edda;
+    --green-border: #4a7c59;
+    --green-text: #1e4d2b;
+    --red-bg: #f7d6d6;
+    --red-border: #9c2b2b;
+    --red-text: #6b1a1a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #2a1f0e;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(139,105,20,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(156,59,26,0.1) 0%, transparent 50%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    font-family: 'Crimson Pro', Georgia, serif;
+  }
+
+  .wrapper {
+    max-width: 820px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* === HERO === */
+  .hero {
+    background: var(--cream);
+    border: 3px solid var(--sepia);
+    padding: 3.5rem 4rem 2.5rem;
+    position: relative;
+    text-align: center;
+    animation: fadeDown 0.8s ease both;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid var(--gold);
+    pointer-events: none;
+  }
+  .hero-corner {
+    position: absolute;
+    width: 28px; height: 28px;
+    border-color: var(--sepia);
+    border-style: solid;
+  }
+  .hero-corner.tl { top: -3px; left: -3px; border-width: 3px 0 0 3px; }
+  .hero-corner.tr { top: -3px; right: -3px; border-width: 3px 3px 0 0; }
+  .hero-corner.bl { bottom: -3px; left: -3px; border-width: 0 0 3px 3px; }
+  .hero-corner.br { bottom: -3px; right: -3px; border-width: 0 3px 3px 0; }
+
+  .badge {
+    display: inline-block;
+    background: var(--rust);
+    color: var(--cream);
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 0.35em 1.4em;
+    margin-bottom: 1.4rem;
+  }
+  .badge::before, .badge::after {
+    content: '◆';
+    margin: 0 0.5em;
+    font-size: 0.6em;
+    vertical-align: middle;
+    opacity: 0.7;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.05;
+    margin-bottom: 0.6rem;
+  }
+  .hero-sub {
+    font-style: italic;
+    color: var(--sepia);
+    font-size: 1.2rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 1.2rem;
+  }
+  .divider-ornament {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  .divider-ornament::before, .divider-ornament::after {
+    content: '';
+    flex: 1;
+    max-width: 140px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .divider-ornament span { color: var(--gold); font-size: 1.2rem; }
+
+  /* === ENIGME CARD === */
+  .enigme-card {
+    background: var(--cream);
+    border: 1.5px solid var(--sepia);
+    border-top: none;
+    padding: 2.5rem 3.5rem;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .enigme-header {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 1.6rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--aged);
+  }
+  .enigme-num-badge {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--rust);
+    color: var(--cream);
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(156,59,26,0.4);
+  }
+  .enigme-header-text .enigme-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--sepia);
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+  .enigme-header-text .enigme-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--rust);
+  }
+
+  .enigme-intro {
+    font-size: 1.18rem;
+    line-height: 1.8;
+    color: var(--ink);
+    font-style: italic;
+    margin-bottom: 2rem;
+    padding: 1.2rem 1.6rem;
+    background: linear-gradient(135deg, rgba(201,162,39,0.07), rgba(139,105,20,0.1));
+    border-left: 4px solid var(--gold);
+    position: relative;
+  }
+  .enigme-intro::before {
+    content: '❝';
+    position: absolute;
+    top: -0.6rem; left: 1rem;
+    font-size: 2rem;
+    color: var(--gold);
+    opacity: 0.4;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  /* === ENSEIGNEMENTS GRID === */
+  .enseignements-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--sepia);
+    margin-bottom: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .enseignements-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--aged);
+  }
+
+  .enseignements-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+
+  .enseignement-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .slot-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--sepia);
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+
+  select.slot-select {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 1rem;
+    padding: 0.55rem 0.9rem;
+    border: 1.5px solid var(--aged);
+    background: #faf6ee;
+    color: var(--ink);
+    border-radius: 4px;
+    cursor: pointer;
+    appearance: auto;
+    transition: border-color 0.2s, background 0.2s;
+    width: 100%;
+  }
+  select.slot-select:hover { border-color: var(--sepia); }
+  select.slot-select:focus { outline: none; border-color: var(--gold); }
+
+  select.slot-select.correct {
+    background: var(--green-bg);
+    border-color: var(--green-border);
+    color: var(--green-text);
+    font-weight: 600;
+  }
+  select.slot-select.wrong {
+    background: var(--red-bg);
+    border-color: var(--red-border);
+    color: var(--red-text);
+  }
+
+  .slot-feedback {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding: 0.7rem 0.9rem;
+    border-radius: 0 0 4px 4px;
+    margin-top: 2px;
+    animation: slideIn 0.25s ease;
+  }
+  .slot-feedback.feedback-wrong {
+    background: var(--red-bg);
+    border: 1.5px solid var(--red-border);
+    border-top: none;
+    color: var(--red-text);
+    font-style: italic;
+    font-weight: 600;
+  }
+  .slot-feedback.feedback-correct {
+    background: var(--green-bg);
+    border: 1.5px solid var(--green-border);
+    border-top: none;
+    color: var(--green-text);
+  }
+  .slot-feedback.feedback-correct strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+    color: var(--green-border);
+  }
+
+  /* === SCORE === */
+  .score-bar {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--aged);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  .score-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--sepia);
+    font-style: italic;
+  }
+  .score-display {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--rust);
+  }
+
+  /* === FOOTER === */
+  .footer-note {
+    background: var(--aged);
+    border: 1.5px solid var(--sepia);
+    border-top: 3px solid var(--rust);
+    padding: 2rem 3.5rem;
+    text-align: center;
+    animation: fadeUp 0.9s ease both 0.3s;
+  }
+  .footer-note p {
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .footer-note p strong {
+    color: var(--rust);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* === BOUTON EXPORT BULLETIN === */
+  .export-section {
+    background: var(--cream);
+    border: 3px solid var(--rust);
+    padding: 2.5rem 3.5rem;
+    text-align: center;
+    animation: fadeUp 1s ease both 0.4s;
+  }
+  .export-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+  .export-section p {
+    font-style: italic;
+    color: var(--sepia);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .btn-bulletin {
+    display: inline-block;
+    background: var(--rust);
+    color: var(--cream);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.9em 2.4em;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    text-transform: uppercase;
+  }
+  .btn-bulletin:hover { background: #7a2c11; transform: translateY(-2px); }
+  .btn-bulletin:active { transform: translateY(0); }
+  .export-status {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: var(--green-border);
+    font-weight: 600;
+    min-height: 1.5rem;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === PARTICIPANT BLOCK === */
+  .participant-block {
+    background: var(--cream);
+    border: 1.5px solid var(--sepia);
+    border-top: 3px solid var(--rust);
+    border-bottom: none;
+    padding: 1.8rem 3.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .participant-block h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--sepia);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .participant-block h2::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--aged);
+  }
+  .participant-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+  .participant-field label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--sepia);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .participant-field input {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.05rem;
+    padding: 0.55rem 0.9rem;
+    border: 1.5px solid var(--aged);
+    background: #faf6ee;
+    color: var(--ink);
+    border-radius: 4px;
+    width: 100%;
+    transition: border-color 0.2s;
+  }
+  .participant-field input:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: #fffbe8;
+  }
+  .participant-note {
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--sepia);
+    margin-top: 0.8rem;
+  }
+
+  /* === BOUTON BULLETIN PROVISOIRE (après chaque énigme) === */
+  .btn-provisoire-wrap {
+    margin-top: 1.4rem;
+    padding-top: 1.2rem;
+    border-top: 1px dashed var(--aged);
+    text-align: right;
+  }
+  .btn-provisoire {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--sepia);
+    border: 1.5px solid var(--aged);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 0.88rem;
+    font-style: italic;
+    padding: 0.45rem 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 3px;
+  }
+  .btn-provisoire:hover {
+    background: var(--aged);
+    color: var(--rust);
+    border-color: var(--sepia);
+  }
+
+  @media (max-width: 600px) {
+    .hero, .enigme-card, .footer-note { padding-left: 1.4rem; padding-right: 1.4rem; }
+    .hero { padding-top: 2.5rem; padding-bottom: 2rem; }
+    .enseignements-grid { grid-template-columns: 1fr; }
+    .participant-fields { grid-template-columns: 1fr; }
+    .participant-block { padding-left: 1.4rem; padding-right: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-corner tl"></div>
+    <div class="hero-corner tr"></div>
+    <div class="hero-corner bl"></div>
+    <div class="hero-corner br"></div>
+    <div class="badge">Journée Découverte de Lille</div>
+    <h1>Checklist du Retour</h1>
+    <p class="hero-sub">Avez-vous bien observé chaque énigme&nbsp;?</p>
+    <div class="divider-ornament"><span>✦</span></div>
+  </div>
+
+  <!-- IDENTITÉ DU PARTICIPANT -->
+  <div class="participant-block">
+    <h2>Identité du participant</h2>
+    <div class="participant-fields">
+      <div class="participant-field">
+        <label for="participant-prenom">Prénom</label>
+        <input type="text" id="participant-prenom" placeholder="Votre prénom" autocomplete="off">
+      </div>
+      <div class="participant-field">
+        <label for="participant-nom">Nom</label>
+        <input type="text" id="participant-nom" placeholder="Votre nom de famille" autocomplete="off">
+      </div>
+    </div>
+    <p class="participant-note">Ces informations apparaîtront sur votre bulletin — renseignez-les avant de commencer.</p>
+  </div>
+
+  <!-- ENIGME 1 -->
+  <div class="enigme-card" id="enigme-1">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">1</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°1 — Bienvenue dans ma ville</div>
+      </div>
+    </div>
+
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>4 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+
+    <div class="enseignements-title">Les 4 enseignements</div>
+
+    <div class="enseignements-grid" id="grid-enigme-1"></div>
+
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-1">0 / 4</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 2 -->
+  <div class="enigme-card" id="enigme-2">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">2</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°2 — L'astre du Nord</div>
+      </div>
+    </div>
+
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+
+    <div class="enseignements-title">Les 2 enseignements</div>
+
+    <div class="enseignements-grid" id="grid-enigme-2"></div>
+
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-2">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 3 -->
+  <div class="enigme-card" id="enigme-3">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">3</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°3 — La Sentinelle de l'Avenue</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 3 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-3"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-3">0 / 3</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 4 -->
+  <div class="enigme-card" id="enigme-4">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">4</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°4 — Le Mystère de la Rue Secrète</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 2 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-4"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-4">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 5 -->
+  <div class="enigme-card" id="enigme-5">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">5</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°5 — La Douceur Interdite</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 2 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-5"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-5">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 6 -->
+  <div class="enigme-card" id="enigme-6">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">6</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°6 — Les Anneaux Perdus</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>1 collègue enseignant</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver sa matière&nbsp;?
+    </div>
+    <div class="enseignements-title">L'enseignement</div>
+    <div class="enseignements-grid" id="grid-enigme-6"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignement trouvé</span>
+      <span class="score-display" id="score-enigme-6">0 / 1</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 7 -->
+  <div class="enigme-card" id="enigme-7">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">7</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°7 — La Belle Inachevée</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 2 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-7"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-7">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 8 -->
+  <div class="enigme-card" id="enigme-8">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">8</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°8 — Pause-café et souvenirs</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>1 collègue enseignant</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver sa matière&nbsp;?
+    </div>
+    <div class="enseignements-title">L'enseignement</div>
+    <div class="enseignements-grid" id="grid-enigme-8"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignement trouvé</span>
+      <span class="score-display" id="score-enigme-8">0 / 1</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 9 -->
+  <div class="enigme-card" id="enigme-9">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">9</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°9 — La Maison Étroite</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>1 collègue enseignant</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver sa matière&nbsp;?
+    </div>
+    <div class="enseignements-title">L'enseignement</div>
+    <div class="enseignements-grid" id="grid-enigme-9"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignement trouvé</span>
+      <span class="score-display" id="score-enigme-9">0 / 1</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 10 -->
+  <div class="enigme-card" id="enigme-10">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">10</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°10 — L'Hospice Comtesse</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 2 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-10"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-10">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 11 -->
+  <div class="enigme-card" id="enigme-11">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">11</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°11 — L'Enfer du Nord</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 3 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-11"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-11">0 / 3</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 12 -->
+  <div class="enigme-card" id="enigme-12">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">12</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°12 — Les Trois Voyageurs</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 2 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-12"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-12">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 13 -->
+  <div class="enigme-card" id="enigme-13">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">13</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°13 — Line Renaud</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 3 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-13"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-13">0 / 3</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+<!-- ENIGME 14 -->
+  <div class="enigme-card" id="enigme-14">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">14</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°14 — Le Kriss Kross des Brasseries</div>
+      </div>
+    </div>
+
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+
+    <div class="enseignements-title">Les 3 enseignements</div>
+
+    <div class="enseignements-grid" id="grid-enigme-14"></div>
+
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-14">0 / 3</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 15 -->
+  <div class="enigme-card" id="enigme-15">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">15</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°15 — Mélodies, Mollets et Photogénie</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 2 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-15"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-15">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 16 -->
+  <div class="enigme-card" id="enigme-16">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">16</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°16 — L'Emblème du Nord</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>4 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 4 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-16"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-16">0 / 4</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 17 -->
+  <div class="enigme-card" id="enigme-17">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">17</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°17 — Les Voix du Nord</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 3 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-17"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-17">0 / 3</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 18 -->
+  <div class="enigme-card" id="enigme-18">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">18</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°18 — En route vers la République</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 2 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-18"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-18">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+
+  <!-- ENIGME 19 -->
+  <div class="enigme-card" id="enigme-19">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">19</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°19 — Les Souterrains de la Cité</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 2 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-19"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-19">0 / 2</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+	<div class="enigme-card" id="enigme-20">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">20</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°20 — Le Secret du Palais</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 2 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-20"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-20">0 / 2</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 21 -->
+  <div class="enigme-card" id="enigme-21">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">21</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°21 — Couleurs Rivales</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 2 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-21"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-21">0 / 2</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 22 -->
+  <div class="enigme-card" id="enigme-22">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">22</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°22 — Infiltration au Palais</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 2 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-22"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-22">0 / 2</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 23 -->
+  <div class="enigme-card" id="enigme-23">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">23</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°23 — L'Homme de la Défense Nationale</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>4 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 4 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-23"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-23">0 / 4</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 24 -->
+  <div class="enigme-card" id="enigme-24">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">24</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°24 — Le Ventre de Lille</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 2 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-24"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-24">0 / 2</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 25 -->
+  <div class="enigme-card" id="enigme-25">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">25</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°25 — Signaux Fantômes & Cinéma</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>5 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 5 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-25"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-25">0 / 5</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 26 -->
+  <div class="enigme-card" id="enigme-26">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">26</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°26 — Souvenirs de Gaston</div>
+      </div>
+    </div>
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+    <div class="enseignements-title">Les 3 enseignements</div>
+    <div class="enseignements-grid" id="grid-enigme-26"></div>
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-26">0 / 3</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 27 -->
+  <div class="enigme-card" id="enigme-27">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">27</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°27 — Le Boulevard & Le Quiz de Calais</div>
+      </div>
+    </div>
+
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>4 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+
+    <div class="enseignements-title">Les 4 enseignements</div>
+
+    <div class="enseignements-grid" id="grid-enigme-27"></div>
+
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-27">0 / 4</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 28 -->
+  <div class="enigme-card" id="enigme-28">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">28</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°28 — La Destination Secrète : La Porte de Paris</div>
+      </div>
+    </div>
+
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. 
+      Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+
+    <div class="enseignements-title">Les 2 enseignements</div>
+
+    <div class="enseignements-grid" id="grid-enigme-28"></div>
+
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-28">0 / 2</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 29 -->
+  <div class="enigme-card" id="enigme-29">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">29</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°29 — La Mairie, Le Tunnel & La Gare</div>
+      </div>
+    </div>
+
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>6 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+
+    <div class="enseignements-title">Les 6 enseignements</div>
+
+    <div class="enseignements-grid" id="grid-enigme-29"></div>
+
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-29">0 / 6</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 30 -->
+  <div class="enigme-card" id="enigme-30">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">30</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape finale</div>
+        <div class="enigme-title">Énigme N°30 — Les Dogues en Ville</div>
+      </div>
+    </div>
+
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>1 collègue enseignant</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver sa matière&nbsp;?
+    </div>
+
+    <div class="enseignements-title">L'enseignement</div>
+
+    <div class="enseignements-grid" id="grid-enigme-30"></div>
+
+    <div class="score-bar">
+      <span class="score-label">Enseignement trouvé</span>
+      <span class="score-display" id="score-enigme-30">0 / 1</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 31 -->
+  <div class="enigme-card" id="enigme-31">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">31</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°31 — La Traversée du Centre</div>
+      </div>
+    </div>
+
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+
+    <div class="enseignements-title">Les 2 enseignements</div>
+
+    <div class="enseignements-grid" id="grid-enigme-31"></div>
+
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-31">0 / 2</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 32 -->
+  <div class="enigme-card" id="enigme-32">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">32</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape</div>
+        <div class="enigme-title">Énigme N°32 — Festival Série Mania</div>
+      </div>
+    </div>
+
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+
+    <div class="enseignements-title">Les 2 enseignements</div>
+
+    <div class="enseignements-grid" id="grid-enigme-32"></div>
+
+    <div class="score-bar">
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-32">0 / 2</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 33 -->
+  <div class="enigme-card" id="enigme-33">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">33</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape Finale</div>
+        <div class="enigme-title">Énigme N°33 — L'Architecte du Temps</div>
+      </div>
+    </div>
+
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>1 collègue enseignant</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver sa matière&nbsp;?
+    </div>
+
+    <div class="enseignements-title">L'ultime enseignement</div>
+
+    <div class="enseignements-grid" id="grid-enigme-33"></div>
+
+    <div class="score-bar">
+      <span class="score-label">Enseignement identifié</span>
+      <span class="score-display" id="score-enigme-33">0 / 1</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 34 -->
+  <div class="enigme-card" id="enigme-34">
+    <div class="enigme-header">
+      <div class="enigme-num-badge">34</div>
+      <div class="enigme-header-text">
+        <div class="enigme-label">Étape Finale</div>
+        <div class="enigme-title">Énigme N°34 — Le Cabinet des Curiosités</div>
+      </div>
+    </div>
+
+    <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>4 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+    </div>
+
+    <div class="enseignements-title">Les 4 piliers de l'énigme</div>
+
+    <div class="enseignements-grid" id="grid-enigme-34"></div>
+
+    <div class="score-bar">
+      <span class="score-label">Matières identifiées</span>
+      <span class="score-display" id="score-enigme-34">0 / 4</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+  </div>
+  <!-- ENIGME 35 -->
+<div class="enigme-card" id="enigme-35">
+  <div class="enigme-header">
+    <div class="enigme-num-badge">35</div>
+    <div class="enigme-header-text">
+      <div class="enigme-label">Étape Finale</div>
+      <div class="enigme-title">Énigme N°34 — Le Royaume de Bacchus</div>
+    </div>
+  </div>
+
+  <div class="enigme-intro">
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+  </div>
+
+  <div class="enseignements-title">Les 3 piliers de l'énigme</div>
+
+  <!-- Grille générée par JS -->
+  <div class="enseignements-grid" id="grid-enigme-35"></div>
+
+  <div class="score-bar">
+    <span class="score-label">Matières identifiées</span>
+    <span class="score-display" id="score-enigme-35">0 / 3</span>
+  </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+</div>
+<!-- ENIGME 36 -->
+<div class="enigme-card" id="enigme-36">
+  <div class="enigme-header">
+    <div class="enigme-num-badge">36</div>
+    <div class="enigme-header-text">
+      <div class="enigme-label">Étape du Patrimoine</div>
+      <div class="enigme-title">Énigme N°36 — Les Gardiens du Patrimoine</div>
+    </div>
+  </div>
+
+  <div class="enigme-intro">
+    Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+  </div>
+
+  <div class="enseignements-title">Les 3 piliers de l'énigme</div>
+
+  <!-- Grille générée par JS -->
+  <div class="enseignements-grid" id="grid-enigme-36"></div>
+
+  <div class="score-bar">
+    <span class="score-label">Matières identifiées</span>
+    <span class="score-display" id="score-enigme-36">0 / 3</span>
+  </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+</div>
+<!-- ENIGME 37 — LE GRAND FINAL : ÉDITION SPÉCIALE -->
+<div class="enigme-card" id="enigme-37">
+  <div class="enigme-header">
+    <div class="enigme-num-badge">37</div>
+    <div class="enigme-header-text">
+      <div class="enigme-label">Dénouement : Le Secret de la Voix</div>
+      <div class="enigme-title">Énigme N°37 — Alerte Enlèvement</div>
+    </div>
+  </div>
+
+  <div class="enigme-intro">
+    Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
+  </div>
+
+  <div class="enseignements-title">Les piliers du Grand Reporter</div>
+
+  <!-- Grille générée par JS -->
+  <div class="enseignements-grid" id="grid-enigme-37"></div>
+
+  <div class="score-bar">
+    <span class="score-label">Objectifs atteints</span>
+    <span class="score-display" id="score-enigme-37">0 / 2</span>
+  </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+</div>
+<!-- ENIGME 38 — LE FINAL : COURSE D'ORIENTATION -->
+<div class="enigme-card" id="enigme-38">
+  <div class="enigme-header">
+    <div class="enigme-num-badge">38</div>
+    <div class="enigme-header-text">
+      <div class="enigme-label">Épilogue : Sprint Final</div>
+      <div class="enigme-title">Énigme N°38 — Course d'Orientation</div>
+    </div>
+  </div>
+
+  <div class="enigme-intro">
+    Dans cette énigme, nous aurions pu rencontrer <strong>1 collègue enseignant</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver sa matière&nbsp;?
+  </div>
+
+  <div class="enseignements-title">L'art du ralliement</div>
+
+  <!-- Grille générée par JS -->
+  <div class="enseignements-grid" id="grid-enigme-38"></div>
+
+  <div class="score-bar">
+    <span class="score-label">Localisation activée</span>
+    <span class="score-display" id="score-enigme-38">0 / 1</span>
+  </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
+</div>
+  <!-- EXPORT BULLETIN -->
+  <div class="export-section">
+    <h2>✦ Bulletin Définitif ✦</h2>
+    <p>Toutes les énigmes terminées ? Générez votre bulletin <strong>définitif</strong>.<br>
+    <em>Votre prénom et votre nom figureront sur le document officiel.</em></p>
+    <button class="btn-bulletin" onclick="exporterVersBulletin(true)">🏆 Ouvrir le Bulletin Définitif</button>
+    <div class="export-status" id="export-status"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-note">
+    <p>Si cette journée vous a plu, je pourrais préparer <strong>le même type de journée à Calais</strong> pour une prochaine année. ✦ Mais nous ne sommes pas encore là.</p>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// DONNÉES — à compléter pour chaque énigme
+// ============================================================
+const ENIGMES = [
+  {
+    id: 1,
+    slots: 4,
+    reponses: ["Histoire", "Géographie", "Arts plastiques", "EMC"],
+    explications: {
+      "Histoire":       "Le mariage civil du 6 avril 1921 à la mairie de Calais et le mariage religieux le lendemain en l'église Notre-Dame de Calais nous plongent directement dans l'histoire locale du début du XXe siècle. Ce jour-là, Charles de Gaulle — né quelques rues plus loin, au 9 rue Princesse à Lille — épouse Yvonne Vendroux, fille d'une grande famille calaisienne. Lui, Lillois de 30 ans, capitaine et professeur d'Histoire militaire à Saint-Cyr. Elle, Calaisienne de 20 ans, issue de la bourgeoisie de la dentelle et de l'armement. Leur rencontre ? Un bal à Saint-Cyr en octobre 1920. Trois jours plus tard, Yvonne déclare à ses parents : <em>« Ce sera lui ou personne »</em>. Un destin scellé à quelques mètres de là où vous vous trouvez.",
+      "Géographie":     "Calais, ville du Pas-de-Calais sur la côte de la Mer du Nord, et le Pont Napoléon constituent des repères géographiques essentiels de cette énigme.",
+      "Arts plastiques": "Devant l'Hôtel de Ville de Calais se dresse le célèbre groupe sculpté « Les Bourgeois de Calais » réalisé par Auguste Rodin en 1895, chef-d'œuvre de la sculpture moderne.",
+      "EMC":            "En France, le mariage civil à la mairie est obligatoire et doit précéder tout mariage religieux — principe fondamental de la République laïque et de l'état civil."
+    }
+  },
+  {
+    id: 2,
+    slots: 2,
+    reponses: ["Géographie", "Histoire"],
+    explications: {
+      "Géographie": "Le Soleil d'Agadir nous emmène au Maroc, pays d'Afrique du Nord baigné par l'océan Atlantique à l'ouest et la Méditerranée au nord. Agadir, sa grande ville côtière atlantique, est réputée pour ses plages et son ensoleillement exceptionnel — d'où ce soleil qui réchauffe le Vieux-Lille !",
+      "Histoire":   "De 1912 à 1956, le Maroc fut placé sous Protectorat français. Après l'indépendance, de nombreux Marocains s'installèrent dans le Nord de la France, attirés par l'industrie et les mines. Cette immigration a profondément enrichi la culture et la gastronomie de Lille — comme en témoigne ce Soleil d'Agadir installé rue Princesse depuis 1993."
+    }
+  },
+  {
+    id: 3,
+    slots: 3,
+    reponses: ["Arts plastiques", "Histoire", "EMC"],
+    explications: {
+      "Arts plastiques":   "La statue de Jeanne Maillotte est une œuvre sculptée en bronze, exposée dans l'espace public. Observer une sculpture, analyser ses formes, ses matériaux et sa mise en scène dans l'environnement urbain fait pleinement partie de la pratique et de la culture artistique en arts plastiques.",
+      "Histoire": "Jeanne Maillotte est une héroïne lilloise du XVIIᵉ siècle, qui aurait galvanisé les habitants lors du siège de Lille par les Autrichiens en 1708. Sa statue, érigée avenue du Peuple Belge, témoigne de la mémoire collective d'une ville et de son histoire — se souvenir des figures qui ont marqué un lieu, comprendre leur époque et leur rôle, c'est faire de l'Histoire.",
+      "EMC":               "Une statue dans l'espace public est un acte civique : elle honore une figure ou un idéal choisi par une communauté. Réfléchir à qui une ville choisit de célébrer — et pourquoi — touche aux fondements de la citoyenneté, de la mémoire collective et du vivre-ensemble."
+    }
+  },
+  {
+    id: 4,
+    slots: 2,
+    reponses: ["Mathématiques", "CDI"],
+    explications: {
+      "Mathématiques": "Pour déchiffrer le nom de la rue secrète, il fallait calculer la racine carrée de cinq surfaces (144, 1, 225, 361 et 9 cm²), obtenant les côtés 12, 1, 15, 19 et 3. Ces chiffres correspondent aux rangs des lettres dans l'alphabet : L, A, O, S et C — soit, une fois réordonnés, la rue COLAS. Un exercice de calcul mental et de raisonnement mathématique en plein air !",
+      "CDI": "Déchiffrer une énigme documentaire en cherchant des indices, croiser des sources et retrouver une information cachée : c'est exactement ce que l'on apprend au CDI ! Les documentalistes du Lycée Gérard de Nerval forment les élèves à la recherche d'information, à l'esprit critique et à la méthodologie documentaire — des compétences indispensables pour résoudre ce type d'énigme."
+    }
+  },
+  {
+    id: 5,
+    slots: 2,
+    reponses: ["Mercatique", "SES"],
+    explications: {
+      "Mercatique": "La boutique des Merveilleux est un cas d'école en mercatique : un produit identitaire (le merveilleux, pâtisserie lilloise), une stratégie de marque forte, un lieu de vente soigné et une expérience client pensée pour susciter l'envie. Observer comment une boutique séduit et fidélise sa clientèle, c'est analyser le cœur de la mercatique.",
+      "SES":        "Le nom de la rue fait référence à Milton Friedman, figure centrale du courant monétariste : la masse monétaire comme principal levier de l'économie, le rôle limité de l'État, et une méfiance vis-à-vis des politiques budgétaires keynésiennes. Un courant dont la pensée est aujourd'hui tombée en désuétude — mais qui reste incontournable dans le programme de SES."
+    }
+  },
+  {
+    id: 6,
+    slots: 1,
+    reponses: ["EMC"],
+    explications: {
+      "EMC": "Reconnaître le drapeau du dernier pays organisateur des Jeux Olympiques, connaître les couleurs et leur disposition, comprendre ce qu'un drapeau représente comme identité nationale et symbole collectif : c'est un exercice d'éducation morale et civique. Les drapeaux sont des emblèmes civiques fondamentaux, porteurs de l'identité des nations et des valeurs qu'elles souhaitent afficher."
+    }
+  },
+  {
+    id: 7,
+    slots: 2,
+    reponses: ["Mathématiques", "Histoire des arts"],
+    explications: {
+      "Mathématiques": "Le code à déchiffrer utilisait le système de numération romain (MMXXIV pour 2024). Comprendre et convertir différents systèmes de numération, c'est manipuler des concepts mathématiques liés aux bases et à l'arithmétique.",
+      "Histoire des arts": "Au bout de la rue, la cathédrale qui surgit sur la place est un monument gothique majeur du patrimoine lillois. Savoir lire une façade, identifier un style architectural, comprendre à quelle époque et dans quel contexte un édifice a été bâti — c'est exactement ce que l'on travaille en Histoire des arts."
+    }
+  },
+  {
+    id: 8,
+    slots: 1,
+    reponses: ["Français"],
+    explications: {
+      "Français": "Le défi de la fausse collection de rince-doigts et les indices écrits au second degré sont un clin d'œil au <em>Dîner de Cons</em> de Francis Veber : on rit de quelqu'un qui collectionne des objets absurdes sans le savoir. Reconnaître l'humour, l'ironie et le décalage entre ce qui est dit et ce qui est compris, c'est travailler les registres et les figures de style au cœur du programme de Français."
+    }
+  },
+  {
+    id: 9,
+    slots: 1,
+    reponses: ["Histoire"],
+    explications: {
+      "Histoire": "La maison étroite de Lille, nichée derrière la cathédrale Notre-Dame de la Treille, témoigne d'une reality médiévale bien documentée : dans les villes du Moyen Âge, l'espace intra-muros était rare et précieux. Les habitants étaient taxés à la largeur de façade sur rue, ce qui les incitait à construire des maisons très étroites mais profondes. Un document architectural vivant de l'histoire urbaine médiévale."
+    }
+  },
+  {
+    id: 10,
+    slots: 2,
+    reponses: ["Histoire", "Droit"],
+    explications: {
+      "Histoire": "L'Hospice Comtesse est l'un des plus anciens monuments de Lille, fondé en 1236 par Marguerite de Constantinople, comtesse de Flandre. Il a traversé les siècles en tant qu'hôpital, puis musée. Son histoire reflète celle de la ville : la charité médiévale, les guerres, les épidémies et la transformation progressive des institutions de soin.",
+      "Droit":    "Le bail emphytéotique — mentionné dès l'entrée dans la cour — est un contrat de droit immobilier de très longue durée (18 à 99 ans) par lequel le preneur s'engage à améliorer le bien en échange d'une redevance modique. C'est une notion juridique fondamentale que l'on retrouve en cours de Droit."
+    }
+  },
+  {
+    id: 11,
+    slots: 3,
+    reponses: ["Comptabilité", "EPS", "Mercatique"],
+    explications: {
+      "Comptabilité": "Même si Pascal Caffet possède des boutiques dans plusieurs villes, elles forment une seule entité. En comptabilité, on utilise la consolidation pour 'additionner' les résultats de chaque magasin afin d'obtenir la santé financière globale de la Maison Caffet. C'est ce qui permet de faire le bilan de l'ensemble du groupe.",
+      "EPS": "L'expression 'L'Enfer du Nord' est née sous la plume du journaliste Victor Breyer en 1919. En parcourant le tracé de la course juste après la Grande Guerre, il fut horrifié par les paysages de désolation et de ruines, décrivant une véritable vision d'enfer. Aujourd'hui, ce terme désigne la dureté légendaire des pavés et l'effort physique extrême requis, piliers de la culture sportive et de l'Éducation Physique et Sportive",
+      "Mercatique": "L'implantation de la Maison Caffet dans plusieurs villes (Troyes, Lille, Paris, etc.) illustre une stratégie de distribution et de développement de réseau. Analyser le choix des emplacements commerciaux pour toucher une clientèle haut de gamme est un concept clé de la Mercatique."
+    }
+  },
+  {
+    id: 12,
+    slots: 2,
+    reponses: ["Géographie", "Cinéma / Culture audiovisuelle"],
+    explications: {
+      "Géographie":                    "Retracer le chemin de chacun des trois voyageurs à partir des départements traversés, c'est mobiliser ses connaissances du découpage administratif du territoire français — régions, départements, axes routiers — un exercice typique de géographie.",
+      "Cinéma / Culture audiovisuelle": "La phrase culte de Clint Eastwood — tirée du <em>Bon, la Brute et le Truand</em> de Sergio Leone (1966) — est une référence incontournable de la culture cinématographique. Reconnaître une réplique culte, l'associer à un film et à son réalisateur, c'est exercer sa culture audiovisuelle."
+    }
+  },
+  {
+    id: 13,
+    slots: 3,
+    reponses: ["EMC", "Cinéma / Culture audiovisuelle", "Fiscalité"],
+    explications: {
+      "EMC": "Line Renaud est une figure emblématique de l'engagement citoyen. Depuis 1985, elle cofonde et préside le Sidaction, luttant pour la recherche contre le VIH et contre la stigmatisation des malades. Cet engagement illustre parfaitement la notion de solidarité et de responsabilité individuelle au sein de la société.",
+      "Cinéma / Culture audiovisuelle": "Dany Boon et Line Renaud forment un duo iconique du cinéma ch'ti. Au-delà de leur complicité dans la vie, Line Renaud a incarné la mère de Dany Boon dans le succès planétaire \"Bienvenue chez les Ch'tis\" puis dans \"La Ch'tite Famille\". Cette relation illustre comment le cinéma populaire célèbre l'identité culturelle du Nord à travers des figures intergénérationnelles.",
+      "Fiscalité": "Les dons à une association reconnue d'utilité publique ouvrent droit à une réduction d'impôt. Pour un particulier, elle est de 66 % du don (dans la limite de 20 % du revenu imposable). Pour une entreprise, elle est de 60 % du don dans la limite de 5‰ du Chiffre d'affaires annuel Hors Taxes. C'est une mesure fiscale incitative pour encourager le mécénat et la générosité publique."
+    }
+  },
+  {
+    id: 14,
+    slots: 3,
+    reponses: ["Géographie", "Français", "Mercatique"],
+    explications: {
+      "Géographie": "Le Kriss Kross est un véritable voyage régional : Armentiéroise, Pévèle, Quentovic ou Wissant... Chaque nom de bière est une leçon de géographie locale, ancrant la production artisanale dans les terroirs du Nord et du Pas-de-Calais.",
+      "Français": "Trouver la rue 'entre le quart et le demi' demande de l'esprit et une petite maîtrise des jeux de mots. C'est un exercice de style sur la polysémie et les références culturelles, typique des subtilités de la langue française.",
+      "Mercatique": "Imaginer le nom d'une future bière pour 'faire fortune' est un premier pas vers la stratégie de marque. Entre le choix du nom, le positionnement par rapport au patrimoine (le Vieux-Lille) et l'analyse de la concurrence, on touche au cœur des mécanismes de la mercatique."
+    }
+  },
+  {
+    id: 15,
+    slots: 2,
+    reponses: ["Géographie", "Histoire"],
+    explications: {
+      "Géographie": "Le « Lac Majeur » mentionné comme indice renvoie aux grands lacs d'Italie du Nord et de Suisse — un repère géographique européen classique. Identifier un lac sur une carte, savoir le situer entre l'Italie et la Suisse et comprendre sa place dans le tourisme européen, c'est de la géographie physique et humaine.",
+      "Histoire": "Le vrai « faux frère » du crooner n'est pas un chanteur mais un homme d'État : Maurice Schuman, dont la consonance du nom rappelle le chanteur Mort Shuman. Compagnon de la Libération, ministre des Affaires étrangères (1969-1973)."
+    }
+  },
+  {
+    id: 16,
+    slots: 4,
+    reponses: ["Histoire des arts", "Français", "SVT", "Histoire"],
+    explications: {
+      "Histoire des arts": "Le monument rencontré au bout des squares rend hommage à Alexandre Desrousseaux, auteur de la célèbre berceuse lilloise « Dors min p'tit quinquin » (1853). Cette œuvre en marbre de Carrare représente une dentellière berçant son enfant — un exemple parfait d'art public commémoratif mêlant sculpture et patrimoine musical. Identifier une œuvre, son auteur et son contexte, c'est exercer son regard en Histoire des arts.",
+      "Français": "La berceuse du P'tit Quinquin est rédigée en picard (ou ch'ti), dialecte roman du Nord de la France. Reconnaître un dialecte, comprendre ses liens avec le français standard, saisir les variations régionales de la langue : autant d'exercices qui relèvent du programme de Français, notamment dans l'étude de la langue et de ses registres.",
+      "SVT": "Le défi bonus de l'énigme invite à observer des cailloux en forme de sanglier dans les squares — une invitation à regarder la faune et la flore urbaine avec un œil de naturaliste. Observer un espace vert, identifier des espèces animales (le sanglier, <em>Sus scrofa</em>, symbole héraldique du Nord) et s'interroger sur la place de la nature en ville, c'est faire de la SVT dans un cadre inattendu.",
+      "Histoire": "Dans le deuxième square, avant d'arriver à la statue du P'tit Quinquin, se dresse le monument au maréchal Ferdinand Foch — commandant suprême des armées alliées en 1918, architecte de la victoire de la Première Guerre mondiale. Savoir identifier ce monument, connaître le rôle du maréchal Foch dans le conflit, replacer cette figure dans le contexte de la Grande Guerre et de la mémoire du Nord : c'est de l'Histoire."
+    }
+  },
+  {
+    id: 17,
+    slots: 3,
+    reponses: ["Langues vivantes", "Français", "Musique"],
+    explications: {
+      "Langues vivantes": "Le ch'ti (ou picard) est une langue régionale officiellement reconnue, distincte du français standard, parlée dans le Nord-Pas-de-Calais et en Belgique. Déchiffrer les paroles du P'tit Quinquin — « Dors min p'tit quinquin, min p'tit pouchin, min gros rojin » — c'est s'initier à une langue vivante régionale, exercer sa compréhension d'un système linguistique proche mais différent, et pratiquer l'oral dans une langue autre que le français standard.",
+      "Français": "Chanter les paroles du P'tit Quinquin, c'est aussi pratiquer la diction, la mémorisation d'un texte et l'expression orale devant un groupe. La berceuse est une forme littéraire codifiée (rythme, répétitions, apostrophes affectives) qui s'analyse comme n'importe quel texte poétique en cours de Français. De plus, comprendre les archaïsmes et les régionalismes du texte (« dintellière », « fais dodo », « sache ») enrichit la maîtrise de la langue.",
+      "Musique": "Chanter le P'tit Quinquin, c'est avant tout un acte musical ! La berceuse est une forme vocale codifiée : tempo lent, mélodie douce et répétitive, registre grave et apaisant propre à endormir un enfant. Reconnaître et interpréter une berceuse, travailler la justesse vocale, comprendre comment une mélodie traduit une intention (ici, apaiser, endormir) — voilà des compétences au cœur du cours de Musique. La raison était évidente : on vous demandait de chanter !"
+    }
+  },
+  {
+    id: 18,
+    slots: 2,
+    reponses: ["Histoire", "Français"],
+    explications: {
+      "Histoire": "L'énigme évoque le siège probable de la Compagnie des Mines de Lille, installée loin des fosses où s'épuisaient les mineurs. Cette géographie du pouvoir industriel illustre la réalité du bassin minier du Nord au XIXe et XXe siècles : une élite dirigeante bourgeoise à Lille, une main-d'œuvre ouvrière à Lens, Anzin ou Denain. Le boulevard de la Liberté lui-même, percé en 1863 sous le nom de Boulevard de l'Impératrice, est un témoignage vivant de l'urbanisme haussmannien et des transformations de la ville sous le Second Empire.",
+      "Français": "La référence à <em>Germinal</em> d'Émile Zola est un clin d'œil littéraire incontournable. Ce roman de 1885, chef-d'œuvre du naturalisme, met en scène la misère des mineurs du Nord face à la toute-puissance de la Compagnie des mines. Lire Zola, analyser son style, comprendre comment la littérature documente une réalité sociale et historique : c'est au cœur du programme de Français."
+    }
+  },
+  {
+    id: 19,
+    slots: 2,
+    reponses: ["Histoire", "Arts plastiques"],
+    explications: {
+      "Histoire": "Les plaques commémoratives de la station Beaux-Arts République portent des dates qui jalonnent l'histoire de Lille et de la région. Lire une plaque commémorative, identifier les événements qu'elle rappelle, les replacer dans leur contexte historique : c'est un exercice fondamental d'Histoire. La station elle-même, à deux pas du Palais des Beaux-Arts et de la Préfecture du Nord, est un nœud symbolique de la mémoire civique lilloise.",
+      "Arts plastiques": "La mission photo finale devant la préfecture et le Palais des Beaux-Arts, l'un des plus grands musées de France hors Paris, est une invitation à regarder l'architecture et l'espace urbain avec un œil d'artiste. Observer la façade néoclassique du Palais des Beaux-Arts, comprendre les choix architecturaux d'un bâtiment public représentatif du pouvoir, et questionner la mise en scène de l'art dans la ville : autant de démarches propres aux Arts plastiques."
+    }
+  },
+  {
+    id: 20,
+    slots: 2,
+    reponses: ["SVT", "Histoire"],
+    explications: {
+      "SVT": "L'indice sur les « phénotypes habitués à l'analyse bioclimatique des agrosystèmes monospécifiques tondus » est une description scientifique et humoristique... d'une pelouse ! Le décodage de ce jargon complexe fait directement appel aux compétences (parfois obscur pour nous simples mortels) de l'enseignement SVT (ou Sciences Nat. pour les plus anciens d'entre nous que nous ne citerons pas)",
+      "Histoire": "Le parcours évoque le passé commerçant de Lille en 1961. Se replonger dans l'évolution d'un commerce et d'un quartier sur plusieurs décennies, c'est lier la mémoire personnelle à l'Histoire locale."
+    }
+  },
+  {
+    id: 21,
+    slots: 2,
+    reponses: ["EPS", "Géographie"],
+    explications: {
+      "EPS": "Cette étape est entièrement dédiée à la culture sportive régionale et à la suprématie du football dans le Nord. Entre le clin d'œil au RCL (Lens) et le tifo improvisé, on explore les valeurs du sport, la ferveur des supporters et la rivalité historique entre les deux grands clubs locaux.",
+      "Géographie": "Le Commandant Charcot est une figure emblématique des expéditions polaires françaises. Évoquer ses navires 'Pourquoi Pas ?' nous plonge dans l'histoire de la cartographie des pôles et des grandes découvertes géographiques du début du XXe siècle."
+    }
+  },
+  {
+    id: 22,
+    slots: 2,
+    reponses: ["Français", "Sciences et investigation policière"],
+    explications: {
+      "Français": "La référence explicite à Arsène Lupin nous plonge dans l'univers du roman policier et du 'gentleman cambrioleur'. Analyser ces codes littéraires et s'en inspirer pour une mission relève pleinement du cours de Français.",
+      "Sciences et investigation policière": "L'infiltration, le code secret, la délégation de 'ceux qui semblent les plus futés' et la récupération d'un objet précis sans se faire repérer par la 'garde' font directement écho aux techniques d'infiltration et au sens de l'observation travaillés dans cet enseignement."
+    }
+  },
+  {
+    id: 23,
+    slots: 4,
+    reponses: ["Histoire", "Géographie", "RH", "SIG"],
+    explications: {
+      "Histoire": "La station rend hommage à Léon Gambetta (1838-1882). En octobre 1870, il s'échappe de Paris assiégé en ballon pour organiser la résistance en province en tant que ministre de la Guerre du Gouvernement de la Défense Nationale. Il est une figure clé de la proclamation de la République et de la résistance nationale.",
+      "Géographie": "Le métro de Lille, premier métro automatique au monde (VAL), est le pilier d'une stratégie de transport intermodal visant à réduire la place de la voiture en centre-ville. Ce réseau urbain efficace illustre les politiques de transition écologique et de gestion des flux de population au sein d'une métropole européenne.",
+      "RH": "Le réseau Ilévia emploie des milliers de collaborateurs (conducteurs, techniciens, agents d'accueil). La gestion des Ressources Humaines est cruciale pour assurer la continuité du service 24h/24, gérer les plannings complexes et former le personnel aux nouvelles technologies de mobilité urbaine.",
+      "SIG": "Le Système d'Information de Gestion (SIG) est le cerveau du réseau : il permet de suivre les rames en temps réel, d'optimiser les fréquences de passage en fonction de l'affluence et de gérer la billettique numérique. Sans un SIG performant, la coordination d'un tel réseau de transport serait impossible."
+    }
+  },
+  {
+    id: 24,
+    slots: 2,
+    reponses: ["Géographie", "SES"],
+    explications: {
+      "Géographie": "Les Halles de Wazemmes sont un carrefour de cultures. L'étude de la provenance des produits (circuits courts locaux vs importations mondiales) et l'observation de la mixité sociale du quartier illustrent parfaitement les dynamiques de la géographie urbaine et de la mondialisation.",
+      "SES": "Le marché est le laboratoire idéal des Sciences Économiques et Sociales : observation de la loi de l'offre et de la demande sur les prix, étude des comportements de consommation et rôle social du commerce de proximité dans la cohésion d'un quartier."
+    }
+  },
+  {
+    id: 25,
+    slots: 5,
+    reponses: ["Histoire", "Physique-Chimie", "Musique", "Cinéma / Culture audiovisuelle", "CDI"],
+    explications: {
+      "Histoire": "L'évocation du Titanic (1912) et du violoncelliste Roger Bricoux (domicilié à Lille) permet de relier la micro-histoire locale à la grande histoire mondiale du début du XXe siècle.",
+      "Physique-Chimie": "L'utilisation de l'opérateur radio et du signal Morse fait appel à la physique des ondes électromagnétiques et à l'histoire des télécommunications (TSF).",
+      "Musique": "L'hommage à Roger Bricoux et à l'orchestre du Titanic souligne l'importance de la culture musicale et du rôle social des musiciens, même dans les circonstances les plus tragiques.",
+      "Cinéma / Culture audiovisuelle": "La photo truquée (ou non...) des participants sur le grand escalier est un hommage direct au film 'Titanic' de James Cameron (1997). Reconnaître ce décor iconique et comprendre l'utilisation du trucage d'image fait partie de l'analyse de la culture audiovisuelle.",
+      "CDI": "Retrouver la trace de Roger Bricoux, musicien lillois disparu dans le naufrage du Titanic, c'est mener une véritable enquête documentaire : consulter des archives, croiser des sources, vérifier des informations. Le CDI est précisément ce lieu où l'on apprend à chercher, à trier et à valider l'information — des compétences que nos documentalistes transmettent chaque jour aux élèves du Lycée Gérard de Nerval."
+    }
+  },
+  {
+    id: 26,
+    slots: 3,
+    reponses: ["Économie", "Comptabilité", "Géographie"],
+    explications: {
+      "Économie": "Le lycée Gaston Berger est une référence pour les filières économiques à Lille. C'est ici que sont formés les futurs cadres et que l'on étudie les grands mécanismes de marché, essentiels pour l'obtention du DECF évoqué.",
+      "Comptabilité": "L'obtention du DECF (Diplôme d'Études Comptables et Financières) en une seule année est une prouesse de gestion et de comptabilité. C'est le cœur même de l'enseignement technique supérieur dispensé dans ces murs.",
+      "Géographie": "La Porte de Douai illustre la géographie urbaine lilloise : une ancienne porte d'enceinte devenue un nœud de transport majeur (Métro VAL) reliant les quartiers sud au centre-ville et aux pôles universitaires."
+    }
+  },
+  {
+    id: 27,
+    slots: 4,
+    reponses: ["Histoire", "Géographie", "EMC", "Mercatique"],
+    explications: {
+      "Histoire": "Le quiz évoque le mariage du Général de Gaulle à l'église Notre-Dame de Calais en 1921. C'est un ancrage fort dans l'histoire nationale et locale qui lie Lille (sa naissance) à Calais (son alliance).",
+      "Géographie": "L'énigme mentionne le port de Calais, premier port de voyageurs de France. L'étude des flux transmanche et des infrastructures portuaires est un pilier de la géographie des transports et de la mondialisation.",
+      "EMC": "Le quiz sur le dragon de Calais et l'identité de la ville touche à la culture commune et au sentiment d'appartenance à un territoire, des thèmes abordés en Éducation Morale et Civique pour comprendre la cité.",
+      "Mercatique": "L'industrie de la dentelle de Calais, citée dans le quiz, est un exemple parfait de produit de luxe dont la renommée mondiale repose sur une stratégie de marque territoriale et un savoir-faire d'exception (Marketing territorial)."
+    }
+  },
+  {
+    id: 28,
+    slots: 2,
+    reponses: ["Histoire", "Histoire des arts"],
+    explications: {
+      "Histoire": "La Porte de Paris est un arc de triomphe construit à la fin du XVIIe siècle pour célébrer la victoire de Louis XIV et le rattachement définitif de Lille à la France (1667). Elle remplace l'ancienne porte de Malade et symbolise la puissance du Roi-Soleil sur ses nouvelles conquêtes flamandes.",
+      "Histoire des arts": "Ce monument est un chef-d'œuvre de l'architecture baroque. Son iconographie est riche : on y observe des sculptures de la Victoire couronnant le buste du Roi, des trophées militaires et des figures de la mythologie. Analyser ces symboles et le style imposant de Simon Vollant relève de l'Histoire des arts."
+    }
+  },
+  {
+    id: 29,
+    slots: 6,
+    reponses: ["Histoire", "Langues vivantes", "Mathématiques", "Arts plastiques", "Philosophie", "CDI"],
+    explications: {
+      "Histoire": `L'étape évoque la signature historique de la construction du tunnel sous la Manche à la mairie de Lille le 20 janvier 1986.`,
+      "Langues vivantes": `Le texte fait référence à la langue de Shakespeare avec la mention "Tunnel Under The Channel" et l'utilisation du code OTAN pour identifier la rue.`,
+      "Mathématiques": `La quête du "7e nombre premier" (le nombre 17) à noter sur votre feuille A6 fait appel à vos connaissances en arithmétique.`,
+      "Arts plastiques": `La mission finale est un défi artistique : réaliser en moins de 10 minutes un dessin de la Gare Lille-Flandres et d'une baraque à frites.`,
+      "Philosophie": `Le voyage est ici une invitation à la réflexion. Comme le suggère Montaigne, voyager permet de "limer son cerveau contre celui d'autrui". On y retrouve aussi l'idée de Marcel Proust : "Le véritable voyage de découverte ne consiste pas à chercher de nouveaux paysages, mais à avoir de nouveaux yeux."`,
+      "CDI": `La mairie de Lille conserve dans ses archives la trace de cet accord historique franco-britannique signé en 1986. Savoir qu'un tel document existe, comprendre où et comment le consulter, c'est la mission des documentalistes. Au CDI du Lycée Gérard de Nerval, ils apprennent aux élèves à explorer les fonds d'archives et à s'approprier la mémoire collective comme une source de connaissance vivante.`
+    }
+  },
+  {
+    id: 30,
+    slots: 1,
+    reponses: ["EPS"],
+    explications: {
+      "EPS": "La présence du LOSC au cœur de Lille rappelle l'importance du sport dans l'identité de la ville. Que ce soit à travers la performance de haut niveau, la culture des supporters ou la pratique amateur, le football incarne les valeurs de dépassement et de collectif travaillées en Éducation Physique et Sportive."
+    }
+  },
+  {
+    id: 31,
+    slots: 2,
+    reponses: ["Histoire", "HGGSP"],
+    explications: {
+      "Histoire": `Cette étape rend hommage à Pierre Mauroy, figure politique emblématique de Lille, surnommé affectueusement "Pierrot La Ducasse" ou "Gros Quinquin" par les habitants.`,
+      "HGGSP": `L'étude de l'influence politique locale et de l'histoire des grands leaders territoriaux s'inscrit parfaitement dans le programme de la spécialité HGGSP (Histoire-Géographie, Géopolitique et Sciences Politiques).`
+    }
+  },
+  {
+    id: 32,
+    slots: 2,
+    reponses: ["Cinéma-Audiovisuel", "HGGSP"],
+    explications: {
+      "Cinéma-Audiovisuel": `L'immersion dans l'univers de Série Mania et la réflexion sur les codes des séries ch'tis font directement écho à l'enseignement optionnel de Cinéma-Audiovisuel (CAV) présent au lycée.`,
+      "HGGSP": `La création d'un trophée et le rayonnement d'un festival international illustrent la puissance culturelle et diplomatique (Soft Power) étudiée dans la spécialité HGGSP.`
+    }
+  },
+  {
+    id: 33,
+    slots: 1,
+    reponses: ["HLP"],
+    explications: {
+      "HLP": `La spécialité Humanités, Littérature et Philosophie nous invite à voir au-delà des briques : ce mur devient l'allégorie de la construction de l'individu au sein de l'institution scolaire, orchestrée par le Proviseur Adjoint.`
+    }
+  },
+  {
+    id: 34,
+    slots: 4,
+    reponses: ["Economie", "Mercatique", "Physique-Chimie", "HLP"],
+    explications: {
+      "Economie": `L'analyse de cette boutique de quartier permet d'étudier les mécanismes du marché et les échanges commerciaux locaux.`,
+      "Mercatique": `La vitrine, l'enseigne et l'agencement de cette "boutique cachée" relèvent de la mercatique : l'art de séduire le client et de valoriser un point de vente.`,
+      "Physique-Chimie": `Référence aux "trésors" en flacons : la transformation du jus de raisin en vin repose sur des processus de fermentation et d'oxydation étudiés en chimie.`,
+      "HLP": `Le pêle-mêle final détournant les photos d'Aurélien "très occupé" offre une réflexion philosophique sur la perception de l'image et la mise en scène de soi.`
+    }
+  },
+  {
+    id: 35,
+    slots: 3,
+    reponses: ["Français", "Arts Plastiques", "Mercatique"],
+    explications: {
+      "Français": "La référence à l'œuvre de Philippe Delerm (1997) sur les 'plaisirs minuscules' invite à une analyse littéraire de l'instantané et de la poésie du quotidien.",
+      "Arts Plastiques": "L'exercice demande de mobiliser des compétences en design graphique pour imaginer l'identité visuelle d'une bière inspirée par les façades flamandes et les beffrois.",
+      "Mercatique": "La création d'un nom de marque 'secret' et l'élaboration d'un concept de produit régional relèvent de la stratégie de positionnement et du marketing territorial."
+    }
+  },
+  {
+    id: 36,
+    slots: 3,
+    reponses: ["HGGSP", "Économie-Droit", "HLP"],
+    explications: {
+      "HGGSP": "Le Monument aux Morts et l'Opéra illustrent les enjeux de mémoire et le rôle des institutions publiques dans la cité, thèmes centraux de la spécialité Histoire-Géographie, Géopolitique et Sciences Politiques.",
+      "Économie-Droit": "La Chambre de Commerce (CCI) et la Vieille Bourse symbolisent la puissance économique de Lille. Ces lieux font écho aux enseignements d'économie et de droit de la filière STMG du lycée.",
+      "HLP": "L'étude architecturale de ces façades (Baroque flamand, Néo-classicisme) relève de la spécialité Humanités, Littérature et Philosophie, qui analyse les formes d'expression de la culture européenne."
+    }
+  },
+  {
+    id: 37,
+    slots: 2,
+    reponses: ["Investigation Policière", "Histoire-Géographie"],
+    explications: {
+      "Investigation Policière": "Le flair du journaliste ! Indispensable pour localiser ma femme, mon fils et ma mère sur les places Rihour ou de l'Opéra et négocier la remise des enveloppes.",
+      "Histoire-Géographie": "Un hommage au grand quotidien régional né dans la clandestinité en 1944. Connaître le passé de Lille et ses rues est la clé pour ne pas se perdre lors de cette ultime chasse aux proches."
+    }
+  },
+  {
+    id: 38,
+    slots: 1,
+    reponses: ["EPS"],
+    explications: {
+      "EPS": "C'est une véritable course d'orientation urbaine ! Pour franchir la ligne d'arrivée, il faudra coupler vos jambes et votre sens de l'observation : utilisez les directions révélées par les enveloppes I, II et III pour foncer vers le bon établissement."
+    }
+  }
+];
+
+// ============================================================
+// OPTIONS DISPONIBLES DANS LES LISTES
+// ============================================================
+const MATIERES = [
+  "",
+  "Histoire",
+  "Géographie",
+  "Arts plastiques",
+  "Histoire des arts",
+  "EMC",
+  "Philosophie",
+  "Lettres classiques",
+  "Langues vivantes",
+  "SVT",
+  "Mathématiques",
+  "Physique-Chimie",
+  "Mercatique",
+  "SES",
+  "Français",
+  "Droit",
+  "Cinéma / Culture audiovisuelle",
+  "EPS",
+  "Comptabilité",
+  "Fiscalité",
+  "Musique",
+  "Sciences et investigation policière",
+  "SIG",
+  "RH",
+  "Économie",
+  "HGGSP",
+  "HLP",
+  "CDI"
+];
+
+// ============================================================
+// COMPTEURS
+// ============================================================
+const tentativesParSlot = {};
+const erreursParMatiere = {};
+
+function normaliserMatiere(m) {
+  return (m || "").trim();
+}
+
+function enregistrerErreurParMatiere(matiere, nbMauvaises) {
+  const m = normaliserMatiere(matiere);
+  if (!m) return;
+  erreursParMatiere[m] = (erreursParMatiere[m] || 0) + (nbMauvaises || 0);
+}
+
+function totalErreursParMatiere(matiere) {
+  const m = normaliserMatiere(matiere);
+  return erreursParMatiere[m] || 0;
+}
+
+// ============================================================
+// CONSTRUCTION DYNAMIQUE
+// ============================================================
+function buildEnigme(enigme) {
+  const grid = document.getElementById(`grid-enigme-${enigme.id}`);
+  if (!grid) return;
+
+  const nbSlots = enigme.slots || 4;
+  for (let i = 0; i < nbSlots; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'enseignement-slot';
+    slot.id = `slot-${enigme.id}-${i}`;
+
+    const label = document.createElement('div');
+    label.className = 'slot-label';
+    label.textContent = `Enseignement ${i + 1} / ${nbSlots}`;
+
+    const select = document.createElement('select');
+    select.className = 'slot-select';
+    select.id = `select-${enigme.id}-${i}`;
+
+    MATIERES.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m;
+      opt.textContent = m === "" ? "— Choisissez une matière —" : m;
+      select.appendChild(opt);
+    });
+
+    select.addEventListener('change', () => handleChange(enigme, i, select, slot));
+
+    const feedback = document.createElement('div');
+    feedback.className = 'slot-feedback';
+    feedback.id = `feedback-${enigme.id}-${i}`;
+    feedback.style.display = 'none';
+
+    slot.appendChild(label);
+    slot.appendChild(select);
+    slot.appendChild(feedback);
+    grid.appendChild(slot);
+  }
+}
+
+function handleChange(enigme, slotIndex, select, slot) {
+  const val = select.value;
+  const feedback = document.getElementById(`feedback-${enigme.id}-${slotIndex}`);
+  const key = `${enigme.id}-${slotIndex}`;
+
+  if (!tentativesParSlot[key]) {
+    tentativesParSlot[key] = {
+      mauvaises: 0,
+      valide: false,
+      valeurFinale: ""
+    };
+  }
+
+  // Reset visuel
+  select.classList.remove('correct', 'wrong');
+  feedback.style.display = 'none';
+  feedback.className = 'slot-feedback';
+  feedback.innerHTML = '';
+
+  if (!val) return;
+
+  const slotData = tentativesParSlot[key];
+
+  if (slotData.valide) {
+    return;
+  }
+
+  if (enigme.reponses.includes(val)) {
+    const alreadyFound = isAlreadyUsed(enigme, slotIndex, val);
+    if (alreadyFound) {
+      select.classList.add('wrong');
+      feedback.className = 'slot-feedback feedback-wrong';
+      feedback.textContent = 'Cette matière a déjà été trouvée dans un autre emplacement !';
+      feedback.style.display = 'block';
+      slotData.mauvaises += 1;
+    } else {
+      select.classList.add('correct');
+      feedback.className = 'slot-feedback feedback-correct';
+      feedback.innerHTML = `<strong>✦ Bravo !</strong>${enigme.explications[val]}`;
+      feedback.style.display = 'block';
+
+      slotData.valide = true;
+      slotData.valeurFinale = val;
+      enregistrerErreurParMatiere(val, slotData.mauvaises);
+    }
+  } else {
+    select.classList.add('wrong');
+    feedback.className = 'slot-feedback feedback-wrong';
+    feedback.textContent = 'Non… Essayez encore !!!';
+    feedback.style.display = 'block';
+    slotData.mauvaises += 1;
+  }
+
+  updateScore(enigme);
+}
+
+function isAlreadyUsed(enigme, currentSlot, val) {
+  const nbSlots = enigme.slots || 4;
+  for (let i = 0; i < nbSlots; i++) {
+    if (i === currentSlot) continue;
+    const otherSelect = document.getElementById(`select-${enigme.id}-${i}`);
+    if (otherSelect && otherSelect.classList.contains('correct') && otherSelect.value === val) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function updateScore(enigme) {
+  const nbSlots = enigme.slots || 4;
+  let count = 0;
+  const found = new Set();
+  for (let i = 0; i < nbSlots; i++) {
+    const sel = document.getElementById(`select-${enigme.id}-${i}`);
+    if (sel && sel.classList.contains('correct') && !found.has(sel.value)) {
+      found.add(sel.value);
+      count++;
+    }
+  }
+  const scoreEl = document.getElementById(`score-enigme-${enigme.id}`);
+  if (scoreEl) scoreEl.textContent = `${count} / ${nbSlots}`;
+  if (scoreEl && count === nbSlots) scoreEl.style.color = '#4a7c59';
+}
+
+// ============================================================
+// EXPORT VERS LE BULLETIN (via URL hash — fonctionne en file://)
+// ============================================================
+function getParticipantNom() {
+  const prenom = (document.getElementById('participant-prenom').value || '').trim();
+  const nom = (document.getElementById('participant-nom').value || '').trim();
+  return { prenom, nom };
+}
+
+function exporterVersBulletin(definitif) {
+  const status = document.getElementById('export-status');
+  const { prenom, nom } = getParticipantNom();
+
+  if (!prenom && !nom) {
+    const ok = confirm('Vous n'avez pas saisi votre prénom et votre nom.\nVoulez-vous quand même ouvrir le bulletin sans identité ?');
+    if (!ok) return;
+  }
+
+  try {
+    const data = {
+      erreursParMatiere: erreursParMatiere,
+      timestamp: Date.now(),
+      prenom: prenom,
+      nom: nom,
+      definitif: !!definitif
+    };
+    const json = JSON.stringify(data);
+    const encoded = btoa(unescape(encodeURIComponent(json)));
+
+    // Essaie aussi localStorage en bonus (pour le bouton "Mettre à jour")
+    try { localStorage.setItem('rallye_bulletin_scores', json); } catch(e) {}
+
+    // Ouvre le bulletin avec les données dans le hash URL
+    const url = 'https://htmlpreview.github.io/?https://github.com/phumetz60/DECOUVERTE-DE-LILLE/blob/main/BULLETIN.html#data=' + encoded;
+    window.open(url, '_blank');
+
+    if (status) {
+      status.style.color = 'var(--green-border)';
+      status.textContent = definitif
+        ? '🏆 Bulletin définitif ouvert dans un nouvel onglet !'
+        : '📋 Bulletin provisoire ouvert dans un nouvel onglet — vous pouvez continuer la Checklist !';
+      setTimeout(() => { if(status) status.textContent = ''; }, 7000);
+    }
+  } catch(e) {
+    if (status) {
+      status.style.color = 'var(--red-text)';
+      status.textContent = 'Erreur : ' + e.message;
+    }
+  }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+ENIGMES.forEach(e => buildEnigme(e));
+</script>
+</body>
+</html>
