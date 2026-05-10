@@ -393,10 +393,103 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
+  /* === PARTICIPANT BLOCK === */
+  .participant-block {
+    background: var(--cream);
+    border: 1.5px solid var(--sepia);
+    border-top: 3px solid var(--rust);
+    border-bottom: none;
+    padding: 1.8rem 3.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .participant-block h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--sepia);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .participant-block h2::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--aged);
+  }
+  .participant-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+  .participant-field label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--sepia);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .participant-field input {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.05rem;
+    padding: 0.55rem 0.9rem;
+    border: 1.5px solid var(--aged);
+    background: #faf6ee;
+    color: var(--ink);
+    border-radius: 4px;
+    width: 100%;
+    transition: border-color 0.2s;
+  }
+  .participant-field input:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: #fffbe8;
+  }
+  .participant-note {
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--sepia);
+    margin-top: 0.8rem;
+  }
+
+  /* === BOUTON BULLETIN PROVISOIRE (après chaque énigme) === */
+  .btn-provisoire-wrap {
+    margin-top: 1.4rem;
+    padding-top: 1.2rem;
+    border-top: 1px dashed var(--aged);
+    text-align: right;
+  }
+  .btn-provisoire {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--sepia);
+    border: 1.5px solid var(--aged);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 0.88rem;
+    font-style: italic;
+    padding: 0.45rem 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 3px;
+  }
+  .btn-provisoire:hover {
+    background: var(--aged);
+    color: var(--rust);
+    border-color: var(--sepia);
+  }
+
   @media (max-width: 600px) {
     .hero, .enigme-card, .footer-note { padding-left: 1.4rem; padding-right: 1.4rem; }
     .hero { padding-top: 2.5rem; padding-bottom: 2rem; }
     .enseignements-grid { grid-template-columns: 1fr; }
+    .participant-fields { grid-template-columns: 1fr; }
+    .participant-block { padding-left: 1.4rem; padding-right: 1.4rem; }
   }
 </style>
 </head>
@@ -414,6 +507,22 @@
     <h1>Checklist du Retour</h1>
     <p class="hero-sub">Avez-vous bien observé chaque énigme&nbsp;?</p>
     <div class="divider-ornament"><span>✦</span></div>
+  </div>
+
+  <!-- IDENTITÉ DU PARTICIPANT -->
+  <div class="participant-block">
+    <h2>Identité du participant</h2>
+    <div class="participant-fields">
+      <div class="participant-field">
+        <label for="participant-prenom">Prénom</label>
+        <input type="text" id="participant-prenom" placeholder="Votre prénom" autocomplete="off">
+      </div>
+      <div class="participant-field">
+        <label for="participant-nom">Nom</label>
+        <input type="text" id="participant-nom" placeholder="Votre nom de famille" autocomplete="off">
+      </div>
+    </div>
+    <p class="participant-note">Ces informations apparaîtront sur votre bulletin — renseignez-les avant de commencer.</p>
   </div>
 
   <!-- ENIGME 1 -->
@@ -438,6 +547,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-1">0 / 4</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -463,6 +575,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-2">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -484,6 +599,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-3">0 / 3</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -505,6 +623,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-4">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -526,6 +647,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-5">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -547,6 +671,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignement trouvé</span>
       <span class="score-display" id="score-enigme-6">0 / 1</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -568,6 +695,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-7">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -589,6 +719,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignement trouvé</span>
       <span class="score-display" id="score-enigme-8">0 / 1</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -610,6 +743,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignement trouvé</span>
       <span class="score-display" id="score-enigme-9">0 / 1</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -631,6 +767,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-10">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -652,6 +791,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-11">0 / 3</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -673,6 +815,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-12">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -694,6 +839,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-13">0 / 3</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 <!-- ENIGME 14 -->
@@ -719,6 +867,9 @@
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-14">0 / 3</span>
     </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
   </div>
   <!-- ENIGME 15 -->
   <div class="enigme-card" id="enigme-15">
@@ -737,6 +888,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-15">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -757,6 +911,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-16">0 / 4</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -777,6 +934,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-17">0 / 3</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -797,6 +957,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-18">0 / 2</span>
+
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
 
@@ -818,6 +981,9 @@
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-19">0 / 2</span>
     </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
   </div>
 	<div class="enigme-card" id="enigme-20">
     <div class="enigme-header">
@@ -836,6 +1002,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-20">0 / 2</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
   <!-- ENIGME 21 -->
@@ -856,6 +1025,9 @@
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-21">0 / 2</span>
     </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
   </div>
   <!-- ENIGME 22 -->
   <div class="enigme-card" id="enigme-22">
@@ -874,6 +1046,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-22">0 / 2</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
   <!-- ENIGME 23 -->
@@ -894,6 +1069,9 @@
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-23">0 / 4</span>
     </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
   </div>
   <!-- ENIGME 24 -->
   <div class="enigme-card" id="enigme-24">
@@ -912,6 +1090,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-24">0 / 2</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
   <!-- ENIGME 25 -->
@@ -932,6 +1113,9 @@
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-25">0 / 5</span>
     </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
   </div>
   <!-- ENIGME 26 -->
   <div class="enigme-card" id="enigme-26">
@@ -950,6 +1134,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-26">0 / 3</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
   <!-- ENIGME 27 -->
@@ -975,6 +1162,9 @@
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-27">0 / 4</span>
     </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
   </div>
   <!-- ENIGME 28 -->
   <div class="enigme-card" id="enigme-28">
@@ -999,6 +1189,9 @@
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-28">0 / 2</span>
     </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
   </div>
   <!-- ENIGME 29 -->
   <div class="enigme-card" id="enigme-29">
@@ -1021,6 +1214,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-29">0 / 6</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
   <!-- ENIGME 30 -->
@@ -1046,6 +1242,9 @@
       <span class="score-label">Enseignement trouvé</span>
       <span class="score-display" id="score-enigme-30">0 / 1</span>
     </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
   </div>
   <!-- ENIGME 31 -->
   <div class="enigme-card" id="enigme-31">
@@ -1068,6 +1267,9 @@
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-31">0 / 2</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
   <!-- ENIGME 32 -->
@@ -1092,6 +1294,9 @@
       <span class="score-label">Enseignements trouvés</span>
       <span class="score-display" id="score-enigme-32">0 / 2</span>
     </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
   </div>
   <!-- ENIGME 33 -->
   <div class="enigme-card" id="enigme-33">
@@ -1115,6 +1320,9 @@
       <span class="score-label">Enseignement identifié</span>
       <span class="score-display" id="score-enigme-33">0 / 1</span>
     </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
   </div>
   <!-- ENIGME 34 -->
   <div class="enigme-card" id="enigme-34">
@@ -1137,6 +1345,9 @@
     <div class="score-bar">
       <span class="score-label">Matières identifiées</span>
       <span class="score-display" id="score-enigme-34">0 / 4</span>
+    </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
     </div>
   </div>
   <!-- ENIGME 35 -->
@@ -1162,6 +1373,9 @@
     <span class="score-label">Matières identifiées</span>
     <span class="score-display" id="score-enigme-35">0 / 3</span>
   </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
 </div>
 <!-- ENIGME 36 -->
 <div class="enigme-card" id="enigme-36">
@@ -1186,6 +1400,9 @@
     <span class="score-label">Matières identifiées</span>
     <span class="score-display" id="score-enigme-36">0 / 3</span>
   </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
 </div>
 <!-- ENIGME 37 — LE GRAND FINAL : ÉDITION SPÉCIALE -->
 <div class="enigme-card" id="enigme-37">
@@ -1210,6 +1427,9 @@
     <span class="score-label">Objectifs atteints</span>
     <span class="score-display" id="score-enigme-37">0 / 2</span>
   </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
 </div>
 <!-- ENIGME 38 — LE FINAL : COURSE D'ORIENTATION -->
 <div class="enigme-card" id="enigme-38">
@@ -1234,13 +1454,16 @@
     <span class="score-label">Localisation activée</span>
     <span class="score-display" id="score-enigme-38">0 / 1</span>
   </div>
+    <div class="btn-provisoire-wrap">
+      <button class="btn-provisoire" onclick="exporterVersBulletin(false)">📋 Voir le bulletin provisoire</button>
+    </div>
 </div>
   <!-- EXPORT BULLETIN -->
   <div class="export-section">
-    <h2>✦ Générer le Bulletin ✦</h2>
-    <p>Cliquez pour ouvrir le Bulletin avec vos appréciations.<br>
-    <em>Vous pouvez continuer la Checklist après — re-cliquez à tout moment pour mettre le Bulletin à jour.</em></p>
-    <button class="btn-bulletin" onclick="exporterVersBulletin()">📜 Ouvrir le Bulletin du Rallye</button>
+    <h2>✦ Bulletin Définitif ✦</h2>
+    <p>Toutes les énigmes terminées ? Générez votre bulletin <strong>définitif</strong>.<br>
+    <em>Votre prénom et votre nom figureront sur le document officiel.</em></p>
+    <button class="btn-bulletin" onclick="exporterVersBulletin(true)">🏆 Ouvrir le Bulletin Définitif</button>
     <div class="export-status" id="export-status"></div>
   </div>
 
@@ -1803,12 +2026,28 @@ function updateScore(enigme) {
 // ============================================================
 // EXPORT VERS LE BULLETIN (via URL hash — fonctionne en file://)
 // ============================================================
-function exporterVersBulletin() {
+function getParticipantNom() {
+  const prenom = (document.getElementById('participant-prenom').value || '').trim();
+  const nom = (document.getElementById('participant-nom').value || '').trim();
+  return { prenom, nom };
+}
+
+function exporterVersBulletin(definitif) {
   const status = document.getElementById('export-status');
+  const { prenom, nom } = getParticipantNom();
+
+  if (!prenom && !nom) {
+    const ok = confirm('Vous n'avez pas saisi votre prénom et votre nom.\nVoulez-vous quand même ouvrir le bulletin sans identité ?');
+    if (!ok) return;
+  }
+
   try {
     const data = {
       erreursParMatiere: erreursParMatiere,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      prenom: prenom,
+      nom: nom,
+      definitif: !!definitif
     };
     const json = JSON.stringify(data);
     const encoded = btoa(unescape(encodeURIComponent(json)));
@@ -1817,15 +2056,21 @@ function exporterVersBulletin() {
     try { localStorage.setItem('rallye_bulletin_scores', json); } catch(e) {}
 
     // Ouvre le bulletin avec les données dans le hash URL
-    const url = 'BULLETIN.html#data=' + encoded;
+    const url = 'https://htmlpreview.github.io/?https://github.com/phumetz60/DECOUVERTE-DE-LILLE/blob/main/BULLETIN.html#data=' + encoded;
     window.open(url, '_blank');
 
-    status.style.color = 'var(--green-border)';
-    status.textContent = '✦ Bulletin ouvert dans un nouvel onglet — vous pouvez continuer la Checklist !';
-    setTimeout(() => { status.textContent = ''; }, 7000);
+    if (status) {
+      status.style.color = 'var(--green-border)';
+      status.textContent = definitif
+        ? '🏆 Bulletin définitif ouvert dans un nouvel onglet !'
+        : '📋 Bulletin provisoire ouvert dans un nouvel onglet — vous pouvez continuer la Checklist !';
+      setTimeout(() => { if(status) status.textContent = ''; }, 7000);
+    }
   } catch(e) {
-    status.style.color = 'var(--red-text)';
-    status.textContent = 'Erreur : ' + e.message;
+    if (status) {
+      status.style.color = 'var(--red-text)';
+      status.textContent = 'Erreur : ' + e.message;
+    }
   }
 }
 
