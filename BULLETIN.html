@@ -487,14 +487,14 @@ const APPRECIATIONS = {
     "Situe la Deûle quelque part entre le Nil et l\'Amazonie. Pense que les terrils sont des volcans endormis.",
     "S\'est perdu entre la Grand\'Place et la Fnac. Persuadé que le Nord est en bas parce que dans le métro il a entendu \"c\'est là qu\'on descend\"."
   ],
-  "Arts Plastiques": [
+  "Arts plastiques": [
     "Futur lauréat du Palais des Beaux-Arts. Manie le pinceau comme un dieu, même avec des moufles en hiver.",
     "Sa sculpture en mie de pain est une œuvre d\'avant-garde. Maîtrise la perspective de la rue de Béthune.",
     "Bel usage des nuances de brique rouge. Capable de dessiner un pigeon de profil sans qu\'il ressemble à un poulet.",
     "Dessine des frites qui ressemblent à des poutres de chantier. Confond le pinceau avec une brosse à dents.",
     "Sa peinture « Ciel de Lille » n\'est qu\'un rectangle gris uni. Prétend que c\'est du minimalisme conceptuel."
   ],
-  "Histoire des Arts": [
+  "Histoire des arts": [
     "Critique d\'art redoutable. Pourrait vendre un pavé du Vieux-Lille comme une œuvre de Marcel Duchamp à un prix d\'or.",
     "Passionné par l\'art de la dentelle. Peut dater une église rien qu\'en regardant la forme des ogives.",
     "Analyse correcte de l\'architecture flamande. Sait distinguer un beffroi d\'un château d\'eau.",
@@ -515,7 +515,7 @@ const APPRECIATIONS = {
     "Confond Socrate avec un ancien défenseur central du LOSC. Pense que le \"Moi\" est une application de selfie.",
     "Sa seule question existentielle : « Pourquoi la fricadelle ? ». Répond « Ben parcequ\'est comme ça » à chaque dissertation."
   ],
-  "Langues Vivantes": [
+  "Langues vivantes": [
     "Éloquence surnaturelle. A réussi à traduire l\'intégrale de \"Bienvenue chez les Ch\'tis\" en mandarin médiéval sans perdre une seule subtilité de l\'accent de Bergues.",
     "Parle le Rouchi couramment et maîtrise l\'accent de Cambridge. Un bilinguisme impressionnant et très distingué pour un picard.",
     "Capable de commander une bière dans quatre langues différentes, dont le langage des signes lillois.",
@@ -571,10 +571,10 @@ const APPRECIATIONS = {
     "Pense que le Conseil d\'État est un bar à cocktails et que la garde à vue est une option de babysitting. Confond le \"Code Civil\" avec une application de rencontre.",
     "A tenté d\'attaquer le lycée devant la Cour Européenne des Droits de l\'Homme pour \"torture par chaleur excessive\" depuis la fin des travaux. Invoque la légitime défense pour justifier le port du short et des tongs en plein conseil de classe."
   ],
-  "Cinéma / Culture Audiovisuelle": [
+  "Cinéma / Culture audiovisuelle": [
     "Futur Apichatpong Weerasethakul de la Deûle. Son court-métrage sur la solitude d\'une moule orpheline a fait pleurer tout le jury tellement c\'etait long.",
     "Réalise des travellings complexes avec un caddie de supermarché. Inventivité technique hors du commun.",
-    "Maître de la mise en scène tactique. Tente d'encercler le jury par le flanc gauche avec la célèbre manœuvre de la tenaille."
+    "Maître de la mise en scène tactique. Tente d'encercler le jury par le flanc gauche avec la célèbre manœuvre de la tenaille.",
     "Ses cadres sont aussi droits que le Beffroi un soir de tempête. Oublie d\'enlever le cache de l\'objectif 1 fois sur 2.",
     "Pense que le montage est une épreuve d\'alpinisme. Persuadé que \"Bienvenue chez les Ch\'tis\" est une tragédie grecque du Moyen-Age racontant l'invasion anglaise de Calais."
   ],
@@ -606,7 +606,7 @@ const APPRECIATIONS = {
     "Pense que « Le P\'tit Quinquin » est un morceau de Hard Rock. Confond une clé de sol avec un hameçon.",
     "Joue du pipeau avec la même conviction qu\'il invente ses excuses de retard. Chante comme une casserole percée."
   ],
-  "Sc. & Investigation Policière": [
+  "Sciences et investigation policière": [
     "Expert légiste ultime. A résolu le mystère de la disparition des cuillères à moules de 1998.",
     "Sherlock local. Sait identifier une bière à son simple pétillement et un suspect à sa façon de dire \"Biloute\".",
     "Capable de remonter la piste d\'une gaufre au sucre à 2 km de distance rien qu\'à l\'odorat.",
@@ -661,11 +661,11 @@ const APPRECIATIONS = {
 const NORMALISATION = {
   "Histoire": "Histoire",
   "Géographie": "Géographie",
-  "Arts plastiques": "Arts Plastiques",
-  "Histoire des arts": "Histoire des Arts",
+  "Arts plastiques": "Arts plastiques",
+  "Histoire des arts": "Histoire des arts",
   "EMC": "EMC",
   "Philosophie": "Philosophie",
-  "Langues vivantes": "Langues Vivantes",
+  "Langues vivantes": "Langues vivantes",
   "SVT": "SVT",
   "Mathématiques": "Mathématiques",
   "Physique-Chimie": "Physique-Chimie",
@@ -673,12 +673,12 @@ const NORMALISATION = {
   "SES": "SES",
   "Français": "Français",
   "Droit": "Droit",
-  "Cinéma / Culture audiovisuelle": "Cinéma / Culture Audiovisuelle",
+  "Cinéma / Culture audiovisuelle": "Cinéma / Culture audiovisuelle",
   "EPS": "EPS",
   "Comptabilité": "Comptabilité",
   "Fiscalité": "Fiscalité",
   "Musique": "Musique",
-  "Sciences et investigation policière": "Sc. & Investigation Policière",
+  "Sciences et investigation policière": "Sciences et investigation policière",
   "SIG": "SIG",
   "RH": "RH",
   "Économie": "Économie",
@@ -736,7 +736,7 @@ function importerScores() {
   try {
     const hash = window.location.hash; // "#data=..."
     if (hash.startsWith('#data=')) {
-      const encoded = hash.slice(6);
+      const encoded = hash.slice(6); // <-- CORRECTION APPLIQUÉE
       const json = decodeURIComponent(escape(atob(encoded)));
       data = JSON.parse(json);
     }
@@ -889,9 +889,16 @@ function resetAll() {
   });
 }
 
-// ── INIT : buildTable d'abord, puis import immédiatement après
-buildTable();
-importerScores();
+// ── INIT : buildTable d'abord, puis import avec un léger délai pour assurer la lecture de l'URL
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() {
+    buildTable();
+    setTimeout(importerScores, 100);
+  });
+} else {
+  buildTable();
+  setTimeout(importerScores, 100);
+}
 </script>
 </body>
 </html>
