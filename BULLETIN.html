@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bulletin du Rallye Lillois — Lycée Gérard de Nerval</title>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #b8a882;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem 1rem;
+    font-family: 'Courier Prime', 'Courier New', monospace;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #faf6ee;
+    border: 1px solid #999;
+    box-shadow: 4px 4px 20px rgba(0,0,0,0.35);
+    padding: 10mm 13mm;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page::before {
+    content: 'RALLYE HISTORIQUE';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-28deg);
+    font-family: 'Special Elite', monospace;
+    font-size: 3.8rem;
+    color: rgba(156,59,26,0.045);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 0.2em;
+  }
+
+  /* EN-TÊTE */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1.5px solid #333;
+    margin-bottom: 5px;
+  }
+  .school-block {
+    padding: 6px 10px;
+    text-align: center;
+    font-size: 0.63rem;
+    line-height: 1.55;
+    background: #f5f0e8;
+    border-right: 1.5px solid #333;
+  }
+  .school-block strong {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.68rem;
+    display: block;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+  }
+  .school-block .tel { font-size: 0.57rem; color: #555; margin-top: 3px; }
+
+  .title-block {
+    padding: 6px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #faf6ee;
+  }
+  .title-block h1 {
+    font-family: 'Special Elite', monospace;
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    color: #1a1208;
+    border-bottom: 1.5px solid #333;
+    padding-bottom: 4px;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+  .editable-name {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.95rem;
+    color: #1a1208;
+    display: block;
+    border-bottom: 1px dotted #999;
+    min-width: 180px;
+    margin-bottom: 3px;
+  }
+  .annee { font-size: 0.61rem; }
+
+  /* BARRE CLASSE */
+  .class-bar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.61rem;
+    margin: 5px 0;
+    padding: 3px 7px;
+    border: 1px solid #bbb;
+    background: #f0ebe0;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .no-duplicata {
+    text-align: center;
+    font-size: 0.57rem;
+    font-style: italic;
+    color: #666;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 2px 0;
+    margin-bottom: 5px;
+  }
+
+  /* TABLEAU */
+  .bulletin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.6rem;
+    margin-bottom: 6px;
+  }
+  .bulletin-table th {
+    background: #2a1f0e;
+    color: #f5efe2;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.57rem;
+    padding: 3px 4px;
+    border: 1px solid #1a1208;
+    text-align: center;
+    font-weight: normal;
+    letter-spacing: 0.04em;
+  }
+  .bulletin-table th.th-left { text-align: left; }
+  .bulletin-table td {
+    border: 1px solid #bbb;
+    padding: 2px 4px;
+    vertical-align: middle;
+    background: #faf6ee;
+  }
+  tr.mat-row td { border-top: 1.5px solid #999; }
+  tr.mat-row:nth-child(even) td { background: #f5f1e8; }
+
+  .td-matiere {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.62rem;
+    width: 115px;
+    min-width: 115px;
+    line-height: 1.4;
+  }
+  .td-matiere .prof {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.5rem;
+    font-weight: normal;
+    font-style: italic;
+    color: #666;
+    display: block;
+  }
+  .td-coef {
+    text-align: center;
+    width: 30px;
+    min-width: 30px;
+    font-size: 0.58rem;
+    color: #444;
+  }
+  .coef-rouge {
+    color: #9c3b1a !important;
+    font-weight: bold !important;
+  }
+  .td-nb {
+    text-align: center;
+    width: 38px;
+    min-width: 38px;
+  }
+  .td-moy {
+    text-align: center;
+    width: 44px;
+    min-width: 44px;
+  }
+  .td-appr { }
+
+  /* Éditables */
+  [contenteditable="true"] {
+    outline: none;
+    cursor: text;
+    min-height: 12px;
+    transition: background 0.15s;
+  }
+  [contenteditable="true"]:focus {
+    background: #fffbe8 !important;
+    box-shadow: inset 0 0 0 1px #c9a227;
+  }
+  [contenteditable="true"]:empty::before {
+    content: attr(data-placeholder);
+    color: #ccc;
+    font-style: italic;
+    pointer-events: none;
+  }
+  .td-nb [contenteditable],
+  .td-moy [contenteditable] {
+    display: block;
+    text-align: center;
+    font-size: 0.61rem;
+    padding: 1px;
+  }
+  .td-appr [contenteditable] {
+    display: block;
+    font-size: 0.57rem;
+    line-height: 1.55;
+    padding: 1px 2px;
+    min-height: 24px;
+  }
+  .coef-zero { color: #bbb; font-style: italic; }
+
+  /* PIED */
+  .footer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 5px;
+  }
+  .appr-globale {
+    border: 1px solid #bbb;
+    padding: 4px 7px;
+    font-size: 0.59rem;
+    background: #f5f0e8;
+    line-height: 1.6;
+  }
+  .appr-globale strong {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.62rem;
+    display: block;
+    margin-bottom: 2px;
+    color: #1a1208;
+  }
+  .mention-block {
+    border: 1.5px solid #9c3b1a;
+    padding: 4px 7px;
+    font-size: 0.59rem;
+    background: #fff5f0;
+  }
+  .mention-block strong {
+    font-family: 'Special Elite', monospace;
+    color: #9c3b1a;
+  }
+  .signature-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-size: 0.59rem;
+    font-style: italic;
+    color: #555;
+    margin-top: 6px;
+  }
+  .sig-line {
+    display: inline-block;
+    width: 90px;
+    border-bottom: 1px solid #333;
+    margin-left: 6px;
+    margin-top: 22px;
+  }
+
+  /* TOOLBAR */
+  .toolbar {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    z-index: 100;
+  }
+  .toolbar button {
+    background: #2a1f0e;
+    color: #f5efe2;
+    border: 1.5px solid #c9a227;
+    padding: 7px 13px;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toolbar button:hover { background: #9c3b1a; }
+
+  /* BOUTON PDF */
+  .pdf-btn-row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .btn-pdf {
+    background: #9c3b1a;
+    color: #f5efe2;
+    border: 1.5px solid #7a2c11;
+    padding: 8px 20px;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-pdf:hover { background: #7a2c11; }
+  .btn-refresh {
+    background: #2a1f0e;
+    color: #f5efe2;
+    border: 1.5px solid #c9a227;
+    padding: 8px 20px;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-refresh:hover { background: #9c3b1a; }
+
+  /* BANDEAU DE STATUT import */
+  .import-status-bar {
+    text-align: center;
+    font-size: 0.6rem;
+    font-style: italic;
+    color: #4a7c59;
+    padding: 3px 0;
+    min-height: 14px;
+    margin-bottom: 3px;
+  }
+  .import-status-bar.erreur { color: #9c2b2b; }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; border: none; width: 100%; }
+    .toolbar { display: none; }
+    .pdf-btn-row { display: none; }
+    .import-status-bar { display: none; }
+    [contenteditable]:focus { background: transparent !important; box-shadow: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="window.print()">🖨 Imprimer</button>
+  <button onclick="resetAll()">↺ Réinitialiser</button>
+</div>
+
+<div class="page">
+
+  <!-- EN-TÊTE -->
+  <div class="header">
+    <div class="school-block">
+      <strong>LYCÉE GÉNÉRAL ET TECHNOLOGIQUE<br>GÉRARD DE NERVAL</strong>
+      14 Rue Paul Deviolaine — 02209 Soissons Cedex
+      <div class="tel">Tél. : 03 23 53 00 27</div>
+    </div>
+    <div class="title-block">
+      <h1>Bulletin du Rallye Lillois</h1>
+      <span contenteditable="true" class="editable-name" data-placeholder="PRÉNOM NOM du participant"></span>
+      <span class="annee">Année scolaire : <strong>2025/2026</strong></span>
+    </div>
+  </div>
+
+  <!-- BARRE CLASSE -->
+  <div class="class-bar">
+    <span><strong style="font-family:'Special Elite',monospace;font-size:0.68rem;">RALLYE HIST. LILLOIS</strong> (24 participants)</span>
+    <span>Animateur principal : <strong>P. HUMETZ</strong></span>
+    <span>Animateur adjoint : <strong>J.-F. VANHOVE</strong></span>
+  </div>
+
+  <div class="no-duplicata">Aucun duplicata ne sera délivré — Ce bulletin est un document officieux à conserver précieusement</div>
+  <div class="import-status-bar" id="import-status"></div>
+
+  <!-- TABLEAU -->
+  <table class="bulletin-table">
+    <thead>
+      <tr>
+        <th class="th-left">Matières &amp; Responsable d'épreuve</th>
+        <th>Coef.</th>
+        <th>Mauvaises rép.</th>
+        <th>Note /20</th>
+        <th>Appréciations</th>
+      </tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+  </table>
+
+  <!-- PIED -->
+  <div class="footer-section">
+    <div class="appr-globale">
+      <strong>Appréciation globale :</strong>
+      <div contenteditable="true" data-placeholder="Saisir ici l'appréciation générale du jury sur la participation au Rallye Historique Lillois…"></div>
+    </div>
+    <div class="mention-block">
+      <strong>MENTION : </strong>
+      <span contenteditable="true" data-placeholder="Ex. : Félicitations du jury — Tableau d'honneur de la Braderie — Avertissement pour excès de Merveilleux consommés…"></span>
+    </div>
+  </div>
+
+  <div class="signature-row">
+    Le Proviseur du Rallye,<span class="sig-line"></span>
+  </div>
+
+  <!-- BOUTON PDF -->
+  <div class="pdf-btn-row">
+    <button class="btn-pdf" onclick="window.print()">🖨 Générer le PDF / Imprimer</button>
+    <button class="btn-refresh" onclick="rechargerScores()">↺ Mettre à jour depuis la Checklist</button>
+  </div>
+
+</div>
+
+<script>
+const MATIERES = [
+  { nom: "Histoire",                        resp: "Mme VAN DE JADIS",       coef: "1,00" }, // Van de jadis (le passé)
+  { nom: "Géographie",                      resp: "Mme VAN DE JADIS",       coef: "1,00" },
+  { nom: "Arts Plastiques",                 resp: "Mme DE GOUACHE-ECKE",    coef: "1,00" }, // Gouache + terminaison en "ecke"
+  { nom: "Histoire des Arts",               resp: "Mme DE L\'AQUARELLE",    coef: "1,00" }, // Échappement l\'
+  { nom: "EMC",                             resp: "Mme DE LA MORALE",       coef: "1,00" },
+  { nom: "Philosophie",                     resp: "Mme DE LA MORALE",       coef: "1,00" },
+  { nom: "Langues Vivantes",                resp: "Mme DE L\'ACCENT",       coef: "1,00" }, // Échappement l\'
+  { nom: "SVT",                             resp: "Mme DE LA CHLOROPHYLLE", coef: "1,00" },
+  { nom: "Mathématiques",                   resp: "Mme DE L\'ALGORITHME",   coef: "1,00" }, // Échappement l\'
+  { nom: "Physique-Chimie",                resp: "Mme VAN DE MOLECULE",     coef: "1,00" },
+  { nom: "Mercatique",                      resp: "Mme VAN DE BRADERIE",    coef: "1,00" }, // Très local !
+  { nom: "SES",                             resp: "Mme DE L\'INFLATION",    coef: "1,00" }, // Échappement l\'
+  { nom: "Français",                        resp: "Mme DE LA SYNTAXE",      coef: "1,00" },
+  { nom: "Droit",                           resp: "Mme VAN DE LITIGE",      coef: "1,00" },
+  { nom: "Cinéma / Culture Audiovisuelle",  resp: "Mme DE LA PELLICULE",    coef: "1,00" },
+  { nom: "EPS",                             resp: "M. DE LA SUEUR",         coef: "1,00" },
+  { nom: "Comptabilité",                    resp: "M. DE LA CALCULATRICE",  coef: "1,00" },
+  { nom: "Fiscalité",                       resp: "Mme VAN DE REDRESSEMENT", coef: "1,00" }, // Clin d'oeil au fisc
+  { nom: "Musique",                         resp: "Mme DE LA PARTITION",    coef: "1,00" },
+  { nom: "Sc. & Investigation Policière",   resp: "Mme DE L\'ADN",          coef: "1,00" }, // Échappement l\'
+  { nom: "SIG",                             resp: "M. DE L\'OCTET",         coef: "0,00" }, // Échappement l\'
+  { nom: "RH",                              resp: "Mme DE L\'ENTRETIEN",    coef: "1,00" }, // Échappement l\'
+  { nom: "Économie",                        resp: "Mme VAN DE LITIGE",      coef: "1,00" },
+  { nom: "HGGSP",                           resp: "Mme VAN DE FRONTIÈRE",   coef: "1,00" },
+  { nom: "HLP",                             resp: "Mme DE LA MORALE",       coef: "1,00" },
+  { nom: "CDI",                             resp: "Mme DE L\'ALPHABET",     coef: "1,00" }, // Échappement l\'
+];
+
+// ============================================================
+// APPRÉCIATIONS PAR MATIÈRE ET PAR NIVEAU D'ERREURS
+// Niv 1 = 0 erreur (parfait), Niv 2 = 1-2 erreurs, Niv 3 = 3-5,
+// Niv 4 = 6-9, Niv 5 = 10+ erreurs (catastrophe)
+// ============================================================
+const APPRECIATIONS = {
+  "Histoire": [
+    "Réincarnation de Charles de Gaulle. Connaît chaque brique de la Vieille Bourse par son prénom et sa date de pose.",
+    "Analyse fine des traités de Vauban. Pourrait expliquer l\'histoire des remparts de Lille en mangeant une gaufre de chez Meert.",
+    "Sait dater l\'invention du Merveilleux à 10 ans près. Capable de citer trois ducs de Bourgogne sans bégayer.",
+    "Pense que Jean Bart est un DJ résident du Vieux-Lille. Situe la prise de la Bastille à l\'arrêt de métro République.",
+    "Confond la Révolution Française avec l\'ouverture du premier Decathlon Campus. Pense que Napoléon est une marque de chocolat belge."
+  ],
+  "Géographie": [
+    "GPS humain. Capable de guider un touriste jusqu\'au sommet du Beffroi par les conduits d\'aération les yeux bandés.",
+    "Expert en topographie des pavés glissants. Calcule l\'inclinaison des monts des Flandres à l\'œil nu.",
+    "Maîtrise le plan du Vieux-Lille, même un jour de Braderie. Sait placer Roubaix et Tourcoing sans les inverser.",
+    "Situe la Deûle quelque part entre le Nil et l\'Amazonie. Pense que les terrils sont des volcans endormis.",
+    "S\'est perdu entre la Grand\'Place et la Fnac. Persuadé que le Nord est en bas parce que dans le métro il a entendu \"c\'est là qu\'on descend\"."
+  ],
+  "Arts Plastiques": [
+    "Futur lauréat du Palais des Beaux-Arts. Manie le pinceau comme un dieu, même avec des moufles en hiver.",
+    "Sa sculpture en mie de pain est une œuvre d\'avant-garde. Maîtrise la perspective de la rue de Béthune.",
+    "Bel usage des nuances de brique rouge. Capable de dessiner un pigeon de profil sans qu\'il ressemble à un poulet.",
+    "Dessine des frites qui ressemblent à des poutres de chantier. Confond le pinceau avec une brosse à dents.",
+    "Sa peinture « Ciel de Lille » n\'est qu\'un rectangle gris uni. Prétend que c\'est du minimalisme conceptuel."
+  ],
+  "Histoire des Arts": [
+    "Critique d\'art redoutable. Pourrait vendre un pavé du Vieux-Lille comme une œuvre de Marcel Duchamp à un prix d\'or.",
+    "Passionné par l\'art de la dentelle. Peut dater une église rien qu\'en regardant la forme des ogives.",
+    "Analyse correcte de l\'architecture flamande. Sait distinguer un beffroi d\'un château d\'eau.",
+    "Confond le style Gothique avec une boutique de vêtements sombres. Pense que la Joconde sourit parce qu\'elle a mangé un Merveilleux.",
+    "Pense que la Piscine de Roubaix est un club de vacances avec toboggans. Confond Rodin avec un fromage de la Cote d\'Opale."
+  ],
+  "EMC": [
+    "Futur médiateur de la République. A réussi l\'exploit de faire signer un traité de paix entre supporters Lillois et supporters Lensois.",
+    "Sens aigu de la citoyenneté. A rédigé une charte sur le savoir-vivre dans le métro aux heures de pointe.",
+    "Très investi dans le débat sur le droit moral de mettre du vinaigre blanc sur les frites d\'autrui.",
+    "Confond le Code Civil avec la carte des menus de La Chicorée. Pense que la Marianne porte un bonnet de nuit.",
+    "Pense que le civisme consiste uniquement à ne pas doubler dans la file de la friterie Sensas."
+  ],
+  "Philosophie": [
+    "A atteint l\'éveil spirituel en contemplant le Beffroi. Socrate du Nord, capable de prouver que l\'existence précède la frite.",
+    "Analyse brillante du concept de « Ch\'ti » selon la phénoménologie de Heidegger. Manie le syllogisme avec audace.",
+    "Propose une thèse intéressante sur le néant de l\'assiette après le repas. Maîtrise le concept d\'angoisse devant un Welsh froid.",
+    "Confond Socrate avec un ancien défenseur central du LOSC. Pense que le \"Moi\" est une application de selfie.",
+    "Sa seule question existentielle : « Pourquoi la fricadelle ? ». Répond « Ben parcequ\'est comme ça » à chaque dissertation."
+  ],
+  "Langues Vivantes": [
+    "Éloquence surnaturelle. A réussi à traduire l\'intégrale de \"Bienvenue chez les Ch\'tis\" en mandarin médiéval sans perdre une seule subtilité de l\'accent de Bergues.",
+    "Parle le Rouchi couramment et maîtrise l\'accent de Cambridge. Un bilinguisme impressionnant et très distingué pour un picard.",
+    "Capable de commander une bière dans quatre langues différentes, dont le langage des signes lillois.",
+    "Traduit « Wassingue » par « Holy Water » en cours d\'anglais. Pense que le \"Spanish Flu\" est une danse de salon.",
+    "Pense que « What is it? » se traduit par « Qu\'est-ce qu\'est-ce ? ». Son accent ressemble à une mouette enrhumée au Touquet."
+  ],
+  "SVT": [
+    "Futur Darwin. A prouvé par A+B que l\'homme descend de la frite et que le sang du Nord est composé à 4% de gras de boeuf.",
+    "Botaniste hors pair, surtout pour identifier le houblon à 500 mètres par vent de face.",
+    "Étudie avec sérieux l\'évolution génétique des pigeons de la Grand\'Place. Maîtrise le cycle de reproduction de la moule de la Cote d\'Opale.",
+    "Confond la photosynthèse avec un filtre Instagram. Pense que les bébés naissent dans les chicons.",
+    "Pense que le Maroilles est une roche sédimentaire du Crétacé. Confond une cellule avec une boîte de conserve."
+  ],
+  "Mathématiques": [
+    "Capacité d\'abstraction phénoménale. A réussi à calculer mentalement le nombre exact de moules consommées à Lille en 48h, en tenant compte du coefficient de dilatation des estomacs après trois bières de garde.",
+    "Géométrie parfaite des trajectoires pour éviter les flaques sur les pavés. Jongle avec les vecteurs et les intégrales comme Eden Hazard à sa grande époque lilloise.",
+    "Maîtrise la règle de trois pour multiplier les rations de sauce. Calcule la surface d\'un cornet de frites sans erreur.",
+    "Pense que les nombres premiers sont une invention du gouvernement pour compliquer le calcul des pourboires. Confond la suite des nombres premiers avec la liste des départements des Hauts-de-France.",
+    "A tenté d\'invoquer l\'esprit d\'Euclide pour savoir si 1 était un nombre premier. Devant le silence de la salle, a conclu que les mathématiques étaient une religion polythéiste dont il ne possédait pas la foi."
+  ],
+  "Physique-Chimie": [
+    "Prix Nobel en puissance. Capable de transformer le plomb en bière de garde par simple électrolyse mentale.",
+    "Maîtrise la thermodynamique du Welsh bouillant. Capable de calculer la résistance d\'une brique rouge à l\'humidité.",
+    "Étudie la vitesse de chute d\'un cornet de frites dans le vide (et dans son estomac). Résultats constants.",
+    "Pense que la gravité est une maladie qui empêche de se lever le lundi matin. Confond Newton avec une marque de biscuits.",
+    "Persuadé que l\'on peut transmuter les pavés du Vieux-Lille en lingots d\'or par simple macération dans du jus de cornichon. Le jury note une persévérance inquiétante."
+  ],
+  "Mercatique": [
+    "Futur magnat de la distribution. A élaboré un plan marketing pour vendre des moules-frites surgelées à des Belges en prétendant qu\'elles viennent du Groenland sous baniere américaine.",
+    "Stratège redoutable. A réussi à convaincre la mairie de Lille de remplacer les pavés du Vieux-Lille par des éponges pour \"absorber la tristesse des jours de pluie\".",
+    "Bon sens commercial. A lancé une étude de marché sur la rentabilité d\'une friterie drive-in accessible uniquement en pédalo sur la Deûle.",
+    "Confond le \"Street Marketing\" avec l\'art de demander une pièce à la sortie du métro Rihour. Pense qu\'un segment de marché est une marque de saucisson.",
+    "A tenté de lancer une ligne de maillots de bain en laine de mouton pour les plages du Nord. S\'étonne que le carnet de commandes soit aussi vide que la Grand\'Place à 4h du matin."
+  ],
+  "SES": [
+    "Futur ministre de l\'Économie. A stabilisé le cours du Maroilles et prévoit une croissance à deux chiffres pour la région.",
+    "Très bon esprit critique sur les dérives du capitalisme mondial face au prix croissant du paquet de gaufres.",
+    "Analyse correcte de l\'économie de la frite. Comprend les mécanismes de l\'offre et de la demande de sauce samouraï.",
+    "Pense que le PIB est une nouvelle marque de chips. Croit que le chômage est une option facultative au bac.",
+    "Confond l\'inflation avec le fait de gonfler ses muscles à la salle de sport. Pense que la Bourse est un sac à main."
+  ],
+  "Français": [
+    "Grand Prix de l\'Académie Française. Sa plume est si légère qu\'on dirait de la dentelle de Calais sur du papier.",
+    "Éloquence digne de Victor Hugo après trois cafés noirs. Ses métaphores sur la brique et le gris sont poignantes.",
+    "Manie l\'imparfait du subjonctif aussi bien que la fourchette à moules. Bonne maîtrise des figures de style.",
+    "Confond Baudelaire avec un joueur de foot du Racing Club de Lens. Pense que les \"Fleurs du Mal\" sont des orties.",
+    "Analyse littéraire si concise qu\'elle tient sur un ticket de parking du Nouveau Siècle. Pense que la syntaxe est une amende forfaitaire qu\'il refuse de payer."
+  ],
+  "Droit": [
+    "Futur ténor du barreau. Pourrait faire innocenter un pigeon de la Grand\'Place accusé de recel de frites avec une éloquence terrifiante.",
+    "Plaide avec ferveur pour l\'inscription du Welsh au patrimoine mondial de l\'UNESCO. Son argumentation juridique est aussi solide qu\'un pavé de Roubaix.",
+    "Bonne maîtrise du droit de propriété des fournitures scolaires. A rédigé un contrat de bail emphytéotique pour l\'occupation de son casier par un camarade.",
+    "Pense que le Conseil d\'État est un bar à cocktails et que la garde à vue est une option de babysitting. Confond le \"Code Civil\" avec une application de rencontre.",
+    "A tenté d\'attaquer le lycée devant la Cour Européenne des Droits de l\'Homme pour \"torture par chaleur excessive\" depuis la fin des travaux. Invoque la légitime défense pour justifier le port du short et des tongs en plein conseil de classe."
+  ],
+  "Cinéma / Culture Audiovisuelle": [
+    "Futur Apichatpong Weerasethakul de la Deûle. Son court-métrage sur la solitude d\'une moule orpheline a fait pleurer tout le jury tellement c\'etait long.",
+    "Réalise des travellings complexes avec un caddie de supermarché. Inventivité technique hors du commun.",
+    "Maître de la mise en scène tactique. Tente d'encercler le jury par le flanc gauche avec la célèbre manœuvre de la tenaille."
+    "Ses cadres sont aussi droits que le Beffroi un soir de tempête. Oublie d\'enlever le cache de l\'objectif 1 fois sur 2.",
+    "Pense que le montage est une épreuve d\'alpinisme. Persuadé que \"Bienvenue chez les Ch\'tis\" est une tragédie grecque du Moyen-Age racontant l'invasion anglaise de Calais."
+  ],
+  "EPS": [
+    "Véritable machine de guerre. Capable de soulever un fût de bière vide d\'une main tout en récitant la composition du LOSC de 2011. Une force de la nature.",
+    "Expert en esquive urbaine. Slalome entre les gouttes de pluie et les touristes de la Grand\'Place avec une fluidité presque surnaturelle. Un futur champion de parkour.",
+    "Endurance remarquable pour la survie en milieu hostile (la file d\'attente du Meert). Cardio suffisant pour tenir un siège de 4h en terrasse face à N.D. de la Treille sans broncher.",
+    "Performance athlétique comparable à celle d\'une brique de parement. A tenté de demander l\'assistance vidéo (VAR) pour contester un départ de 100 mètres.",
+    "S\'est luxé le pouce en swipant trop vite sur son téléphone. Considère que marcher jusqu\'au distributeur de boissons constitue un entraînement intensif pour les JO."
+  ],
+  "Comptabilité": [
+    "Un génie des chiffres. Capable de calculer la TVA à 5,5 % de tête sur un panier de 154 articles en 3 secondes.",
+    "Rapprochement bancaire impeccable. Capable de retrouver un centime manquant dans une piscine de pièces de 1 euro.",
+    "Maîtrise l\'art de cacher ses dépenses de goûter en « frais de représentation diplomatique ».",
+    "Confond les joueurs du LOSC et du RC Lens. Pense que le grand livre est un roman de Tolkien.",
+    "Ses bilans sont aussi équilibrés qu\'une personne après une soirée trop arrosée. pense que l\'euro n\'est pas franc du collier."
+  ],
+  "Fiscalité": [
+    "Futur conseiller à Bercy. A trouvé le moyen légal de taxer le vent du Nord pour financer les vacances scolaires.",
+    "Optimisation fiscale brillante. A réussi à ne payer ses frites qu\'avec des réductions cumulées.",
+    "Comprend les bases de la niche fiscale lilloise : le troc de chocolat contre des bons points.",
+    "Tente de déduire ses gaufres de ses impôts comme « frais de carburant humain ». Confond foyer fiscal et cheminée.",
+    "Pense que la TVA est une maladie. Croit que les impôts sont une option facultative basée sur le volontariat."
+  ],
+  "Musique": [
+    "Virtuose. Capable de jouer du piano avec les pieds et de la flûte de pan avec des pailles de soda recyclées.",
+    "Compositeur talentueux. A réarrangé Bach en version accordéon-techno pour la fête de la musique de 2020.",
+    "Bel organe vocal, surtout pour commander \"un américain-merguez\" à 50 mètres de distance.",
+    "Pense que « Le P\'tit Quinquin » est un morceau de Hard Rock. Confond une clé de sol avec un hameçon.",
+    "Joue du pipeau avec la même conviction qu\'il invente ses excuses de retard. Chante comme une casserole percée."
+  ],
+  "Sc. & Investigation Policière": [
+    "Expert légiste ultime. A résolu le mystère de la disparition des cuillères à moules de 1998.",
+    "Sherlock local. Sait identifier une bière à son simple pétillement et un suspect à sa façon de dire \"Biloute\".",
+    "Capable de remonter la piste d\'une gaufre au sucre à 2 km de distance rien qu\'à l\'odorat.",
+    "Confond les empreintes digitales avec des taches de gras de fricadelle. Utilise une loupe pour lire son propre nom.",
+    "N\'a pas trouvé le coupable alors qu\'il avait laissé son écharpe du Stade de Reims sur la scène du crime."
+  ],
+  "SIG": [
+    "Hacker de génie. A réussi à infiltrer le serveur de la NASA pour y poster une recette de carbonade flamande aux harengs.",
+    "Capable de réparer le Wi-Fi du lycée avec un trombone bleu. Code en Python pendant son sommeil à l\'insu de son plein gré.",
+    "Maîtrise le Ctrl+C / Ctrl+V mieux que son propre nom. Sait redémarrer une box internet seulement lorsqu\'elle est éteinte.",
+    "A essayé d\'installer une application en tapant sur l\'écran avec un marteau. Confond RAM et rame de métro.",
+    "Pense qu\'un système d\'information est un pigeon voyageur. A une peur panique incontrôlée de la souris de l\'ordinateur."
+  ],
+  "RH": [
+    "Leader né. Pourrait motiver une armée d\'élèves à courir un marathon sous la pluie avec le sourire.",
+    "Expert en bien-être. A instauré la sieste obligatoire et un bar à bières dans la salle des professeurs.",
+    "Bonne gestion des conflits, surtout pour décider qui va chercher les cafés. Comprend l\'importance de la pause.",
+    "Son management se résume à crier « Allez, on y va ! » sans bouger de sa chaise. Ignore ce qu\'est un CV meme si il vient au lycée en 2CV Citroën.",
+    "Pense que le recrutement consiste à choisir ses amis pour les vacances. Confond entretien et Sonnerie de classe."
+  ],
+  "Économie": [
+    "Futur prix Nobel. A prouvé mathématiquement que le bonheur est directement proportionnel au nombre de frites mangées.",
+    "Très bonne compréhension du circuit économique du Potjevleesch et de son impact sur le PIB régional.",
+    "Analyse pertinente de la corrélation entre la pluie et la vente de bière. Comprend le circuit de la consommation.",
+    "Confond Adam Smith avec un coiffeur pour hommes. Pense que la déflation, c\'est quand on dégonfle un pneu.",
+    "Pense que la main invisible du marché sert à piquer des frites dans l\'assiette du voisin."
+  ],
+  "HGGSP": [
+    "Grand stratège mondial. Pourrait négocier un traité de paix universel autour d\'un plat de waterzoï.",
+    "Expert en relations internationales. Capable d\'expliquer le conflit au Proche-Orient avec des morceaux de sucre.",
+    "Analyse correcte des enjeux du gaz et du pétrole. Comprend les tensions diplomatiques entre Lille et Lens.",
+    "Confond les frontières de l\'Europe avec les limites de la zone de livraison de pizzas durant le futur Mondial. Ne sait pas situer Arras.",
+    "Pense que la géopolitique est un jeu de société de type Risk. Confond l\'ONU avec un club de bridge."
+  ],
+  "HLP": [
+    "Génie de la rhétorique. Pourrait convaincre un chat de devenir végétalien ou un stéphanois d\'aimer l\'OL.",
+    "Éloquence littéraire remarquable. Capable de disserter sur le \"Dasein\" tout en montant les marches du lycée.",
+    "Réflexion profonde sur la condition humaine face à une vitrine de pâtisseries fermée. Argumentation solide.",
+    "Pense que l\'humanisme consiste à ne pas manger ses semblables le dimanche. Syntaxe en roue libre.",
+    "Confond la métaphysique avec une marque de chaussures de sport. Pense que Platon est un adjectif pour une télé."
+  ],
+  "CDI": [
+    "Véritable archiviste du Nord. Connaît l\'emplacement de chaque livre mieux que celui des friteries de la ville. Un gardien du savoir hors pair.",
+    "Expert en silence. Capable de repérer un chuchotement suspect derrière une étagère de BD à 50 mètres, même avec le vent qui siffle dans les vieux vitraux.",
+    "A lu l\'intégralité de \"La Voix du Nord\" depuis l\'invention de l\'imprimerie (1944). Sa culture BD (ducasse et géants compris) est plus solide qu\'un beffroi.",
+    "Pense que le dictionnaire est un recueil de blagues d\'outre-Quiévrain. Confond l\'index alphabétique avec son doigt pour tester la température de son café.",
+    "Considère le CDI comme une annexe de la Braderie de Lille : tout doit disparaître (surtout le travail). Range les livres par couleur pour que ça fasse \"plus joli dans l\'décor\"."
+  ]
+};
+
+// Correspondance des noms entre checklist et bulletin
+const NORMALISATION = {
+  "Histoire": "Histoire",
+  "Géographie": "Géographie",
+  "Arts plastiques": "Arts Plastiques",
+  "Histoire des arts": "Histoire des Arts",
+  "EMC": "EMC",
+  "Philosophie": "Philosophie",
+  "Langues vivantes": "Langues Vivantes",
+  "SVT": "SVT",
+  "Mathématiques": "Mathématiques",
+  "Physique-Chimie": "Physique-Chimie",
+  "Mercatique": "Mercatique",
+  "SES": "SES",
+  "Français": "Français",
+  "Droit": "Droit",
+  "Cinéma / Culture audiovisuelle": "Cinéma / Culture Audiovisuelle",
+  "EPS": "EPS",
+  "Comptabilité": "Comptabilité",
+  "Fiscalité": "Fiscalité",
+  "Musique": "Musique",
+  "Sciences et investigation policière": "Sc. & Investigation Policière",
+  "SIG": "SIG",
+  "RH": "RH",
+  "Économie": "Économie",
+  "HGGSP": "HGGSP",
+  "HLP": "HLP",
+  "CDI": "CDI"
+};
+
+// Seuils d'erreurs → niveau d'appréciation (index 0 = excellent, 4 = catastrophe)
+function niveauDepuisErreurs(nb) {
+  if (nb === 0) return 0;
+  if (nb <= 2) return 1;
+  if (nb <= 5) return 2;
+  if (nb <= 9) return 3;
+  return 4;
+}
+
+function getAppréciation(nomBulletin, nbErreurs) {
+  const apprs = APPRECIATIONS[nomBulletin];
+  if (!apprs) return "";
+  const idx = niveauDepuisErreurs(nbErreurs);
+  return apprs[idx] || apprs[0];
+}
+
+// Scores importés
+let scoresImportes = null;
+
+function buildTable() {
+  const tbody = document.getElementById('table-body');
+  MATIERES.forEach(mat => {
+    const tr = document.createElement('tr');
+    tr.className = 'mat-row';
+    const isZero = mat.coef === "0,00";
+    // SIG (coef 0,00) : rouge gras
+    const coefClass = isZero ? 'td-coef coef-zero coef-rouge' : 'td-coef';
+    tr.innerHTML = `
+      <td class="td-matiere">
+        ${mat.nom}
+        <span class="prof" contenteditable="true" data-placeholder="Responsable">${mat.resp}</span>
+      </td>
+      <td class="${coefClass}">${mat.coef}</td>
+      <td class="td-nb"><div contenteditable="true" data-placeholder="" id="nb-${mat.nom}"></div></td>
+      <td class="td-moy"><div contenteditable="true" data-placeholder="" id="moy-${mat.nom}"></div></td>
+      <td class="td-appr"><div contenteditable="true" data-placeholder="" id="appr-${mat.nom}"></div></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function importerScores() {
+  const statusEl = document.getElementById('import-status');
+
+  // ── 1. Essai depuis le hash URL (prioritaire, fonctionne en file://)
+  let data = null;
+  try {
+    const hash = window.location.hash; // "#data=..."
+    if (hash.startsWith('#data=')) {
+      const encoded = hash.slice(6);
+      const json = decodeURIComponent(escape(atob(encoded)));
+      data = JSON.parse(json);
+    }
+  } catch(e) { data = null; }
+
+  // ── 2. Fallback : localStorage
+  if (!data) {
+    try {
+      const raw = localStorage.getItem('rallye_bulletin_scores');
+      if (raw) data = JSON.parse(raw);
+    } catch(e) {}
+  }
+
+  if (!data) {
+    if (statusEl) {
+      statusEl.className = 'import-status-bar erreur';
+      statusEl.textContent = '⚠ Aucun score reçu — ouvrez ce bulletin depuis le bouton de la Checklist du Retour.';
+    }
+    return;
+  }
+
+  scoresImportes = data.erreursParMatiere || {};
+  let nbRemplis = 0;
+
+  MATIERES.forEach(mat => {
+    // Cherche les erreurs pour cette matière
+    let nbErreurs = null; // null = non évaluée
+    if (scoresImportes[mat.nom] !== undefined) {
+      nbErreurs = scoresImportes[mat.nom];
+    } else {
+      for (const [nomChecklist, nomBulletin] of Object.entries(NORMALISATION)) {
+        if (nomBulletin === mat.nom && scoresImportes[nomChecklist] !== undefined) {
+          nbErreurs = scoresImportes[nomChecklist];
+          break;
+        }
+      }
+    }
+
+    const apprEl = document.getElementById(`appr-${mat.nom}`);
+    const nbEl   = document.getElementById(`nb-${mat.nom}`);
+    const moyEl  = document.getElementById(`moy-${mat.nom}`);
+
+    // Matière non évaluée → tout reste vide
+    if (nbErreurs === null) return;
+
+    // Colonne "Mauvaises rép."
+    if (nbEl) {
+      nbEl.textContent = nbErreurs === 0 ? 'Aucune ✓' : `${nbErreurs}`;
+    }
+
+    // Colonne "Note /20" : 1/(nbErreurs+1) × 20, arrondi à 1 décimale
+    if (moyEl) {
+      if (nbErreurs === 0) {
+        moyEl.textContent = '20,0 — Parfait !';
+        moyEl.style.color = '#4a7c59';
+        moyEl.style.fontWeight = 'bold';
+      } else {
+        const note = (1 / (nbErreurs + 1)) * 20;
+        moyEl.textContent = note.toFixed(1).replace('.', ',');
+        moyEl.style.color = '';
+        moyEl.style.fontWeight = '';
+      }
+    }
+
+    // Appréciation
+    if (apprEl) {
+      const texte = getAppréciation(mat.nom, nbErreurs);
+      if (texte) { apprEl.textContent = texte; nbRemplis++; }
+    }
+  });
+
+  // Appréciation globale
+  const totalErreurs = Object.values(scoresImportes).reduce((a, b) => a + b, 0);
+  const apprGlobale  = document.querySelector('.appr-globale div[contenteditable]');
+  if (apprGlobale) {
+    const moy = totalErreurs / Math.max(Object.keys(scoresImportes).length, 1);
+    let global;
+    if      (moy === 0) global = "Résultat exceptionnel ! Le jury du Rallye Historique Lillois, réuni en séance extraordinaire, proclame l'excellence absolue de ce parcours. La Vieille Bourse est en deuil : elle n'a plus rien à apprendre à ce participant.";
+    else if (moy <= 2)  global = "Très belle participation au Rallye Historique Lillois. Les énigmes ont été déjouées avec brio et la ville de Lille n'a presque plus de secrets. Félicitations chaleureuses du jury réuni en grande tenue autour d'un Welsh.";
+    else if (moy <= 5)  global = "Participation honorable au Rallye Historique Lillois. Quelques tâtonnements dignes d'un touriste en pleine Braderie, mais la ténacité et la curiosité ont fini par triompher. Le jury apprécie l'effort.";
+    else if (moy <= 9)  global = "Participation courageuse, mais les rues du Vieux-Lille ont gardé quelques secrets. Le jury, indulgent après plusieurs verres de genièvre, salue la persévérance malgré des erreurs d'orientation notables.";
+    else                global = "Le jury, stupéfait, note que Lille a visiblement résisté à toute tentative de compréhension. Il est formellement conseillé de refaire le Rallye, idéalement en commençant par apprendre le nom du beffroi.";
+    apprGlobale.textContent = global;
+  }
+
+  // Mention
+  const mentionEl = document.querySelector('.mention-block span[contenteditable]');
+  if (mentionEl) {
+    const moy = totalErreurs / Math.max(Object.keys(scoresImportes).length, 1);
+    let mention;
+    if      (moy === 0) mention = "Félicitations du jury à l'unanimité — Tableau d'Honneur de la Braderie";
+    else if (moy <= 2)  mention = "Tableau d'Honneur de la Vieille Bourse — Encouragements du jury";
+    else if (moy <= 5)  mention = "Bien — Peut mieux faire en matière de fricadelles";
+    else if (moy <= 9)  mention = "Passable — Avertissement pour excès de mauvaises réponses";
+    else                mention = "Avertissement solennel — Pigeon de la Grand'Place décerné";
+    mentionEl.textContent = mention;
+  }
+
+  const ts = data.timestamp
+    ? new Date(data.timestamp).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+    : '';
+  if (statusEl) {
+    statusEl.className = 'import-status-bar';
+    statusEl.textContent = `✦ Bulletin généré${ts ? ' à ' + ts : ''} — ${nbRemplis} appréciations remplies — Total essais erronés : ${totalErreurs}`;
+  }
+}
+
+function rechargerScores() {
+  MATIERES.forEach(mat => {
+    const a = document.getElementById(`appr-${mat.nom}`);
+    const n = document.getElementById(`nb-${mat.nom}`);
+    const m = document.getElementById(`moy-${mat.nom}`);
+    if (a) a.textContent = '';
+    if (n) n.textContent = '';
+    if (m) { m.textContent = ''; m.style.color = ''; m.style.fontWeight = ''; }
+  });
+  const ag = document.querySelector('.appr-globale div[contenteditable]');
+  if (ag) ag.textContent = '';
+  const me = document.querySelector('.mention-block span[contenteditable]');
+  if (me) me.textContent = '';
+  importerScores();
+}
+
+function resetAll() {
+  if (!confirm('Réinitialiser toutes les saisies ?')) return;
+  document.querySelectorAll('[contenteditable]').forEach(el => {
+    if (!el.classList.contains('prof')) el.textContent = '';
+  });
+}
+
+// ── INIT : buildTable d'abord, puis import immédiatement après
+buildTable();
+importerScores();
+</script>
+</body>
+</html>

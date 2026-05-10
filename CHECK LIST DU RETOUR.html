@@ -335,6 +335,51 @@
     font-weight: 600;
   }
 
+  /* === BOUTON EXPORT BULLETIN === */
+  .export-section {
+    background: var(--cream);
+    border: 3px solid var(--rust);
+    padding: 2.5rem 3.5rem;
+    text-align: center;
+    animation: fadeUp 1s ease both 0.4s;
+  }
+  .export-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+  .export-section p {
+    font-style: italic;
+    color: var(--sepia);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .btn-bulletin {
+    display: inline-block;
+    background: var(--rust);
+    color: var(--cream);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.9em 2.4em;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    text-transform: uppercase;
+  }
+  .btn-bulletin:hover { background: #7a2c11; transform: translateY(-2px); }
+  .btn-bulletin:active { transform: translateY(0); }
+  .export-status {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: var(--green-border);
+    font-weight: 600;
+    min-height: 1.5rem;
+  }
+
   @keyframes fadeDown {
     from { opacity: 0; transform: translateY(-18px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -382,8 +427,8 @@
     </div>
 
     <div class="enigme-intro">
-      Dans cette énigme, nous avons abordé <strong>4 enseignements</strong> dispensés au lycée.
-      Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>4 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
 
     <div class="enseignements-title">Les 4 enseignements</div>
@@ -407,8 +452,8 @@
     </div>
 
     <div class="enigme-intro">
-      Devant le <strong>Soleil d'Agadir</strong>, rue Princesse, nous avons croisé <strong>2 enseignements</strong> dispensés au lycée.
-      Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
 
     <div class="enseignements-title">Les 2 enseignements</div>
@@ -431,8 +476,8 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Devant la statue de <strong>Jeanne Maillotte</strong>, avenue du Peuple Belge, nous avons croisé <strong>3 enseignements</strong> dispensés au lycée.
-      Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 3 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-3"></div>
@@ -452,13 +497,14 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Pour déchiffrer le nom de la rue secrète, il fallait résoudre une énigme.
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
-    <div class="enseignements-title">L'enseignement</div>
+    <div class="enseignements-title">Les 2 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-4"></div>
     <div class="score-bar">
-      <span class="score-label">Enseignement trouvé</span>
-      <span class="score-display" id="score-enigme-4">0 / 1</span>
+      <span class="score-label">Enseignements trouvés</span>
+      <span class="score-display" id="score-enigme-4">0 / 2</span>
     </div>
   </div>
 
@@ -472,8 +518,8 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Dans la boutique des Merveilleux, nous avons croisé <strong>2 enseignements</strong> dispensés au lycée.
-      Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 2 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-5"></div>
@@ -493,8 +539,8 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Autour des Jeux Olympiques et des drapeaux, nous avons mobilisé <strong>1 enseignement</strong> dispensés au lycée.
-      Saurez-vous le retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>1 collègue enseignant</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver sa matière&nbsp;?
     </div>
     <div class="enseignements-title">L'enseignement</div>
     <div class="enseignements-grid" id="grid-enigme-6"></div>
@@ -514,8 +560,8 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Entre le code à déchiffrer et la belle inachevée, nous avons croisé <strong>2 enseignements</strong> dispensés au lycée.
-      Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 2 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-7"></div>
@@ -535,8 +581,8 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Le second degré et la fausse collection de rince-doigts nous rappellent <strong>1 enseignement</strong> dispensé au lycée.
-      Saurez-vous le retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>1 collègue enseignant</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver sa matière&nbsp;?
     </div>
     <div class="enseignements-title">L'enseignement</div>
     <div class="enseignements-grid" id="grid-enigme-8"></div>
@@ -556,8 +602,8 @@
       </div>
     </div>
     <div class="enigme-intro">
-      La petite maison étroite de Lille nous rappelle <strong>1 enseignement</strong> dispensé au lycée.
-      Saurez-vous le retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>1 collègue enseignant</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver sa matière&nbsp;?
     </div>
     <div class="enseignements-title">L'enseignement</div>
     <div class="enseignements-grid" id="grid-enigme-9"></div>
@@ -577,8 +623,8 @@
       </div>
     </div>
     <div class="enigme-intro">
-      L'Hospice Comtesse et son bail emphytéotique nous ont rappelé <strong>2 enseignements</strong> dispensés au lycée.
-      Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 2 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-10"></div>
@@ -598,8 +644,8 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Entre la pâtisserie de Troyes et les pavés de l'Enfer du Nord, nous avons croisé <strong>3 enseignements</strong> dispensés au lycée.
-      Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 3 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-11"></div>
@@ -619,8 +665,8 @@
       </div>
     </div>
     <div class="enigme-intro">
-      La phrase de Clint Eastwood et les trajets des trois voyageurs nous rappellent <strong>2 enseignements</strong> dispensés au lycée.
-      Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 2 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-12"></div>
@@ -640,8 +686,8 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Devant la plaque Line Renaud, nous avons croisé <strong>3 enseignements</strong> dispensés au lycée.
-      Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 3 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-13"></div>
@@ -661,8 +707,8 @@
     </div>
 
     <div class="enigme-intro">
-      Entre bières locales, jeux de mots sur les rues et votre future fortune, nous avons mobilisé <strong>3 enseignements</strong>.
-      Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
 
     <div class="enseignements-title">Les 3 enseignements</div>
@@ -684,7 +730,7 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Entre la rue Thiers, la place du « faux frère » crooner et le panorama aquatique du quai, nous avons croisé <strong>2 enseignements</strong> dispensés au lycée. Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 2 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-15"></div>
@@ -704,7 +750,7 @@
       </div>
     </div>
     <div class="enigme-intro">
-      En traversant les squares et en découvrant le monument au P'tit Quinquin, nous avons mobilisé <strong>4 enseignements</strong> dispensés au lycée. Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>4 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 4 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-16"></div>
@@ -724,7 +770,7 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Donner de la voix en ch'ti pour chanter le P'tit Quinquin — une épreuve vocale qui convoque <strong>3 enseignements</strong> dispensés au lycée. Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 3 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-17"></div>
@@ -744,7 +790,7 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Du P'tit Quinquin au boulevard de la Liberté, en passant par les mines de Zola, nous avons croisé <strong>2 enseignements</strong> dispensés au lycée. Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 2 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-18"></div>
@@ -764,7 +810,7 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Dans la station Beaux-Arts République et ses plaques commémoratives, nous avons mobilisé <strong>2 enseignements</strong> dispensés au lycée. Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 2 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-19"></div>
@@ -782,8 +828,8 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Pendant la balade autour du Palais des Beaux-Arts, nous avons mobilisé <strong>2 enseignements</strong>.
-      Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 2 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-20"></div>
@@ -802,7 +848,7 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Entre les couleurs « Sang et Or » de nos meilleurs rivaux et les expéditions du commandant Charcot, nous avons mobilisé <strong>2 enseignements</strong>. Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 2 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-21"></div>
@@ -821,7 +867,7 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Entre le code du casier et la mission digne d'Arsène Lupin pour récupérer le sweat rouge, nous avons mobilisé <strong>2 enseignements</strong>. Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 2 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-22"></div>
@@ -840,7 +886,7 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Après avoir quitté la station Gambetta via le réseau Ilévia, nous avons mobilisé <strong>4 enseignements</strong>. Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>4 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 4 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-23"></div>
@@ -859,7 +905,7 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Aux Halles de Wazemmes, entre les étals de produits du monde et l'effervescence du marché, nous avons croisé <strong>2 enseignements</strong>. Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 2 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-24"></div>
@@ -878,13 +924,13 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Entre le naufrage du Titanic, le code Morse et le célèbre escalier du film de James Cameron, nous avons mobilisé <strong>4 enseignements</strong>. Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>5 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
-    <div class="enseignements-title">Les 4 enseignements</div>
+    <div class="enseignements-title">Les 5 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-25"></div>
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
-      <span class="score-display" id="score-enigme-25">0 / 4</span>
+      <span class="score-display" id="score-enigme-25">0 / 5</span>
     </div>
   </div>
   <!-- ENIGME 26 -->
@@ -897,7 +943,7 @@
       </div>
     </div>
     <div class="enigme-intro">
-      Entre la Porte de Douai et les souvenirs du DECF en 1994, il s'agit de mobiliser <strong>3 enseignements</strong> clés. Saurez-vous identifier les disciplines liées à cette étape ?
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
     <div class="enseignements-title">Les 3 enseignements</div>
     <div class="enseignements-grid" id="grid-enigme-26"></div>
@@ -917,8 +963,8 @@
     </div>
 
     <div class="enigme-intro">
-      Entre le boulevard Louis XIV, les souvenirs du CAPET en 1996 et le quiz sur la ville de Calais, nous avons mobilisé <strong>4 enseignements</strong>.
-      Saurez-vous les retrouver&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>4 collègues enseignants</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
 
     <div class="enseignements-title">Les 4 enseignements</div>
@@ -941,8 +987,8 @@
     </div>
 
     <div class="enigme-intro">
-      Au pied de cet arc de triomphe monumental, nous avons mobilisé <strong>2 enseignements</strong> pour conclure notre périple. 
-      Saurez-vous les identifier&nbsp;?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. 
+      Saurez-vous retrouver leurs matières&nbsp;?
     </div>
 
     <div class="enseignements-title">Les 2 enseignements</div>
@@ -965,16 +1011,16 @@
     </div>
 
     <div class="enigme-intro">
-      De la décision historique du tunnel sous la Manche à l'effervescence du parvis de la gare, nous avons mobilisé <strong>5 enseignements</strong>. Saurez-vous les retrouver ?
+      Dans cette énigme, nous aurions pu rencontrer <strong>6 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
 
-    <div class="enseignements-title">Les 5 enseignements</div>
+    <div class="enseignements-title">Les 6 enseignements</div>
 
     <div class="enseignements-grid" id="grid-enigme-29"></div>
 
     <div class="score-bar">
       <span class="score-label">Enseignements trouvés</span>
-      <span class="score-display" id="score-enigme-29">0 / 5</span>
+      <span class="score-display" id="score-enigme-29">0 / 6</span>
     </div>
   </div>
   <!-- ENIGME 30 -->
@@ -988,7 +1034,8 @@
     </div>
 
     <div class="enigme-intro">
-      Devant la boutique officielle du LOSC, rue Faidherbe, nous croisons le regard du Dogue. Quel <strong>enseignement</strong> du lycée est ici mis à l'honneur ?
+      Dans cette énigme, nous aurions pu rencontrer <strong>1 collègue enseignant</strong> du Lycée Gérard de Nerval.
+      Saurez-vous retrouver sa matière&nbsp;?
     </div>
 
     <div class="enseignements-title">L'enseignement</div>
@@ -1011,7 +1058,7 @@
     </div>
 
     <div class="enigme-intro">
-      De la rue des Ponts de Comines au secret du rouleau de papier toilette, vous avez traversé le cœur de Lille. Saurez-vous retrouver les <strong>2 enseignements</strong> mobilisés ?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
 
     <div class="enseignements-title">Les 2 enseignements</div>
@@ -1034,7 +1081,7 @@
     </div>
 
     <div class="enigme-intro">
-      Devant l'UGC, entre création de trophée et imaginaire collectif, vous avez exploré l'univers des séries. Saurez-vous retrouver les <strong>2 enseignements</strong> spécifiques à cette étape ?
+      Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
 
     <div class="enseignements-title">Les 2 enseignements</div>
@@ -1057,7 +1104,7 @@
     </div>
 
     <div class="enigme-intro">
-      Face au mur de briques du Nord, l'architecte de cette "cité invisible" vous attend. Il assemble vos emplois du temps comme un maçon bâtit un édifice[cite: 5]. Saurez-vous identifier l'enseignement qui donne sens à cette métaphore ?
+      Dans cette énigme, nous aurions pu rencontrer <strong>1 collègue enseignant</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver sa matière&nbsp;?
     </div>
 
     <div class="enseignements-title">L'ultime enseignement</div>
@@ -1080,7 +1127,7 @@
     </div>
 
     <div class="enigme-intro">
-      Rue Jean Sans Peur, la boutique de notre collègue révèle ses secrets. Entre les flacons mystérieux et le pêle-mêle d'un Aurélien débordé, saurez-vous identifier les <strong>4 enseignements</strong> qui se cachent derrière ce décor ?
+      Dans cette énigme, nous aurions pu rencontrer <strong>4 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
     </div>
 
     <div class="enseignements-title">Les 4 piliers de l'énigme</div>
@@ -1103,7 +1150,7 @@
   </div>
 
   <div class="enigme-intro">
-    Dans cet univers où la convivialité est reine, la ville de Lille vous murmure ses secrets. Entre les beffrois et les façades flamandes, saurez-vous identifier les <strong>3 enseignements</strong> qui s'infusent dans ce décor ?
+      Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
   </div>
 
   <div class="enseignements-title">Les 3 piliers de l'énigme</div>
@@ -1127,7 +1174,7 @@
   </div>
 
   <div class="enigme-intro">
-    Entre le faste de l'Opéra, la puissance de la CCI, le silence du Monument aux Morts et le commerce de la Vieille Bourse, le cœur de Lille bat au rythme de son histoire. Identifiez les <strong>3 disciplines</strong> de Gérard de Nerval qui permettent de décrypter ces monuments.
+    Dans cette énigme, nous aurions pu rencontrer <strong>3 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
   </div>
 
   <div class="enseignements-title">Les 3 piliers de l'énigme</div>
@@ -1151,11 +1198,7 @@
   </div>
 
   <div class="enigme-intro">
-    <strong>ALERTE INFO !</strong> Nos sources confirment que trois individus clés détiennent les dernières preuves de votre périple. 
-    Inspirés par les fondateurs de <em>La Voix du Nord</em> qui bravaient l'occupant en 1944, vous devez agir dans l'ombre des places lilloises. 
-    Retrouvez-les pour obtenir l'édition finale.
-    <br><br>
-    <em>Quelles sont les deux disciplines majeures pour boucler cette enquête ?</em>
+    Dans cette énigme, nous aurions pu rencontrer <strong>2 collègues enseignants</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver leurs matières&nbsp;?
   </div>
 
   <div class="enseignements-title">Les piliers du Grand Reporter</div>
@@ -1179,11 +1222,7 @@
   </div>
 
   <div class="enigme-intro">
-    <strong>LIGNE D'ARRIVÉE EN VUE !</strong> 
-    Vous êtes au pied de l'immeuble de <em>La Voix du Nord</em>. Jean-François vous attend, mais le lieu de la victoire reste à découvrir. 
-    Exploitez les indices de vos trois enveloppes, lisez les instructions à haute voix et lancez-vous dans le ralliement final.
-    <br><br>
-    <em>Quelle est la seule discipline qui vous sépare désormais de la récompense ?</em>
+    Dans cette énigme, nous aurions pu rencontrer <strong>1 collègue enseignant</strong> du Lycée Gérard de Nerval. Saurez-vous retrouver sa matière&nbsp;?
   </div>
 
   <div class="enseignements-title">L'art du ralliement</div>
@@ -1196,6 +1235,15 @@
     <span class="score-display" id="score-enigme-38">0 / 1</span>
   </div>
 </div>
+  <!-- EXPORT BULLETIN -->
+  <div class="export-section">
+    <h2>✦ Générer le Bulletin ✦</h2>
+    <p>Cliquez pour ouvrir le Bulletin avec vos appréciations.<br>
+    <em>Vous pouvez continuer la Checklist après — re-cliquez à tout moment pour mettre le Bulletin à jour.</em></p>
+    <button class="btn-bulletin" onclick="exporterVersBulletin()">📜 Ouvrir le Bulletin du Rallye</button>
+    <div class="export-status" id="export-status"></div>
+  </div>
+
   <!-- FOOTER -->
   <div class="footer-note">
     <p>Si cette journée vous a plu, je pourrais préparer <strong>le même type de journée à Calais</strong> pour une prochaine année. ✦ Mais nous ne sommes pas encore là.</p>
@@ -1240,10 +1288,11 @@ const ENIGMES = [
   },
   {
     id: 4,
-    slots: 1,
-    reponses: ["Mathématiques"],
+    slots: 2,
+    reponses: ["Mathématiques", "CDI"],
     explications: {
-      "Mathématiques": "Pour déchiffrer le nom de la rue secrète, il fallait calculer la racine carrée de cinq surfaces (144, 1, 225, 361 et 9 cm²), obtenant les côtés 12, 1, 15, 19 et 3. Ces chiffres correspondent aux rangs des lettres dans l'alphabet : L, A, O, S et C — soit, une fois réordonnés, la rue COLAS. Un exercice de calcul mental et de raisonnement mathématique en plein air !"
+      "Mathématiques": "Pour déchiffrer le nom de la rue secrète, il fallait calculer la racine carrée de cinq surfaces (144, 1, 225, 361 et 9 cm²), obtenant les côtés 12, 1, 15, 19 et 3. Ces chiffres correspondent aux rangs des lettres dans l'alphabet : L, A, O, S et C — soit, une fois réordonnés, la rue COLAS. Un exercice de calcul mental et de raisonnement mathématique en plein air !",
+      "CDI": "Déchiffrer une énigme documentaire en cherchant des indices, croiser des sources et retrouver une information cachée : c'est exactement ce que l'on apprend au CDI ! Les documentalistes du Lycée Gérard de Nerval forment les élèves à la recherche d'information, à l'esprit critique et à la méthodologie documentaire — des compétences indispensables pour résoudre ce type d'énigme."
     }
   },
   {
@@ -1297,12 +1346,12 @@ const ENIGMES = [
       "Droit":    "Le bail emphytéotique — mentionné dès l'entrée dans la cour — est un contrat de droit immobilier de très longue durée (18 à 99 ans) par lequel le preneur s'engage à améliorer le bien en échange d'une redevance modique. C'est une notion juridique fondamentale que l'on retrouve en cours de Droit."
     }
   },
-{
+  {
     id: 11,
     slots: 3,
     reponses: ["Comptabilité", "EPS", "Mercatique"],
     explications: {
-      "Comptabilité": "Même si Pascal Caffet possède des boutiques dans plusieurs villes, elles forment une seule entité. En comptabilité, on utilise la **consolidation** pour 'additionner' les résultats de chaque magasin afin d'obtenir la santé financière globale de la Maison Caffet. C'est ce qui permet de faire le bilan de l'ensemble du groupe.",
+      "Comptabilité": "Même si Pascal Caffet possède des boutiques dans plusieurs villes, elles forment une seule entité. En comptabilité, on utilise la consolidation pour 'additionner' les résultats de chaque magasin afin d'obtenir la santé financière globale de la Maison Caffet. C'est ce qui permet de faire le bilan de l'ensemble du groupe.",
       "EPS": "L'expression 'L'Enfer du Nord' est née sous la plume du journaliste Victor Breyer en 1919. En parcourant le tracé de la course juste après la Grande Guerre, il fut horrifié par les paysages de désolation et de ruines, décrivant une véritable vision d'enfer. Aujourd'hui, ce terme désigne la dureté légendaire des pavés et l'effort physique extrême requis, piliers de la culture sportive et de l'Éducation Physique et Sportive",
       "Mercatique": "L'implantation de la Maison Caffet dans plusieurs villes (Troyes, Lille, Paris, etc.) illustre une stratégie de distribution et de développement de réseau. Analyser le choix des emplacements commerciaux pour toucher une clientèle haut de gamme est un concept clé de la Mercatique."
     }
@@ -1407,7 +1456,7 @@ const ENIGMES = [
     slots: 2,
     reponses: ["Français", "Sciences et investigation policière"],
     explications: {
-	  "Français": "La référence explicite à Arsène Lupin nous plonge dans l'univers du roman policier et du 'gentleman cambrioleur'. Analyser ces codes littéraires et s'en inspirer pour une mission relève pleinement du cours de Français.",
+      "Français": "La référence explicite à Arsène Lupin nous plonge dans l'univers du roman policier et du 'gentleman cambrioleur'. Analyser ces codes littéraires et s'en inspirer pour une mission relève pleinement du cours de Français.",
       "Sciences et investigation policière": "L'infiltration, le code secret, la délégation de 'ceux qui semblent les plus futés' et la récupération d'un objet précis sans se faire repérer par la 'garde' font directement écho aux techniques d'infiltration et au sens de l'observation travaillés dans cet enseignement."
     }
   },
@@ -1433,13 +1482,14 @@ const ENIGMES = [
   },
   {
     id: 25,
-    slots: 4,
-    reponses: ["Histoire", "Physique-Chimie", "Musique", "Cinéma / Culture audiovisuelle"],
+    slots: 5,
+    reponses: ["Histoire", "Physique-Chimie", "Musique", "Cinéma / Culture audiovisuelle", "CDI"],
     explications: {
       "Histoire": "L'évocation du Titanic (1912) et du violoncelliste Roger Bricoux (domicilié à Lille) permet de relier la micro-histoire locale à la grande histoire mondiale du début du XXe siècle.",
       "Physique-Chimie": "L'utilisation de l'opérateur radio et du signal Morse fait appel à la physique des ondes électromagnétiques et à l'histoire des télécommunications (TSF).",
       "Musique": "L'hommage à Roger Bricoux et à l'orchestre du Titanic souligne l'importance de la culture musicale et du rôle social des musiciens, même dans les circonstances les plus tragiques.",
-      "Cinéma / Culture audiovisuelle": "La photo truquée (ou non...) des participants sur le grand escalier est un hommage direct au film 'Titanic' de James Cameron (1997). Reconnaître ce décor iconique et comprendre l'utilisation du trucage d'image fait partie de l'analyse de la culture audiovisuelle."
+      "Cinéma / Culture audiovisuelle": "La photo truquée (ou non...) des participants sur le grand escalier est un hommage direct au film 'Titanic' de James Cameron (1997). Reconnaître ce décor iconique et comprendre l'utilisation du trucage d'image fait partie de l'analyse de la culture audiovisuelle.",
+      "CDI": "Retrouver la trace de Roger Bricoux, musicien lillois disparu dans le naufrage du Titanic, c'est mener une véritable enquête documentaire : consulter des archives, croiser des sources, vérifier des informations. Le CDI est précisément ce lieu où l'on apprend à chercher, à trier et à valider l'information — des compétences que nos documentalistes transmettent chaque jour aux élèves du Lycée Gérard de Nerval."
     }
   },
   {
@@ -1474,16 +1524,17 @@ const ENIGMES = [
   },
   {
     id: 29,
-    slots: 5,
-    reponses: ["Histoire", "Langues vivantes", "Mathématiques", "Arts plastiques", "Philosophie"],
+    slots: 6,
+    reponses: ["Histoire", "Langues vivantes", "Mathématiques", "Arts plastiques", "Philosophie", "CDI"],
     explications: {
       "Histoire": `L'étape évoque la signature historique de la construction du tunnel sous la Manche à la mairie de Lille le 20 janvier 1986.`,
       "Langues vivantes": `Le texte fait référence à la langue de Shakespeare avec la mention "Tunnel Under The Channel" et l'utilisation du code OTAN pour identifier la rue.`,
       "Mathématiques": `La quête du "7e nombre premier" (le nombre 17) à noter sur votre feuille A6 fait appel à vos connaissances en arithmétique.`,
       "Arts plastiques": `La mission finale est un défi artistique : réaliser en moins de 10 minutes un dessin de la Gare Lille-Flandres et d'une baraque à frites.`,
-      "Philosophie": `Le voyage est ici une invitation à la réflexion. Comme le suggère Montaigne, voyager permet de "limer son cerveau contre celui d'autrui". On y retrouve aussi l'idée de Marcel Proust : "Le véritable voyage de découverte ne consiste pas à chercher de nouveaux paysages, mais à avoir de nouveaux yeux."`
+      "Philosophie": `Le voyage est ici une invitation à la réflexion. Comme le suggère Montaigne, voyager permet de "limer son cerveau contre celui d'autrui". On y retrouve aussi l'idée de Marcel Proust : "Le véritable voyage de découverte ne consiste pas à chercher de nouveaux paysages, mais à avoir de nouveaux yeux."`,
+      "CDI": `La mairie de Lille conserve dans ses archives la trace de cet accord historique franco-britannique signé en 1986. Savoir qu'un tel document existe, comprendre où et comment le consulter, c'est la mission des documentalistes. Au CDI du Lycée Gérard de Nerval, ils apprennent aux élèves à explorer les fonds d'archives et à s'approprier la mémoire collective comme une source de connaissance vivante.`
     }
-  },,
+  },
   {
     id: 30,
     slots: 1,
@@ -1497,7 +1548,7 @@ const ENIGMES = [
     slots: 2,
     reponses: ["Histoire", "HGGSP"],
     explications: {
-      "Histoire": `Cette étape rend hommage à Pierre Mauroy, figure politique emblématique de Lille, surnommé affectueusement "Pierrot La Ducasse" ou "Gros Quinquin" par les habitants[cite: 3].`,
+      "Histoire": `Cette étape rend hommage à Pierre Mauroy, figure politique emblématique de Lille, surnommé affectueusement "Pierrot La Ducasse" ou "Gros Quinquin" par les habitants.`,
       "HGGSP": `L'étude de l'influence politique locale et de l'histoire des grands leaders territoriaux s'inscrit parfaitement dans le programme de la spécialité HGGSP (Histoire-Géographie, Géopolitique et Sciences Politiques).`
     }
   },
@@ -1515,7 +1566,7 @@ const ENIGMES = [
     slots: 1,
     reponses: ["HLP"],
     explications: {
-      "HLP": `La spécialité Humanités, Littérature et Philosophie nous invite à voir au-delà des briques : ce mur devient l'allégorie de la construction de l'individu au sein de l'institution scolaire, orchestrée par le Proviseur Adjoint[cite: 5].`
+      "HLP": `La spécialité Humanités, Littérature et Philosophie nous invite à voir au-delà des briques : ce mur devient l'allégorie de la construction de l'individu au sein de l'institution scolaire, orchestrée par le Proviseur Adjoint.`
     }
   },
   {
@@ -1526,46 +1577,46 @@ const ENIGMES = [
       "Economie": `L'analyse de cette boutique de quartier permet d'étudier les mécanismes du marché et les échanges commerciaux locaux.`,
       "Mercatique": `La vitrine, l'enseigne et l'agencement de cette "boutique cachée" relèvent de la mercatique : l'art de séduire le client et de valoriser un point de vente.`,
       "Physique-Chimie": `Référence aux "trésors" en flacons : la transformation du jus de raisin en vin repose sur des processus de fermentation et d'oxydation étudiés en chimie.`,
-      "HLP": `Le pêle-mêle final détournant les photos d'Aurélien "très occupé" offre une réflexion philosophique sur la perception de l'image et la mise en scène de soi[cite: 6].`
+      "HLP": `Le pêle-mêle final détournant les photos d'Aurélien "très occupé" offre une réflexion philosophique sur la perception de l'image et la mise en scène de soi.`
     }
   },
   {
-  id: 35,
-  slots: 3,
-  reponses: ["Français", "Arts Plastiques", "Mercatique"],
-  explications: {
-    "Français": "La référence à l'œuvre de Philippe Delerm (1997) sur les 'plaisirs minuscules' invite à une analyse littéraire de l'instantané et de la poésie du quotidien.[cite: 4]",
-    "Arts Plastiques": "L'exercice demande de mobiliser des compétences en design graphique pour imaginer l'identité visuelle d'une bière inspirée par les façades flamandes et les beffrois.[cite: 4]",
-    "Mercatique": "La création d'un nom de marque 'secret' et l'élaboration d'un concept de produit régional relèvent de la stratégie de positionnement et du marketing territorial.[cite: 4]"
+    id: 35,
+    slots: 3,
+    reponses: ["Français", "Arts Plastiques", "Mercatique"],
+    explications: {
+      "Français": "La référence à l'œuvre de Philippe Delerm (1997) sur les 'plaisirs minuscules' invite à une analyse littéraire de l'instantané et de la poésie du quotidien.",
+      "Arts Plastiques": "L'exercice demande de mobiliser des compétences en design graphique pour imaginer l'identité visuelle d'une bière inspirée par les façades flamandes et les beffrois.",
+      "Mercatique": "La création d'un nom de marque 'secret' et l'élaboration d'un concept de produit régional relèvent de la stratégie de positionnement et du marketing territorial."
+    }
+  },
+  {
+    id: 36,
+    slots: 3,
+    reponses: ["HGGSP", "Économie-Droit", "HLP"],
+    explications: {
+      "HGGSP": "Le Monument aux Morts et l'Opéra illustrent les enjeux de mémoire et le rôle des institutions publiques dans la cité, thèmes centraux de la spécialité Histoire-Géographie, Géopolitique et Sciences Politiques.",
+      "Économie-Droit": "La Chambre de Commerce (CCI) et la Vieille Bourse symbolisent la puissance économique de Lille. Ces lieux font écho aux enseignements d'économie et de droit de la filière STMG du lycée.",
+      "HLP": "L'étude architecturale de ces façades (Baroque flamand, Néo-classicisme) relève de la spécialité Humanités, Littérature et Philosophie, qui analyse les formes d'expression de la culture européenne."
+    }
+  },
+  {
+    id: 37,
+    slots: 2,
+    reponses: ["Investigation Policière", "Histoire-Géographie"],
+    explications: {
+      "Investigation Policière": "Le flair du journaliste ! Indispensable pour localiser ma femme, mon fils et ma mère sur les places Rihour ou de l'Opéra et négocier la remise des enveloppes.",
+      "Histoire-Géographie": "Un hommage au grand quotidien régional né dans la clandestinité en 1944. Connaître le passé de Lille et ses rues est la clé pour ne pas se perdre lors de cette ultime chasse aux proches."
+    }
+  },
+  {
+    id: 38,
+    slots: 1,
+    reponses: ["EPS"],
+    explications: {
+      "EPS": "C'est une véritable course d'orientation urbaine ! Pour franchir la ligne d'arrivée, il faudra coupler vos jambes et votre sens de l'observation : utilisez les directions révélées par les enveloppes I, II et III pour foncer vers le bon établissement."
+    }
   }
-},
-{
-  id: 36,
-  slots: 3,
-  reponses: ["HGGSP", "Économie-Droit", "Humanités"],
-  explications: {
-    "HGGSP": "Le Monument aux Morts et l'Opéra illustrent les enjeux de mémoire et le rôle des institutions publiques dans la cité, thèmes centraux de la spécialité Histoire-Géographie, Géopolitique et Sciences Politiques.",
-    "Économie-Droit": "La Chambre de Commerce (CCI) et la Vieille Bourse symbolisent la puissance économique de Lille. Ces lieux font écho aux enseignements d'économie et de droit de la filière STMG du lycée.",
-    "Humanités": "L'étude architecturale de ces façades (Baroque flamand, Néo-classicisme) relève de la spécialité Humanités, Littérature et Philosophie, qui analyse les formes d'expression de la culture européenne."
-  }
-},
-{
-  id: 37,
-  slots: 2,
-  reponses: ["Investigation Policière", "Histoire-Géographie"],
-  explications: {
-    "Investigation Policière": "Le flair du journaliste ! Indispensable pour localiser ma femme, mon fils et ma mère sur les places Rihour ou de l'Opéra et négocier la remise des enveloppes.",
-    "Histoire-Géographie": "Un hommage au grand quotidien régional né dans la clandestinité en 1944. Connaître le passé de Lille et ses rues est la clé pour ne pas se perdre lors de cette ultime chasse aux proches."
-  }
-},
-{
-  id: 38,
-  slots: 1,
-  reponses: ["EPS"],
-  explications: {
-    "EPS": "C'est une véritable course d'orientation urbaine ! Pour franchir la ligne d'arrivée, il faudra coupler vos jambes et votre sens de l'observation : utilisez les directions révélées par les enveloppes I, II et III pour foncer vers le bon établissement."
-  }
-}
 ];
 
 // ============================================================
@@ -1597,8 +1648,31 @@ const MATIERES = [
   "SIG",
   "RH",
   "Économie",
-  "HGGSP"
+  "HGGSP",
+  "HLP",
+  "CDI"
 ];
+
+// ============================================================
+// COMPTEURS
+// ============================================================
+const tentativesParSlot = {};
+const erreursParMatiere = {};
+
+function normaliserMatiere(m) {
+  return (m || "").trim();
+}
+
+function enregistrerErreurParMatiere(matiere, nbMauvaises) {
+  const m = normaliserMatiere(matiere);
+  if (!m) return;
+  erreursParMatiere[m] = (erreursParMatiere[m] || 0) + (nbMauvaises || 0);
+}
+
+function totalErreursParMatiere(matiere) {
+  const m = normaliserMatiere(matiere);
+  return erreursParMatiere[m] || 0;
+}
 
 // ============================================================
 // CONSTRUCTION DYNAMIQUE
@@ -1645,8 +1719,17 @@ function buildEnigme(enigme) {
 function handleChange(enigme, slotIndex, select, slot) {
   const val = select.value;
   const feedback = document.getElementById(`feedback-${enigme.id}-${slotIndex}`);
+  const key = `${enigme.id}-${slotIndex}`;
 
-  // Reset
+  if (!tentativesParSlot[key]) {
+    tentativesParSlot[key] = {
+      mauvaises: 0,
+      valide: false,
+      valeurFinale: ""
+    };
+  }
+
+  // Reset visuel
   select.classList.remove('correct', 'wrong');
   feedback.style.display = 'none';
   feedback.className = 'slot-feedback';
@@ -1654,25 +1737,36 @@ function handleChange(enigme, slotIndex, select, slot) {
 
   if (!val) return;
 
+  const slotData = tentativesParSlot[key];
+
+  if (slotData.valide) {
+    return;
+  }
+
   if (enigme.reponses.includes(val)) {
-    // Vérifier que cette matière n'a pas déjà été trouvée dans un autre slot
     const alreadyFound = isAlreadyUsed(enigme, slotIndex, val);
     if (alreadyFound) {
       select.classList.add('wrong');
       feedback.className = 'slot-feedback feedback-wrong';
       feedback.textContent = 'Cette matière a déjà été trouvée dans un autre emplacement !';
       feedback.style.display = 'block';
+      slotData.mauvaises += 1;
     } else {
       select.classList.add('correct');
       feedback.className = 'slot-feedback feedback-correct';
       feedback.innerHTML = `<strong>✦ Bravo !</strong>${enigme.explications[val]}`;
       feedback.style.display = 'block';
+
+      slotData.valide = true;
+      slotData.valeurFinale = val;
+      enregistrerErreurParMatiere(val, slotData.mauvaises);
     }
   } else {
     select.classList.add('wrong');
     feedback.className = 'slot-feedback feedback-wrong';
     feedback.textContent = 'Non… Essayez encore !!!';
     feedback.style.display = 'block';
+    slotData.mauvaises += 1;
   }
 
   updateScore(enigme);
@@ -1703,7 +1797,36 @@ function updateScore(enigme) {
   }
   const scoreEl = document.getElementById(`score-enigme-${enigme.id}`);
   if (scoreEl) scoreEl.textContent = `${count} / ${nbSlots}`;
-  if (count === nbSlots) scoreEl.style.color = '#4a7c59';
+  if (scoreEl && count === nbSlots) scoreEl.style.color = '#4a7c59';
+}
+
+// ============================================================
+// EXPORT VERS LE BULLETIN (via URL hash — fonctionne en file://)
+// ============================================================
+function exporterVersBulletin() {
+  const status = document.getElementById('export-status');
+  try {
+    const data = {
+      erreursParMatiere: erreursParMatiere,
+      timestamp: Date.now()
+    };
+    const json = JSON.stringify(data);
+    const encoded = btoa(unescape(encodeURIComponent(json)));
+
+    // Essaie aussi localStorage en bonus (pour le bouton "Mettre à jour")
+    try { localStorage.setItem('rallye_bulletin_scores', json); } catch(e) {}
+
+    // Ouvre le bulletin avec les données dans le hash URL
+    const url = 'BULLETIN.html#data=' + encoded;
+    window.open(url, '_blank');
+
+    status.style.color = 'var(--green-border)';
+    status.textContent = '✦ Bulletin ouvert dans un nouvel onglet — vous pouvez continuer la Checklist !';
+    setTimeout(() => { status.textContent = ''; }, 7000);
+  } catch(e) {
+    status.style.color = 'var(--red-text)';
+    status.textContent = 'Erreur : ' + e.message;
+  }
 }
 
 // ============================================================
