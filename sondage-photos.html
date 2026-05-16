@@ -391,7 +391,12 @@ header {
   background: #EDEAE3; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
 }
-.card-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card-photo img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: contain; /* Empêche l'image d'être coupée */
+  display: block; 
+}
 .photo-ph {
   display: flex; flex-direction: column; align-items: center; gap: 7px;
   color: #c0b9b0; pointer-events: none;
