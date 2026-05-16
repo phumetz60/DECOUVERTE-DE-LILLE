@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sondage Défis Photo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script type="module">
+import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore, doc, getDoc, setDoc,
+  collection, onSnapshot, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* ════════════════════════════════════════════════════════════════════
+   ①  COLLEZ ICI VOTRE CONFIG FIREBASE
+   ─────────────────────────────────────────────────────────────────
+   console.firebase.google.com → votre projet → ⚙ Paramètres
+   → Vos applications → SDK de configuration Web → objet firebaseConfig
+   ════════════════════════════════════════════════════════════════════ */
+const firebaseConfig = {
+  apiKey:            "AIzaSyCFiszk9yn21I8fWI0O6NR2z0PDgHccz_0",
+  authDomain:        "valid-tickets-stationnement.firebaseapp.com",
+  projectId:         "valid-tickets-stationnement",
+  storageBucket:     "valid-tickets-stationnement.firebasestorage.app",
+  messagingSenderId: "900329302926",
+  appId:             "1:900329302926:web:05b752492c0e47e2a7d2df"
+};
+/* ════════════════════════════════════════════════════════════════════
+   FIN — ne rien modifier en dessous sauf les titres / photos
+════════════════════════════════════════════════════════════════════ */
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+/* ── Utilitaires ────────────────────────────────────────────────── */
+const encodeEmail = e =>
+  e.toLowerCase().replace(/\./g, '_dot_').replace(/@/g, '_at_');
+
+const escHtml = s => String(s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+/* ── État global ────────────────────────────────────────────────── */
+let currentUser = null;   // { email, prenom, nom }
+let votesCache  = {};     // { "1": { valid, invalid, myVote }, … }
+
+/* ══════════════════════════════════════════════════════════════════
+   INSCRIPTION / RECONNEXION
+══════════════════════════════════════════════════════════════════ */
+window.registerUser = async function () {
+  const prenom  = document.getElementById('inp-prenom').value.trim();
+  const nom     = document.getElementById('inp-nom').value.trim();
+  const email   = document.getElementById('inp-email').value.trim().toLowerCase();
+  const btn     = document.getElementById('btn-register');
+
+  if (!prenom || !nom || !email) { showToast('Veuillez remplir tous les champs.'); return; }
+  if (!email.includes('@'))      { showToast('Adresse e-mail invalide.'); return; }
+
+  btn.disabled     = true;
+  btn.textContent  = 'Connexion…';
+
+  try {
+    const userRef  = doc(db, 'users', encodeEmail(email));
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      /* utilisateur connu → reconnexion, consultation uniquement */
+      const d = userSnap.data();
+      currentUser = { email, prenom: d.prenom, nom: d.nom };
+      showToast('Bon retour ' + d.prenom + ' ! Vous consultez les résultats.');
+    } else {
+      /* nouvel utilisateur → inscription */
+      await setDoc(userRef, { prenom, nom, email, createdAt: serverTimestamp() });
+      currentUser = { email, prenom, nom };
+      showToast('Bienvenue ' + prenom + ' ! Vous pouvez voter.');
+    }
+
+    document.getElementById('overlay').classList.add('hidden');
+    document.getElementById('user-display').textContent =
+      currentUser.prenom + ' ' + currentUser.nom;
+
+    startListeners();
+
+  } catch (err) {
+    console.error(err);
+    showToast('Erreur Firebase — vérifiez votre config et les règles Firestore.');
+    btn.disabled    = false;
+    btn.textContent = 'Accéder au sondage →';
+  }
+};
+
+/* ══════════════════════════════════════════════════════════════════
+   VOTE
+══════════════════════════════════════════════════════════════════ */
+window.castVote = async function (photoId, choice) {
+  if (!currentUser) return;
+
+  const eKey    = encodeEmail(currentUser.email);
+  const voteRef = doc(db, 'votes', String(photoId));
+  const snap    = await getDoc(voteRef);
+  const data    = snap.exists() ? snap.data() : { valid: 0, invalid: 0, voters: {} };
+
+  if (data.voters && data.voters[eKey]) {
+    showToast('Vous avez déjà voté pour ce défi.'); return;
+  }
+
+  await setDoc(voteRef, {
+    valid:   (data.valid   || 0) + (choice === 'valid'   ? 1 : 0),
+    invalid: (data.invalid || 0) + (choice === 'invalid' ? 1 : 0),
+    voters:  { ...data.voters, [eKey]: choice }
+  });
+
+  showToast(choice === 'valid' ? '✓ Défi validé !' : '✗ Défi non validé.');
+};
+
+/* ══════════════════════════════════════════════════════════════════
+   LISTENERS TEMPS RÉEL
+══════════════════════════════════════════════════════════════════ */
+function startListeners () {
+  /* votes — mis à jour en temps réel pour tous */
+  onSnapshot(collection(db, 'votes'), snap => {
+    const eKey = encodeEmail(currentUser.email);
+    snap.forEach(d => {
+      const id = d.id, v = d.data();
+      votesCache[id] = {
+        valid:   v.valid   || 0,
+        invalid: v.invalid || 0,
+        myVote:  v.voters ? (v.voters[eKey] || null) : null
+      };
+    });
+    renderAllCards();
+    updateSummary();
+  });
+
+  /* nombre de participants */
+  onSnapshot(collection(db, 'users'), snap => {
+    document.getElementById('total-voters').textContent = snap.size;
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   RENDU
+══════════════════════════════════════════════════════════════════ */
+function renderAllCards () {
+  for (let i = 1; i <= 25; i++) refreshVoteArea(String(i));
+}
+
+function refreshVoteArea (id) {
+  const el = document.getElementById('vote-' + id);
+  if (!el || !currentUser) return;
+
+  const c      = votesCache[id] || { valid: 0, invalid: 0, myVote: null };
+  const total  = c.valid + c.invalid;
+  const pctV   = total ? Math.round(c.valid   / total * 100) : 0;
+  const pctI   = total ? Math.round(c.invalid / total * 100) : 0;
+  const card   = document.querySelector(`.card[data-id="${id}"]`);
+
+  const bar = `
+    <div class="result-bar-wrap">
+      <div class="result-bar">
+        <div class="bar-v" style="width:${pctV}%"></div>
+        <div class="bar-i" style="width:${pctI}%"></div>
+      </div>
+      <span class="result-count">${c.valid}✓ ${c.invalid}✗</span>
+    </div>`;
+
+  if (c.myVote) {
+    card && card.classList.add('voted');
+    el.innerHTML = `
+      <div class="vote-opts">
+        <button class="vbtn ok  ${c.myVote==='valid'   ?'sel':''}" disabled>✓ Validé</button>
+        <button class="vbtn nok ${c.myVote==='invalid' ?'sel':''}" disabled>✗ Non validé</button>
+      </div>
+      ${bar}
+      <div class="voted-lbl">Vote enregistré</div>`;
+  } else {
+    card && card.classList.remove('voted');
+    el.innerHTML = `
+      <div class="vote-opts">
+        <button class="vbtn ok"  onclick="castVote('${id}','valid')">✓ Validé</button>
+        <button class="vbtn nok" onclick="castVote('${id}','invalid')">✗ Non validé</button>
+      </div>
+      ${bar}
+      <div class="voted-lbl" style="opacity:0">—</div>`;
+  }
+}
+
+function updateSummary () {
+  let defis = 0, miens = 0;
+  for (let i = 1; i <= 25; i++) {
+    const c = votesCache[String(i)];
+    if (!c) continue;
+    if (c.valid > c.invalid && c.valid > 0) defis++;
+    if (c.myVote) miens++;
+  }
+  document.getElementById('total-valid').textContent = defis;
+  document.getElementById('my-votes').textContent    = miens;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   RENDU STATIQUE DES CARTES (avant connexion)
+══════════════════════════════════════════════════════════════════ */
+function buildCards () {
+  document.querySelectorAll('.card[data-id]').forEach(card => {
+    const id    = card.getAttribute('data-id');
+    const title = card.getAttribute('data-title') || 'Défi ' + id;
+    const b64   = card.getAttribute('data-b64')   || '';
+
+    card.innerHTML = `
+      <div class="card-head">
+        <span class="card-num">#${id}</span>
+        <span class="card-title">${escHtml(title)}</span>
+      </div>
+      <div class="card-photo">
+        ${b64
+          ? `<img src="${b64}" alt="${escHtml(title)}">`
+          : `<div class="photo-ph">
+               <svg width="36" height="36" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.2">
+                 <rect x="3" y="3" width="18" height="18" rx="2"/>
+                 <circle cx="8.5" cy="8.5" r="1.5"/>
+                 <polyline points="21,15 16,10 5,21"/>
+               </svg>
+               <span>Photo à venir</span>
+             </div>`}
+      </div>
+      <div class="card-vote" id="vote-${id}">
+        <div class="vote-opts">
+          <button class="vbtn ok"  disabled>✓ Validé</button>
+          <button class="vbtn nok" disabled>✗ Non validé</button>
+        </div>
+        <div class="result-bar-wrap">
+          <div class="result-bar">
+            <div class="bar-v" style="width:0%"></div>
+            <div class="bar-i" style="width:0%"></div>
+          </div>
+          <span class="result-count">—</span>
+        </div>
+        <div class="voted-lbl" style="opacity:0">—</div>
+      </div>`;
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════════════════════════ */
+window.showToast = function (msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 3200);
+};
+
+/* ── DOMContentLoaded ─────────────────────────────────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+  buildCards();
+  document.querySelectorAll('.modal input').forEach(inp =>
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') registerUser(); })
+  );
+});
+</script>
+
+<style>
+:root {
+  --cream:   #F5F0E8;
+  --dark:    #1A1A1A;
+  --accent:  #C8412A;
+  --gold:    #D4A853;
+  --valid:   #2D8A4E;
+  --invalid: #C8412A;
+  --border:  #D6CFC3;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; }
+
+/* ── OVERLAY ─────────────────────────────────────────────────── */
+#overlay {
+  position: fixed; inset: 0;
+  background: rgba(20,20,20,0.93);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; backdrop-filter: blur(6px);
+}
+#overlay.hidden { display: none; }
+.modal {
+  background: var(--cream); border-radius: 2px;
+  padding: 46px 40px; max-width: 420px; width: 90%;
+  border-top: 6px solid var(--accent);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+  animation: up .38s ease;
+}
+@keyframes up { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; line-height: 1.2; margin-bottom: 6px;
+}
+.modal-sub { font-size: 13px; color: #666; margin-bottom: 26px; line-height: 1.55; }
+.field { margin-bottom: 15px; }
+.field label {
+  display: block; font-size: 11px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase; color: #888; margin-bottom: 5px;
+}
+.field input {
+  width: 100%; padding: 12px 14px;
+  border: 1.5px solid var(--border); border-radius: 2px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px;
+  background: #fff; outline: none; transition: border-color .2s;
+}
+.field input:focus { border-color: var(--accent); }
+.btn-primary {
+  width: 100%; padding: 14px;
+  background: var(--dark); color: #fff;
+  border: none; border-radius: 2px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+  cursor: pointer; margin-top: 8px; transition: background .2s, transform .1s;
+}
+.btn-primary:hover    { background: var(--accent); }
+.btn-primary:active   { transform: scale(.98); }
+.btn-primary:disabled { background: #999; cursor: default; }
+
+/* ── HEADER ──────────────────────────────────────────────────── */
+header {
+  background: var(--dark); color: #fff;
+  padding: 34px 40px 26px;
+  display: flex; align-items: flex-end;
+  justify-content: space-between; flex-wrap: wrap; gap: 14px;
+}
+.header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 4vw, 46px); line-height: 1.1;
+}
+.header-title span { color: var(--gold); }
+.header-sub { font-size: 13px; color: #aaa; margin-top: 4px; }
+.user-badge {
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15);
+  border-radius: 40px; padding: 8px 18px;
+  font-size: 13px; display: flex; align-items: center; gap: 8px;
+}
+.udot { width: 8px; height: 8px; border-radius: 50%; background: #5CDB95; }
+
+/* ── BARRE RÉSUMÉ ────────────────────────────────────────────── */
+.sum-bar {
+  background: #fff; border-bottom: 1px solid var(--border);
+  padding: 13px 40px;
+  display: flex; align-items: center; gap: 26px; flex-wrap: wrap;
+}
+.sum-lbl { font-size: 11px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: #888; }
+.sum-stat { font-size: 14px; font-weight: 500; }
+.sum-stat b { color: var(--accent); }
+.live {
+  margin-left: auto; display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: #5CDB95; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+}
+.live::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%;
+  background: #5CDB95; animation: pulse 1.8s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.35)} }
+
+/* ── GRILLE ──────────────────────────────────────────────────── */
+.grid {
+  padding: 38px 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 26px;
+  max-width: 1400px; margin: 0 auto;
+}
+
+/* ── CARTE ───────────────────────────────────────────────────── */
+.card {
+  background: #fff;
+  border: 1px solid var(--border); border-radius: 2px;
+  overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.09);
+  display: flex; flex-direction: column;
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: 0 10px 34px rgba(0,0,0,.13); }
+
+.card-head {
+  padding: 11px 15px 9px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 9px;
+}
+.card-num   { font-family: 'Playfair Display', serif; font-size: 13px; color: #bbb; min-width: 22px; }
+.card-title { font-size: 14px; font-weight: 600; flex: 1; line-height: 1.3; }
+
+.card-photo {
+  width: 100%; aspect-ratio: 4/3;
+  background: #EDEAE3; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.card-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-ph {
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  color: #c0b9b0; pointer-events: none;
+}
+.photo-ph span { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+
+/* ── ZONE VOTE ───────────────────────────────────────────────── */
+.card-vote {
+  padding: 13px 15px;
+  border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 9px;
+}
+.vote-opts { display: flex; gap: 9px; }
+.vbtn {
+  flex: 1; padding: 10px 6px;
+  border: 1.5px solid var(--border); border-radius: 2px;
+  background: #fff; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  transition: all .18s;
+}
+.vbtn.ok  { color: var(--valid);   border-color: #b8dfc6; }
+.vbtn.nok { color: var(--invalid); border-color: #f0c4bc; }
+.vbtn.ok:hover:not(:disabled)  { background: #e8f5ee; border-color: var(--valid); }
+.vbtn.nok:hover:not(:disabled) { background: #fdf0ed; border-color: var(--invalid); }
+.vbtn.sel.ok  { background: var(--valid);   color: #fff; border-color: var(--valid); }
+.vbtn.sel.nok { background: var(--invalid); color: #fff; border-color: var(--invalid); }
+.vbtn:disabled { opacity: .5; cursor: default; }
+
+.result-bar-wrap { display: flex; align-items: center; gap: 8px; }
+.result-bar {
+  flex: 1; height: 6px; background: #EDEAE3;
+  border-radius: 10px; overflow: hidden; display: flex;
+}
+.bar-v { height: 100%; background: var(--valid);   transition: width .5s ease; }
+.bar-i { height: 100%; background: var(--invalid); transition: width .5s ease; }
+.result-count { font-size: 11px; color: #aaa; white-space: nowrap; min-width: 56px; text-align: right; }
+
+.voted-lbl {
+  font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--valid); text-align: center; font-weight: 600;
+}
+
+/* ── FOOTER / TOAST ──────────────────────────────────────────── */
+footer {
+  text-align: center; padding: 26px 40px;
+  font-size: 12px; color: #aaa;
+  border-top: 1px solid var(--border); margin-top: 10px;
+}
+#toast {
+  position: fixed; bottom: 26px; right: 26px;
+  background: var(--dark); color: #fff;
+  padding: 13px 20px; border-radius: 2px;
+  font-size: 14px; border-left: 4px solid var(--gold);
+  opacity: 0; transform: translateX(18px);
+  transition: opacity .3s, transform .3s;
+  pointer-events: none; z-index: 8888; max-width: 280px;
+}
+#toast.show { opacity: 1; transform: translateX(0); }
+
+@media (max-width: 600px) {
+  header, .sum-bar, .grid { padding-left: 16px; padding-right: 16px; }
+  .grid { padding-top: 20px; gap: 18px; }
+  .live { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     FENÊTRE D'INSCRIPTION
+══════════════════════════════════════════════════════════════════ -->
+<div id="overlay">
+  <div class="modal">
+    <div class="modal-title">Sondage<br><span style="color:var(--accent)">Défis Photo</span></div>
+    <div class="modal-sub">
+      Inscrivez-vous pour voter. Si vous avez déjà participé,
+      entrez le même e-mail pour consulter les résultats en direct.
+    </div>
+    <div class="field">
+      <label>Prénom</label>
+      <input type="text" id="inp-prenom" placeholder="Votre prénom" autocomplete="given-name">
+    </div>
+    <div class="field">
+      <label>Nom</label>
+      <input type="text" id="inp-nom" placeholder="Votre nom" autocomplete="family-name">
+    </div>
+    <div class="field">
+      <label>Adresse e-mail</label>
+      <input type="email" id="inp-email" placeholder="exemple@mail.com" autocomplete="email">
+    </div>
+    <button class="btn-primary" id="btn-register" onclick="registerUser()">
+      Accéder au sondage →
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════════════════════════ -->
+<header>
+  <div>
+    <div class="header-title">Validation des <span>Défis</span></div>
+    <div class="header-sub">Résultats partagés en temps réel • un vote par personne</div>
+  </div>
+  <div class="user-badge">
+    <div class="udot"></div>
+    <span id="user-display">—</span>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════════
+     BARRE RÉSUMÉ
+══════════════════════════════════════════════════════════════════ -->
+<div class="sum-bar">
+  <span class="sum-lbl">Résultats globaux</span>
+  <span class="sum-stat">Participants : <b id="total-voters">—</b></span>
+  <span class="sum-stat">Défis majoritairement validés : <b id="total-valid">—</b> / 25</span>
+  <span class="sum-stat">Mes votes : <b id="my-votes">—</b> / 25</span>
+  <span class="live">En direct</span>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     GRILLE 25 PHOTOS
+     ──────────────────────────────────────────────────────────────
+     • data-title  → titre affiché au-dessus de la photo
+     • data-b64    → collez votre base64 complet entre les guillemets
+                     ex : data-b64="data:image/jpeg;base64,/9j/4AA..."
+══════════════════════════════════════════════════════════════════ -->
+<div class="grid">
+
+  <div class="card" data-id="1"  data-title="Titre du Défi 1"  data-b64=""></div>
+  <div class="card" data-id="2"  data-title="Titre du Défi 2"  data-b64=""></div>
+  <div class="card" data-id="3"  data-title="Titre du Défi 3"  data-b64=""></div>
+  <div class="card" data-id="4"  data-title="Titre du Défi 4"  data-b64=""></div>
+  <div class="card" data-id="5"  data-title="Titre du Défi 5"  data-b64=""></div>
+  <div class="card" data-id="6"  data-title="Titre du Défi 6"  data-b64=""></div>
+  <div class="card" data-id="7"  data-title="Titre du Défi 7"  data-b64=""></div>
+  <div class="card" data-id="8"  data-title="Titre du Défi 8"  data-b64=""></div>
+  <div class="card" data-id="9"  data-title="Titre du Défi 9"  data-b64=""></div>
+  <div class="card" data-id="10" data-title="Titre du Défi 10" data-b64=""></div>
+  <div class="card" data-id="11" data-title="Titre du Défi 11" data-b64=""></div>
+  <div class="card" data-id="12" data-title="Titre du Défi 12" data-b64=""></div>
+  <div class="card" data-id="13" data-title="Titre du Défi 13" data-b64=""></div>
+  <div class="card" data-id="14" data-title="Titre du Défi 14" data-b64=""></div>
+  <div class="card" data-id="15" data-title="Titre du Défi 15" data-b64=""></div>
+  <div class="card" data-id="16" data-title="Titre du Défi 16" data-b64=""></div>
+  <div class="card" data-id="17" data-title="Titre du Défi 17" data-b64=""></div>
+  <div class="card" data-id="18" data-title="Titre du Défi 18" data-b64=""></div>
+  <div class="card" data-id="19" data-title="Titre du Défi 19" data-b64=""></div>
+  <div class="card" data-id="20" data-title="Titre du Défi 20" data-b64=""></div>
+  <div class="card" data-id="21" data-title="Titre du Défi 21" data-b64=""></div>
+  <div class="card" data-id="22" data-title="Titre du Défi 22" data-b64=""></div>
+  <div class="card" data-id="23" data-title="Titre du Défi 23" data-b64=""></div>
+  <div class="card" data-id="24" data-title="Titre du Défi 24" data-b64=""></div>
+  <div class="card" data-id="25" data-title="Titre du Défi 25" data-b64=""></div>
+
+</div>
+
+<footer>Sondage Défis Photo · Firebase Firestore · Un vote par personne et par défi</footer>
+<div id="toast"></div>
+
+</body>
+</html>
