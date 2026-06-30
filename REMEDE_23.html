@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remède en cours de recherche — Laboratoire du Pr. Tournesol</title>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Creepster&family=Permanent+Marker&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --vert-labo: #2d5a27;
+    --vert-clair: #4a8f42;
+    --vert-pale: #c8e6c4;
+    --jaune-labo: #f5e642;
+    --jaune-pale: #fef9c3;
+    --brun: #6b3a1f;
+    --brun-clair: #a0522d;
+    --rouge-alerte: #c0392b;
+    --gris-ardoise: #2c3e50;
+    --blanc-parchemin: #fdf6e3;
+    --beige-vieilli: #e8d5a3;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Special Elite', serif;
+    background-color: #1a2810;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(45,90,39,0.3) 49px, rgba(45,90,39,0.3) 50px),
+      repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(45,90,39,0.3) 49px, rgba(45,90,39,0.3) 50px);
+    background-size: 50px 50px;
+    min-height: 100vh;
+    padding: 30px 20px 60px;
+    color: #222;
+  }
+
+  /* === HEADER LABORATOIRE === */
+  .labo-header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .labo-header::before, .labo-header::after {
+    content: '🚧';
+    font-size: 2.5rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .labo-header::before { left: 5%; }
+  .labo-header::after { right: 5%; }
+
+  .labo-titre-container {
+    display: inline-block;
+    background: var(--vert-labo);
+    border: 4px solid var(--jaune-labo);
+    border-radius: 12px;
+    padding: 12px 40px;
+    box-shadow: 0 0 30px rgba(74,143,66,0.5), inset 0 0 20px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .labo-titre-container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: repeating-linear-gradient(90deg, var(--jaune-labo) 0px, var(--jaune-labo) 10px, transparent 10px, transparent 20px);
+  }
+
+  .labo-titre {
+    font-family: 'VT323', monospace;
+    font-size: 2rem;
+    color: var(--jaune-labo);
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(245,230,66,0.7);
+    line-height: 1.2;
+  }
+
+  .labo-sous-titre {
+    font-family: 'Special Elite', serif;
+    font-size: 0.85rem;
+    color: var(--vert-pale);
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
+
+  /* === CARTE PRINCIPALE === */
+  .carte {
+    max-width: 760px;
+    margin: 0 auto 40px;
+    background: var(--blanc-parchemin);
+    border-radius: 4px;
+    box-shadow:
+      0 2px 0 #c4a96e,
+      0 4px 0 #b8956a,
+      0 6px 20px rgba(0,0,0,0.5),
+      inset 0 0 60px rgba(180,150,80,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .carte::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at top left, rgba(180,150,80,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(100,60,20,0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Bande décorative façon "chantier" rayée jaune/noir */
+  .carte-bandeau {
+    background: var(--vert-labo);
+    padding: 10px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--jaune-labo);
+  }
+
+  .carte-bandeau-texte {
+    font-family: 'VT323', monospace;
+    color: var(--jaune-labo);
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+  }
+
+  .carte-bandeau-deco {
+    font-size: 1.3rem;
+    color: var(--vert-pale);
+    opacity: 0.7;
+  }
+
+  .ruban-chantier {
+    height: 22px;
+    background: repeating-linear-gradient(135deg,
+      var(--jaune-labo) 0px, var(--jaune-labo) 18px,
+      #222 18px, #222 36px);
+    border-bottom: 3px solid var(--vert-labo);
+  }
+
+  /* Corps de la carte */
+  .carte-corps {
+    padding: 30px 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* === TITRE CARTE === */
+  .carte h1, .carte h2 {
+    font-family: 'Permanent Marker', cursive;
+    text-align: center;
+    color: var(--vert-labo);
+    text-shadow: 2px 2px 0 rgba(45,90,39,0.2);
+    margin-bottom: 6px;
+  }
+
+  .carte h1 {
+    font-size: 1.6rem;
+    line-height: 1.3;
+  }
+
+  .sous-titre {
+    text-align: center;
+    font-family: 'Special Elite', serif;
+    color: var(--brun-clair);
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed var(--beige-vieilli);
+  }
+
+  /* === TEXTE INTRO === */
+  .intro {
+    font-family: 'Special Elite', serif;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: #333;
+    margin-bottom: 20px;
+    padding: 14px 18px;
+    background: rgba(200,230,196,0.25);
+    border-left: 4px solid var(--vert-clair);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .intro strong {
+    color: var(--rouge-alerte);
+    font-style: normal;
+  }
+
+  /* === TAMPON LABO === */
+  .tampon {
+    display: inline-block;
+    border: 3px solid var(--rouge-alerte);
+    border-radius: 4px;
+    padding: 4px 12px;
+    color: var(--rouge-alerte);
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    transform: rotate(-3deg);
+    opacity: 0.8;
+    float: right;
+    margin: -10px 0 10px 10px;
+  }
+
+  /* === METADONNEES === */
+  .bulle-labo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(45,90,39,0.08);
+    border: 1px solid rgba(45,90,39,0.2);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.82rem;
+    color: var(--vert-labo);
+    font-family: 'Special Elite', serif;
+    margin: 4px;
+  }
+
+  .meta-labo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+
+  /* === BARRE DE PROGRESSION DU CHANTIER === */
+  .chantier-progress-label {
+    font-family: 'VT323', monospace;
+    font-size: 0.95rem;
+    color: var(--vert-labo);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .chantier-progress-container {
+    margin: 0 0 20px;
+    height: 18px;
+    background: rgba(45,90,39,0.12);
+    border: 2px solid var(--vert-labo);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .chantier-progress-bar {
+    height: 100%;
+    width: 35%;
+    background: repeating-linear-gradient(135deg,
+      var(--vert-clair) 0px, var(--vert-clair) 10px,
+      var(--jaune-labo) 10px, var(--jaune-labo) 20px);
+    background-size: 200% 100%;
+    animation: chantier-stripes 3s linear infinite;
+    border-radius: 8px 0 0 8px;
+  }
+
+  @keyframes chantier-stripes {
+    0% { background-position: 0 0; }
+    100% { background-position: 60px 0; }
+  }
+
+  /* === EMPLACEMENT IMAGE (placeholder décoratif, façon panneau de chantier) === */
+  .img-placeholder {
+    width: 100%;
+    margin: 20px 0 8px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 3px dashed var(--vert-clair);
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(45,90,39,0.05) 0px,
+      rgba(45,90,39,0.05) 10px,
+      transparent 10px,
+      transparent 20px
+    );
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    gap: 10px;
+    color: var(--vert-labo);
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .img-placeholder .img-icon {
+    font-size: 3rem;
+    opacity: 0.6;
+  }
+
+  .img-placeholder .img-nom-fichier {
+    font-family: 'VT323', monospace;
+    font-size: 0.85rem;
+    color: var(--brun-clair);
+    background: rgba(255,255,255,0.6);
+    border: 1px dashed var(--brun-clair);
+    border-radius: 4px;
+    padding: 3px 10px;
+    margin-top: 4px;
+  }
+
+  /* === NOTES MARGINALES === */
+  .note-marge {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 0.85rem;
+    color: var(--rouge-alerte);
+    transform: rotate(-2deg);
+    display: inline-block;
+    margin: 5px 0 5px 10px;
+    opacity: 0.8;
+  }
+
+  /* === LISTE DOSSIERS EN COURS === */
+  .liste-recherche {
+    list-style: none;
+    margin: 0 0 10px;
+    padding: 0;
+  }
+
+  .liste-recherche li {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--beige-vieilli);
+    font-family: 'Special Elite', serif;
+    font-size: 0.95rem;
+    color: #333;
+  }
+
+  .liste-recherche li:last-child { border-bottom: none; }
+
+  .liste-recherche .etat {
+    font-family: 'VT323', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: var(--vert-labo);
+    background: rgba(45,90,39,0.1);
+    border: 1px solid rgba(45,90,39,0.3);
+    border-radius: 10px;
+    padding: 2px 10px;
+    white-space: nowrap;
+  }
+
+  /* === FOOTER === */
+  .carte-footer {
+    padding: 15px 40px 25px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .note {
+    text-align: center;
+    font-style: italic;
+    color: var(--brun-clair);
+    font-size: 0.88rem;
+    margin-top: 15px;
+    font-family: 'Special Elite', serif;
+  }
+
+  .avertissement {
+    margin-top: 20px;
+    font-size: 1.05rem;
+    color: var(--rouge-alerte);
+    text-align: center;
+    font-family: 'Special Elite', serif;
+    border: 1px solid rgba(192,57,43,0.3);
+    border-radius: 4px;
+    padding: 8px 15px;
+    background: rgba(192,57,43,0.04);
+  }
+
+  /* === COIN PLIÉ === */
+  .coin-plie {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    z-index: 5;
+    overflow: hidden;
+  }
+
+  .coin-plie::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 50px 50px 0;
+    border-color: transparent var(--beige-vieilli) transparent transparent;
+    filter: drop-shadow(-2px 2px 3px rgba(0,0,0,0.2));
+  }
+</style>
+</head>
+<body>
+
+<!-- EN-TÊTE LABORATOIRE -->
+<header class="labo-header">
+  <div class="labo-titre-container">
+    <div class="labo-titre">🧪 LABORATOIRE SECRET DE L'AMICALE 🧪</div>
+    <div class="labo-sous-titre">Département Phytothérapie Fantaisiste · Antenne de Lille</div>
+  </div>
+</header>
+
+<!-- ===================== CARTE "EN CONSTRUCTION" ===================== -->
+<div class="carte">
+  <div class="ruban-chantier"></div>
+  <div class="carte-bandeau">
+    <span class="carte-bandeau-deco">🚧 🔬 🚧</span>
+    <span class="carte-bandeau-texte">DOSSIER EN COURS D'INSTRUCTION</span>
+    <span class="carte-bandeau-deco">🚧 🔬 🚧</span>
+  </div>
+
+  <div class="coin-plie"></div>
+
+  <div class="carte-corps">
+    <div class="tampon">⚠ TOP SECRET DÉFENSE ⚠</div>
+
+    <h1>Remède Encore Inconnu<br><em>Recherches en cours, n'insistez pas</em></h1>
+    <p class="sous-titre">(Patience, mes amis. La science ne se brusque pas. Sauf le café du labo, lui on le brusque.)</p>
+
+    <div class="meta-labo">
+      <span class="bulle-labo">🧬 Statut : en culture</span>
+      <span class="bulle-labo">🏛️ Amicale des Personnels</span>
+      <span class="bulle-labo">⏳ ETA : on ne sait pas, on est prof, pas voyant</span>
+    </div>
+
+    <div class="intro">
+      Cher.e collègue curieux.se, vous êtes tombé.e sur un dossier qui n'existe pas <em>encore</em>.
+      Nos chercheurs planchent jour et nuit (enfin, surtout entre midi et deux) sur un remède dont nous
+      ne pouvons rien vous dévoiler pour l'instant. <strong>Aucune zone à gratter ici : il n'y a tout
+      simplement rien à révéler.</strong> Revenez plus tard, ou mieux, allez plutôt tester un remède
+      déjà disponible pendant que celui-ci finit de mijoter dans son alambic.
+    </div>
+
+    <div class="note-marge">→ Chantier en cours ↓</div>
+
+    <div class="chantier-progress-label">AVANCEMENT ESTIMÉ DES TRAVAUX</div>
+    <div class="chantier-progress-container">
+      <div class="chantier-progress-bar"></div>
+    </div>
+
+    <!-- ====================================================== -->
+    <!-- IMAGE N°1 : collez votre lien d'image entre les guillemets, juste après src= -->
+    <!-- ====================================================== -->
+    <img style="width:100%; border-radius:6px; display:block; margin: 20px 0;"
+         alt="Laboratoire en chantier"
+              src="https://phumetz60.github.io/DECOUVERTE-DE-LILLE/PhotosRemedes/UNDERCONSTRUCTION 09.webp">
+
+    <!-- ====================================================== -->
+    <!-- IMAGE N°2 : collez votre lien d'image entre les guillemets, juste après src= -->
+    <!-- ====================================================== -->
+    <img style="width:100%; border-radius:6px; display:block; margin: 20px 0;"
+         alt="Spécimen mystère sous la loupe"
+              src="https://phumetz60.github.io/DECOUVERTE-DE-LILLE/PhotosRemedes/UNDERCONSTRUCTION 10.webp">
+
+    <h2 style="margin-top:10px;">Ce que nos équipes ont déjà sur la paillasse</h2>
+    <ul class="liste-recherche">
+      <li><span>Extraction du principe actif mystère</span><span class="etat">🧪 en cours</span></li>
+      <li><span>Tests sur cobayes volontaires (collègues de la salle des profs)</span><span class="etat">⏳ planifié</span></li>
+      <li><span>Rédaction du protocole officieux</span><span class="etat">✍️ brouillon</span></li>
+      <li><span>Validation par l'OMS (Organisation Mondiale des Spécimens)</span><span class="etat">❌ jamais</span></li>
+    </ul>
+
+  </div>
+
+  <div class="carte-footer">
+    <p class="note">
+      🔬 Repassez par ici dans quelques jours : ce dossier confidentiel sera mis à jour dès que nos
+      chercheurs sortiront de leur alambic.
+    </p>
+    <p class="avertissement">
+      <strong>⚠️ AVERTISSEMENT :</strong> Ce document est une œuvre humoristique destinée exclusivement
+      à un usage interne entre collègues amicaux du lycée. Aucun remède réel n'a été testé, validé,
+      ni même sérieusement envisagé.
+    </p>
+  </div>
+</div>
+
+</body>
+</html>
